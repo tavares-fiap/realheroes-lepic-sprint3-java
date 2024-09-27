@@ -143,6 +143,7 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
 
         cpfProfile_txt.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         cpfProfile_txt.setText(Controller.LoggedUser_Controller.getLoggedUser().getCpf());
+        cpfProfile_txt.setDisabledTextColor(new java.awt.Color(255, 102, 102));
         cpfProfile_txt.setEnabled(false);
         jPanel1.add(cpfProfile_txt);
         cpfProfile_txt.setBounds(110, 180, 270, 30);
