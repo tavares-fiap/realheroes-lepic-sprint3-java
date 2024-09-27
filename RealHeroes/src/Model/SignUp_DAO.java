@@ -31,7 +31,7 @@ public class SignUp_DAO {
                     PreparedStatement insert = (PreparedStatement) con.prepareStatement(sql);
                     insert.execute(); // Executando a inserção 
                     JOptionPane.showMessageDialog(null, "\nCadastro realizado com sucesso!\n", "", -1);
-                    Controller.LoggedUser_Controller.setLoggedUser(new User(cpf, name, email, address, password));
+                    Controller.LoggedUser_Controller.setLoggedUser(new Tutor(cpf, name, email, address, password));
                     //refresh();
                     Model.Funcs_DAO.cleanSingUpFields();
                     return true;

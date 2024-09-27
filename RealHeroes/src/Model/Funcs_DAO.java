@@ -21,6 +21,18 @@ public class Funcs_DAO {
         }
     }
     
+    public static boolean updateConfirmation() {
+        String response = JOptionPane.showInputDialog(null, "Certeza que deseja alterar os dados?\n1 - Sim\n2 - Cancelar");
+        try {
+            if (Integer.parseInt(response) == 1) {
+                return true;
+            }
+        } catch (Exception e) {
+            return false;
+        }
+        return false;
+    }
+    
     public static boolean isCpfValid(String cpf){
         if (cpf == null || cpf.length() != 11) {
             return false;

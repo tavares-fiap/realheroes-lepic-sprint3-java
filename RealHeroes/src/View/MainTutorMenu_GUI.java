@@ -18,7 +18,7 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
      */
     public MainTutorMenu_GUI() {
         initComponents();
-        
+
     }
 
     /**
@@ -51,6 +51,7 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         emailSingUp_lbl = new javax.swing.JLabel();
         addressSingUp_lbl = new javax.swing.JLabel();
         passwordSingUp_lbl = new javax.swing.JLabel();
+        updateProfile_btn = new javax.swing.JButton();
         refreshFields_btn = new javax.swing.JButton();
         logOut_btn = new javax.swing.JButton();
         exit_btn = new javax.swing.JButton();
@@ -126,7 +127,7 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
             }
         });
         jPanel1.add(showPassword_btn);
-        showPassword_btn.setBounds(320, 380, 63, 30);
+        showPassword_btn.setBounds(333, 380, 50, 30);
 
         cpfProfile_txt.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         cpfProfile_txt.setText(Controller.LoggedUser_Controller.getLoggedUser().getCpf());
@@ -136,7 +137,7 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
 
         passwordProfile_txt.setText(Controller.LoggedUser_Controller.getLoggedUser().getPassword());
         jPanel1.add(passwordProfile_txt);
-        passwordProfile_txt.setBounds(110, 380, 200, 30);
+        passwordProfile_txt.setBounds(110, 380, 220, 30);
 
         addressProfile_txt.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         addressProfile_txt.setText(Controller.LoggedUser_Controller.getLoggedUser().getAddress());
@@ -182,6 +183,16 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         passwordSingUp_lbl.setText("Senha:");
         jPanel1.add(passwordSingUp_lbl);
         passwordSingUp_lbl.setBounds(10, 380, 70, 30);
+
+        updateProfile_btn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        updateProfile_btn.setText("ALTERAR");
+        updateProfile_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateProfile_btnActionPerformed(evt);
+            }
+        });
+        jPanel1.add(updateProfile_btn);
+        updateProfile_btn.setBounds(30, 440, 170, 30);
 
         refreshFields_btn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         refreshFields_btn.setText("RESETAR CAMPOS");
@@ -278,6 +289,19 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         Model.Funcs_DAO.profileRefresh();
     }//GEN-LAST:event_refreshFields_btnActionPerformed
 
+    private void updateProfile_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateProfile_btnActionPerformed
+        if (Model.Funcs_DAO.updateConfirmation()) {
+            String cpf = cpfProfile_txt.getText();
+            String name = nameProfile_txt.getText();
+            String email = emailProfile_txt.getText();
+            String address = addressProfile_txt.getText();
+            String password = passwordProfile_txt.getText();
+            if (Model.UpdateTutor_DAO.updateTutor(cpf, name, email, address, password)) {
+                Model.Funcs_DAO.profileRefresh();
+            }
+        }
+    }//GEN-LAST:event_updateProfile_btnActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -354,5 +378,6 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
     public static javax.swing.JButton refreshFields_btn;
     private javax.swing.JLabel residentsBG_lbl;
     private javax.swing.JToggleButton showPassword_btn;
+    public static javax.swing.JButton updateProfile_btn;
     // End of variables declaration//GEN-END:variables
 }
