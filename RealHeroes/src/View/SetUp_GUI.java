@@ -5,17 +5,20 @@
  */
 package View;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author sapat
  */
-public class SplashScreen_GUI extends javax.swing.JFrame {
+public class SetUp_GUI extends javax.swing.JFrame {
 
     /**
      * Creates new form SplashScreen_GUI
      */
-    public SplashScreen_GUI() {
+    public SetUp_GUI() {
         initComponents();
+        
     }
 
     /**
@@ -27,18 +30,41 @@ public class SplashScreen_GUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel2 = new javax.swing.JPanel();
+        setUpBG_lbl = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        setUpBG_lbl1 = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
+
+        jPanel2.setPreferredSize(new java.awt.Dimension(396, 704));
+        jPanel2.setLayout(null);
+
+        setUpBG_lbl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/SplashScreenRealHeroes2.png"))); // NOI18N
+        jPanel2.add(setUpBG_lbl);
+        setUpBG_lbl.setBounds(0, -10, 400, 700);
+
+        jTabbedPane1.addTab("Logar", jPanel2);
+
+        jPanel3.setLayout(null);
+
+        setUpBG_lbl1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/SplashScreenRealHeroes2.png"))); // NOI18N
+        jPanel3.add(setUpBG_lbl1);
+        setUpBG_lbl1.setBounds(0, -10, 400, 700);
+
+        jTabbedPane1.addTab("Cadastrar", jPanel3);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 396, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 704, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 704, Short.MAX_VALUE)
         );
 
         setSize(new java.awt.Dimension(396, 704));
@@ -62,24 +88,32 @@ public class SplashScreen_GUI extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SplashScreen_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SetUp_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SplashScreen_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SetUp_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SplashScreen_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SetUp_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SplashScreen_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SetUp_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new SplashScreen_GUI().setVisible(true);
+                new SetUp_GUI().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JLabel setUpBG_lbl;
+    private javax.swing.JLabel setUpBG_lbl1;
     // End of variables declaration//GEN-END:variables
 }
