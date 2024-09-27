@@ -33,6 +33,11 @@ public class SetUp_GUI extends javax.swing.JFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         exit_btn = new javax.swing.JButton();
+        passwordLogin_txt = new javax.swing.JPasswordField();
+        sendLogin_btn = new javax.swing.JButton();
+        passwordLogin_lbl = new javax.swing.JLabel();
+        cpfLogin_txt = new javax.swing.JTextField();
+        cpfLogin_lbl = new javax.swing.JLabel();
         setUpBG_lbl = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         passwordSingUp_lbl = new javax.swing.JLabel();
@@ -64,6 +69,41 @@ public class SetUp_GUI extends javax.swing.JFrame {
         });
         jPanel2.add(exit_btn);
         exit_btn.setBounds(270, 630, 110, 30);
+
+        passwordLogin_txt.setText("SENHA");
+        passwordLogin_txt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passwordLogin_txtActionPerformed(evt);
+            }
+        });
+        jPanel2.add(passwordLogin_txt);
+        passwordLogin_txt.setBounds(110, 310, 260, 30);
+
+        sendLogin_btn.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        sendLogin_btn.setText("LOGAR");
+        sendLogin_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sendLogin_btnActionPerformed(evt);
+            }
+        });
+        jPanel2.add(sendLogin_btn);
+        sendLogin_btn.setBounds(100, 370, 200, 30);
+
+        passwordLogin_lbl.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        passwordLogin_lbl.setForeground(new java.awt.Color(255, 255, 255));
+        passwordLogin_lbl.setText("Senha:");
+        jPanel2.add(passwordLogin_lbl);
+        passwordLogin_lbl.setBounds(10, 310, 70, 30);
+
+        cpfLogin_txt.setText("CPF");
+        jPanel2.add(cpfLogin_txt);
+        cpfLogin_txt.setBounds(110, 260, 260, 30);
+
+        cpfLogin_lbl.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        cpfLogin_lbl.setForeground(new java.awt.Color(255, 255, 255));
+        cpfLogin_lbl.setText("CPF:");
+        jPanel2.add(cpfLogin_lbl);
+        cpfLogin_lbl.setBounds(10, 260, 70, 30);
 
         setUpBG_lbl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/SplashScreenRealHeroes2.png"))); // NOI18N
         jPanel2.add(setUpBG_lbl);
@@ -111,7 +151,7 @@ public class SetUp_GUI extends javax.swing.JFrame {
             }
         });
         jPanel3.add(sendSingUp_btn);
-        sendSingUp_btn.setBounds(100, 530, 200, 30);
+        sendSingUp_btn.setBounds(100, 510, 200, 30);
 
         exit_btn1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         exit_btn1.setText("SAIR");
@@ -199,6 +239,16 @@ public class SetUp_GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_nameSingUp_txtActionPerformed
 
+    private void passwordLogin_txtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordLogin_txtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_passwordLogin_txtActionPerformed
+
+    private void sendLogin_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendLogin_btnActionPerformed
+        String cpf = cpfLogin_txt.getText();
+        String password = passwordLogin_txt.getText();
+        Model.Login_DAO.login(cpf, password);
+    }//GEN-LAST:event_sendLogin_btnActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -240,6 +290,8 @@ public class SetUp_GUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel addressSingUp_lbl;
     public static javax.swing.JTextField addressSingUp_txt;
+    private javax.swing.JLabel cpfLogin_lbl;
+    public static javax.swing.JTextField cpfLogin_txt;
     private javax.swing.JLabel cpfSingUp_lbl;
     public static javax.swing.JTextField cpfSingUp_txt;
     private javax.swing.JLabel emailSingUp_lbl;
@@ -251,8 +303,11 @@ public class SetUp_GUI extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel nameSingUp_lbl;
     public static javax.swing.JTextField nameSingUp_txt;
+    private javax.swing.JLabel passwordLogin_lbl;
+    public static javax.swing.JPasswordField passwordLogin_txt;
     private javax.swing.JLabel passwordSingUp_lbl;
     public static javax.swing.JPasswordField passwordSingUp_txt;
+    public static javax.swing.JButton sendLogin_btn;
     public static javax.swing.JButton sendSingUp_btn;
     private javax.swing.JLabel setUpBG_lbl;
     private javax.swing.JLabel setUpBG_lbl1;

@@ -1,6 +1,6 @@
 package Model;
 
-public class LoggedUser {
+public class User {
 
     private String cpf;
     private String name;
@@ -8,7 +8,7 @@ public class LoggedUser {
     private String address;
     private String password;
 
-    public LoggedUser(String cpf, String name, String email, String address, String password) {
+    public User(String cpf, String name, String email, String address, String password) {
         this.cpf = cpf;
         this.name = name;
         this.email = email;

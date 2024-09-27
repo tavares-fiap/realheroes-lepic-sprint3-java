@@ -14,7 +14,7 @@ public class SignUp_DAO {
     private static String dbUsername = Controller.DataBaseConfig_DB.getUsername();
     private static String dbPassword = Controller.DataBaseConfig_DB.getPassword();
 
-    public static void signUp(String cpf, String name, String email, String address, String password) {
+    public static boolean signUp(String cpf, String name, String email, String address, String password) {
         Controller.Connect_DB.loadDriver();
         if (Funcs_DAO.isCpfValid(cpf)) {
             try {
@@ -31,21 +31,26 @@ public class SignUp_DAO {
                     PreparedStatement insert = (PreparedStatement) con.prepareStatement(sql);
                     insert.execute(); // Executando a inserção 
                     JOptionPane.showMessageDialog(null, "\nCadastro realizado com sucesso!\n", "", -1);
+                    Controller.LoggedUser_Controller.setLoggedUser(new User(cpf, name, email, address, password));
                     //refresh();
                     Model.Funcs_DAO.cleanSingUpFields();
+                    return true;
                 } catch (SQLException ex) {
                     if (ex.getSQLState().equals("23000")) {  // Verifica se o código SQL é de violação de chave primária
                         JOptionPane.showMessageDialog(null, "\nErro: CPF já cadastrado no sistema!", "ERRO!", 0);
                     } else {
                         JOptionPane.showMessageDialog(null, "\nOcorreu algum erro na inserção!", "ERRO!", 0);
                     }
+                    return false;
                 }
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "\nOcorreu algum erro durante conexao!!", "ERRO", 0);
+                return false;
             }
         } else {
             JOptionPane.showMessageDialog(null, "CPF Invalido!\nESPERADO: Somente numeros/ 11 digitos");
             View.SetUp_GUI.cpfSingUp_txt.setText("");
+            return false;
         }
     }
 }
