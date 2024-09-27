@@ -33,6 +33,26 @@ public class Funcs_DAO {
         return false;
     }
     
+    public static boolean deleteAccountConfirmation() {
+        User loggedUser = Controller.LoggedUser_Controller.getLoggedUser();
+        String response = JOptionPane.showInputDialog(null, "Você tem certeza de que deseja excluir sua conta? Essa ação é irreversível!\n1 - Sim\n2 - Cancelar");
+        try {
+            if (Integer.parseInt(response) == 1) {
+                response = JOptionPane.showInputDialog(null, "Para confirmar a exclusão da conta, digite seu CPF no campo abaixo:");
+                if (response.equals(loggedUser.getCpf())) {
+                    return true;
+                }
+                JOptionPane.showMessageDialog(null, "Exclusão cancelada.");
+                return false;
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Exclusão cancelada.");
+            return false;
+        }
+        JOptionPane.showMessageDialog(null, "Exclusão cancelada.");
+        return false;
+    }
+    
     public static boolean isCpfValid(String cpf){
         if (cpf == null || cpf.length() != 11) {
             return false;

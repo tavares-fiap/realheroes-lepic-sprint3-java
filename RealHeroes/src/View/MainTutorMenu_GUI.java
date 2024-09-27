@@ -40,6 +40,7 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         logOut_btn1 = new javax.swing.JButton();
         newResidentBG_lbl = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
+        deleteAccountProfile_btn = new javax.swing.JButton();
         showPassword_btn = new javax.swing.JToggleButton();
         cpfProfile_txt = new javax.swing.JTextField();
         passwordProfile_txt = new javax.swing.JPasswordField();
@@ -118,6 +119,17 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         jTabbedPane1.addTab("Adicionar Novo Residente", jPanel3);
 
         jPanel1.setLayout(null);
+
+        deleteAccountProfile_btn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        deleteAccountProfile_btn.setForeground(new java.awt.Color(255, 0, 0));
+        deleteAccountProfile_btn.setText("EXCLUIR CONTA");
+        deleteAccountProfile_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteAccountProfile_btnActionPerformed(evt);
+            }
+        });
+        jPanel1.add(deleteAccountProfile_btn);
+        deleteAccountProfile_btn.setBounds(120, 490, 170, 30);
 
         showPassword_btn.setBackground(new java.awt.Color(255, 255, 255));
         showPassword_btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/eyeIcon.png"))); // NOI18N
@@ -296,11 +308,20 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
             String email = emailProfile_txt.getText();
             String address = addressProfile_txt.getText();
             String password = passwordProfile_txt.getText();
-            if (Model.UpdateTutor_DAO.updateTutor(cpf, name, email, address, password)) {
+            if (Model.TutorFuncs_DAO.updateTutor(cpf, name, email, address, password)) {
                 Model.Funcs_DAO.profileRefresh();
             }
         }
     }//GEN-LAST:event_updateProfile_btnActionPerformed
+
+    private void deleteAccountProfile_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteAccountProfile_btnActionPerformed
+        if (Model.Funcs_DAO.deleteAccountConfirmation()) {
+            if (Model.TutorFuncs_DAO.deleteAccount()) {
+                Controller.LoggedUser_Controller.logout();
+                Model.Funcs_DAO.changeScreen(this, new SetUp_GUI());
+            }
+        }
+    }//GEN-LAST:event_deleteAccountProfile_btnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -357,6 +378,7 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
     private javax.swing.JLabel addressSingUp_lbl;
     public static javax.swing.JTextField cpfProfile_txt;
     private javax.swing.JLabel cpfSingUp_lbl;
+    public static javax.swing.JButton deleteAccountProfile_btn;
     public static javax.swing.JTextField emailProfile_txt;
     private javax.swing.JLabel emailSingUp_lbl;
     public static javax.swing.JButton exit_btn;

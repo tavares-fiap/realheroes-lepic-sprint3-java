@@ -239,7 +239,7 @@ public class SetUp_GUI extends javax.swing.JFrame {
         String email = emailSingUp_txt.getText();
         String address = addressSingUp_txt.getText();
         String password = passwordSingUp_txt.getText();
-        if (Model.SignUp_DAO.signUp(cpf, name, email, address, password)) {
+        if (Model.TutorFuncs_DAO.signUp(cpf, name, email, address, password)) {
             Model.Funcs_DAO.changeScreen(this, new MainTutorMenu_GUI());
         }
     }//GEN-LAST:event_sendSingUp_btnActionPerformed
