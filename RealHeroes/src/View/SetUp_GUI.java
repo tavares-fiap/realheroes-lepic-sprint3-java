@@ -32,8 +32,19 @@ public class SetUp_GUI extends javax.swing.JFrame {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
+        exit_btn = new javax.swing.JButton();
         setUpBG_lbl = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
+        passwordSingUp_lbl = new javax.swing.JLabel();
+        addressSingUp_lbl = new javax.swing.JLabel();
+        emailSingUp_lbl = new javax.swing.JLabel();
+        cpfSingUp_lbl = new javax.swing.JLabel();
+        sendSingUp_btn = new javax.swing.JButton();
+        exit_btn1 = new javax.swing.JButton();
+        passwordSingUp_txt = new javax.swing.JPasswordField();
+        addressSingUp_txt = new javax.swing.JTextField();
+        emailSingUp_txt = new javax.swing.JTextField();
+        cpfSingUp_txt = new javax.swing.JTextField();
         setUpBG_lbl1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -42,6 +53,16 @@ public class SetUp_GUI extends javax.swing.JFrame {
         jPanel2.setPreferredSize(new java.awt.Dimension(396, 704));
         jPanel2.setLayout(null);
 
+        exit_btn.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        exit_btn.setText("SAIR");
+        exit_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exit_btnActionPerformed(evt);
+            }
+        });
+        jPanel2.add(exit_btn);
+        exit_btn.setBounds(270, 630, 110, 30);
+
         setUpBG_lbl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/SplashScreenRealHeroes2.png"))); // NOI18N
         jPanel2.add(setUpBG_lbl);
         setUpBG_lbl.setBounds(0, -10, 400, 700);
@@ -49,6 +70,71 @@ public class SetUp_GUI extends javax.swing.JFrame {
         jTabbedPane1.addTab("Logar", jPanel2);
 
         jPanel3.setLayout(null);
+
+        passwordSingUp_lbl.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        passwordSingUp_lbl.setForeground(new java.awt.Color(255, 255, 255));
+        passwordSingUp_lbl.setText("Senha:");
+        jPanel3.add(passwordSingUp_lbl);
+        passwordSingUp_lbl.setBounds(10, 400, 70, 30);
+
+        addressSingUp_lbl.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        addressSingUp_lbl.setForeground(new java.awt.Color(255, 255, 255));
+        addressSingUp_lbl.setText("Endereco:");
+        jPanel3.add(addressSingUp_lbl);
+        addressSingUp_lbl.setBounds(10, 350, 110, 30);
+
+        emailSingUp_lbl.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        emailSingUp_lbl.setForeground(new java.awt.Color(255, 255, 255));
+        emailSingUp_lbl.setText("Email:");
+        jPanel3.add(emailSingUp_lbl);
+        emailSingUp_lbl.setBounds(10, 300, 70, 30);
+
+        cpfSingUp_lbl.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        cpfSingUp_lbl.setForeground(new java.awt.Color(255, 255, 255));
+        cpfSingUp_lbl.setText("CPF:");
+        jPanel3.add(cpfSingUp_lbl);
+        cpfSingUp_lbl.setBounds(10, 250, 70, 30);
+
+        sendSingUp_btn.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        sendSingUp_btn.setText("CADASTRAR");
+        sendSingUp_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sendSingUp_btnActionPerformed(evt);
+            }
+        });
+        jPanel3.add(sendSingUp_btn);
+        sendSingUp_btn.setBounds(100, 470, 200, 30);
+
+        exit_btn1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        exit_btn1.setText("SAIR");
+        exit_btn1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exit_btn1ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(exit_btn1);
+        exit_btn1.setBounds(270, 630, 110, 30);
+
+        passwordSingUp_txt.setText("SENHA");
+        passwordSingUp_txt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passwordSingUp_txtActionPerformed(evt);
+            }
+        });
+        jPanel3.add(passwordSingUp_txt);
+        passwordSingUp_txt.setBounds(110, 400, 240, 30);
+
+        addressSingUp_txt.setText("ENDERECO");
+        jPanel3.add(addressSingUp_txt);
+        addressSingUp_txt.setBounds(110, 350, 240, 30);
+
+        emailSingUp_txt.setText("EMAIL");
+        jPanel3.add(emailSingUp_txt);
+        emailSingUp_txt.setBounds(110, 300, 240, 30);
+
+        cpfSingUp_txt.setText("CPF");
+        jPanel3.add(cpfSingUp_txt);
+        cpfSingUp_txt.setBounds(110, 250, 240, 30);
 
         setUpBG_lbl1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/SplashScreenRealHeroes2.png"))); // NOI18N
         jPanel3.add(setUpBG_lbl1);
@@ -70,6 +156,22 @@ public class SetUp_GUI extends javax.swing.JFrame {
         setSize(new java.awt.Dimension(396, 704));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void exit_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exit_btnActionPerformed
+        Model.Funcs_DAO.exit();
+    }//GEN-LAST:event_exit_btnActionPerformed
+
+    private void exit_btn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exit_btn1ActionPerformed
+        Model.Funcs_DAO.exit();
+    }//GEN-LAST:event_exit_btn1ActionPerformed
+
+    private void sendSingUp_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendSingUp_btnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_sendSingUp_btnActionPerformed
+
+    private void passwordSingUp_txtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordSingUp_txtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_passwordSingUp_txtActionPerformed
 
     /**
      * @param args the command line arguments
@@ -110,9 +212,20 @@ public class SetUp_GUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel addressSingUp_lbl;
+    public static javax.swing.JTextField addressSingUp_txt;
+    private javax.swing.JLabel cpfSingUp_lbl;
+    public static javax.swing.JTextField cpfSingUp_txt;
+    private javax.swing.JLabel emailSingUp_lbl;
+    public static javax.swing.JTextField emailSingUp_txt;
+    public static javax.swing.JButton exit_btn;
+    public static javax.swing.JButton exit_btn1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JLabel passwordSingUp_lbl;
+    public static javax.swing.JPasswordField passwordSingUp_txt;
+    public static javax.swing.JButton sendSingUp_btn;
     private javax.swing.JLabel setUpBG_lbl;
     private javax.swing.JLabel setUpBG_lbl1;
     // End of variables declaration//GEN-END:variables
