@@ -44,7 +44,7 @@ public class SignUp_DAO {
                 JOptionPane.showMessageDialog(null, "\nOcorreu algum erro durante conexao!!", "ERRO", 0);
             }
         } else {
-            JOptionPane.showMessageDialog(null, "CPF Invalido, insira somente numeros!");
+            JOptionPane.showMessageDialog(null, "CPF Invalido!\nESPERADO: Somente numeros/ 11 digitos");
             View.SetUp_GUI.cpfSingUp_txt.setText("");
         }
     }

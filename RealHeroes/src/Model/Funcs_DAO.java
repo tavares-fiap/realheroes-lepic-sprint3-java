@@ -35,6 +35,7 @@ public class Funcs_DAO {
     
     public static void cleanSingUpFields(){
         View.SetUp_GUI.cpfSingUp_txt.setText("");
+        View.SetUp_GUI.nameSingUp_txt.setText("");
         View.SetUp_GUI.emailSingUp_txt.setText("");
         View.SetUp_GUI.addressSingUp_txt.setText("");
         View.SetUp_GUI.passwordSingUp_txt.setText("");

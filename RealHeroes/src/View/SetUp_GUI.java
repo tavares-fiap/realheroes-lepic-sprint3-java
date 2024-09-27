@@ -39,8 +39,10 @@ public class SetUp_GUI extends javax.swing.JFrame {
         addressSingUp_lbl = new javax.swing.JLabel();
         emailSingUp_lbl = new javax.swing.JLabel();
         cpfSingUp_lbl = new javax.swing.JLabel();
+        nameSingUp_lbl = new javax.swing.JLabel();
         sendSingUp_btn = new javax.swing.JButton();
         exit_btn1 = new javax.swing.JButton();
+        nameSingUp_txt = new javax.swing.JTextField();
         passwordSingUp_txt = new javax.swing.JPasswordField();
         addressSingUp_txt = new javax.swing.JTextField();
         emailSingUp_txt = new javax.swing.JTextField();
@@ -75,25 +77,31 @@ public class SetUp_GUI extends javax.swing.JFrame {
         passwordSingUp_lbl.setForeground(new java.awt.Color(255, 255, 255));
         passwordSingUp_lbl.setText("Senha:");
         jPanel3.add(passwordSingUp_lbl);
-        passwordSingUp_lbl.setBounds(10, 400, 70, 30);
+        passwordSingUp_lbl.setBounds(10, 460, 70, 30);
 
         addressSingUp_lbl.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         addressSingUp_lbl.setForeground(new java.awt.Color(255, 255, 255));
         addressSingUp_lbl.setText("Endereco:");
         jPanel3.add(addressSingUp_lbl);
-        addressSingUp_lbl.setBounds(10, 350, 110, 30);
+        addressSingUp_lbl.setBounds(10, 410, 110, 30);
 
         emailSingUp_lbl.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         emailSingUp_lbl.setForeground(new java.awt.Color(255, 255, 255));
         emailSingUp_lbl.setText("Email:");
         jPanel3.add(emailSingUp_lbl);
-        emailSingUp_lbl.setBounds(10, 300, 70, 30);
+        emailSingUp_lbl.setBounds(10, 360, 70, 30);
 
         cpfSingUp_lbl.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         cpfSingUp_lbl.setForeground(new java.awt.Color(255, 255, 255));
         cpfSingUp_lbl.setText("CPF:");
         jPanel3.add(cpfSingUp_lbl);
-        cpfSingUp_lbl.setBounds(10, 250, 70, 30);
+        cpfSingUp_lbl.setBounds(10, 260, 70, 30);
+
+        nameSingUp_lbl.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        nameSingUp_lbl.setForeground(new java.awt.Color(255, 255, 255));
+        nameSingUp_lbl.setText("Nome:");
+        jPanel3.add(nameSingUp_lbl);
+        nameSingUp_lbl.setBounds(10, 310, 70, 30);
 
         sendSingUp_btn.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         sendSingUp_btn.setText("CADASTRAR");
@@ -103,7 +111,7 @@ public class SetUp_GUI extends javax.swing.JFrame {
             }
         });
         jPanel3.add(sendSingUp_btn);
-        sendSingUp_btn.setBounds(100, 470, 200, 30);
+        sendSingUp_btn.setBounds(100, 530, 200, 30);
 
         exit_btn1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         exit_btn1.setText("SAIR");
@@ -115,6 +123,15 @@ public class SetUp_GUI extends javax.swing.JFrame {
         jPanel3.add(exit_btn1);
         exit_btn1.setBounds(270, 630, 110, 30);
 
+        nameSingUp_txt.setText("NOME COMPLETO");
+        nameSingUp_txt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nameSingUp_txtActionPerformed(evt);
+            }
+        });
+        jPanel3.add(nameSingUp_txt);
+        nameSingUp_txt.setBounds(110, 310, 260, 30);
+
         passwordSingUp_txt.setText("SENHA");
         passwordSingUp_txt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -122,19 +139,19 @@ public class SetUp_GUI extends javax.swing.JFrame {
             }
         });
         jPanel3.add(passwordSingUp_txt);
-        passwordSingUp_txt.setBounds(110, 400, 240, 30);
+        passwordSingUp_txt.setBounds(110, 460, 260, 30);
 
         addressSingUp_txt.setText("ENDERECO");
         jPanel3.add(addressSingUp_txt);
-        addressSingUp_txt.setBounds(110, 350, 240, 30);
+        addressSingUp_txt.setBounds(110, 410, 260, 30);
 
         emailSingUp_txt.setText("EMAIL");
         jPanel3.add(emailSingUp_txt);
-        emailSingUp_txt.setBounds(110, 300, 240, 30);
+        emailSingUp_txt.setBounds(110, 360, 260, 30);
 
         cpfSingUp_txt.setText("CPF");
         jPanel3.add(cpfSingUp_txt);
-        cpfSingUp_txt.setBounds(110, 250, 240, 30);
+        cpfSingUp_txt.setBounds(110, 260, 260, 30);
 
         setUpBG_lbl1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/SplashScreenRealHeroes2.png"))); // NOI18N
         jPanel3.add(setUpBG_lbl1);
@@ -166,12 +183,21 @@ public class SetUp_GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_exit_btn1ActionPerformed
 
     private void sendSingUp_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendSingUp_btnActionPerformed
-        // TODO add your handling code here:
+        String cpf = cpfSingUp_txt.getText();
+        String name = nameSingUp_txt.getText();
+        String email = emailSingUp_txt.getText();
+        String address = addressSingUp_txt.getText();
+        String password = passwordSingUp_txt.getText();
+        Model.SignUp_DAO.signUp(cpf, name, email, address, password);
     }//GEN-LAST:event_sendSingUp_btnActionPerformed
 
     private void passwordSingUp_txtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordSingUp_txtActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_passwordSingUp_txtActionPerformed
+
+    private void nameSingUp_txtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameSingUp_txtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nameSingUp_txtActionPerformed
 
     /**
      * @param args the command line arguments
@@ -223,6 +249,8 @@ public class SetUp_GUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JLabel nameSingUp_lbl;
+    public static javax.swing.JTextField nameSingUp_txt;
     private javax.swing.JLabel passwordSingUp_lbl;
     public static javax.swing.JPasswordField passwordSingUp_txt;
     public static javax.swing.JButton sendSingUp_btn;
