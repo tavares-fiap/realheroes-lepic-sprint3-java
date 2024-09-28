@@ -63,7 +63,7 @@ public class Login_DAO {
             }
         } else {
             JOptionPane.showMessageDialog(null, "CPF Invalido!\nESPERADO: Somente numeros/ 11 digitos");
-            View.SetUp_GUI.cpfSingUp_txt.setText("");
+            View.SetUp_GUI.cpfSignUp_txt.setText("");
             return false;
         }
     }

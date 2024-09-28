@@ -16,7 +16,7 @@ public class ResidentFuncs_DAO {
     public static void addResident(String cpf, String name, String email, String address, String cpfTutor) {
         Controller.Connect_DB.loadDriver();
 
-        if (Funcs_DAO.isCpfValid(cpf) && Funcs_DAO.isCpfValid(cpfTutor)) {
+        if (Funcs_DAO.isCpfValid(cpf) && Funcs_DAO.isCpfValid(cpfTutor) && Funcs_DAO.isNameValid(name)) {
             String sql = "INSERT INTO RESIDENT (cpf, name, email, address, password, cpf_tutor) VALUES (?, ?, ?, ?, ?, ?)";
 
             try (Connection con = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
@@ -45,8 +45,8 @@ public class ResidentFuncs_DAO {
                 }
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Algum CPF não foi preenchido corretamente!\nESPERADO: Somente números/ 11 dígitos");
-            View.SetUp_GUI.cpfSingUp_txt.setText("");
+            JOptionPane.showMessageDialog(null, "Nome ou CPF Invalido!\nCPF ESPERADO: Somente numeros/ 11 digitos\nNOME ESPERADO: Somente letras e espaços");
+            View.SetUp_GUI.cpfSignUp_txt.setText("");
         }
     }
 

@@ -341,7 +341,7 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
             passwordProfile_txt.setEchoChar('\0');
         } else {
             // Ocultar os caracteres reais
-            passwordProfile_txt.setEchoChar('*'); // Pode ser alterado para o caractere que você preferir
+            passwordProfile_txt.setEchoChar('\u25cf'); 
         }
     }//GEN-LAST:event_showPassword_btnActionPerformed
 
