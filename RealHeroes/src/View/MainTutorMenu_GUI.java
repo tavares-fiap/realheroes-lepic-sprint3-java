@@ -414,9 +414,7 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         String name = nameAddResident_txt.getText();
         String email = emailAddResident_txt.getText();
         String address = addressAddResident_txt.getText();
-        //if (Model.TutorFuncs_DAO.signUp(cpf, name, email, address)) {
-          //  Model.Funcs_DAO.changeScreen(this, new MainTutorMenu_GUI());
-        //}
+        Model.ResidentFuncs_DAO.addResident(cpf, name, email, address, Controller.LoggedUser_Controller.getLoggedUser().getCpf());
     }//GEN-LAST:event_sendSingUp_btnActionPerformed
 
     /**

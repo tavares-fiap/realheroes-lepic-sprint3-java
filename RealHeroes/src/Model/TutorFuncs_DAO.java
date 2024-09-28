@@ -13,7 +13,7 @@ public class TutorFuncs_DAO {
     private static String dbUrl = Controller.DataBaseConfig_DB.getUrl();
     private static String dbUsername = Controller.DataBaseConfig_DB.getUsername();
     private static String dbPassword = Controller.DataBaseConfig_DB.getPassword();
-
+    
     public static boolean signUp(String cpf, String name, String email, String address, String password) {
         Controller.Connect_DB.loadDriver();
         if (Funcs_DAO.isCpfValid(cpf)) {
@@ -56,7 +56,7 @@ public class TutorFuncs_DAO {
 
     public static boolean updateTutor(String cpf, String name, String email, String address, String password) {
         try (java.sql.Connection con = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
-                PreparedStatement pstmt = con.prepareStatement("UPDATE TUTOR SET name=?, email=?, address=?, password=? WHERE cpf=?")) {
+            PreparedStatement pstmt = con.prepareStatement("UPDATE TUTOR SET name=?, email=?, address=?, password=? WHERE cpf=?")) {
             pstmt.setString(1, name);
             pstmt.setString(2, email);
             pstmt.setString(3, address);
@@ -104,6 +104,7 @@ public class TutorFuncs_DAO {
                 return false;
             }
         } catch (Exception e) {
+            System.out.println(e);
             JOptionPane.showMessageDialog(null, "Erro ao excluir dados!");
             return false;
         }

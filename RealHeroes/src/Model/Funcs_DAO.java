@@ -80,4 +80,11 @@ public class Funcs_DAO {
         View.MainTutorMenu_GUI.addressProfile_txt.setText(Controller.LoggedUser_Controller.getLoggedUser().getAddress());
         View.MainTutorMenu_GUI.passwordProfile_txt.setText(Controller.LoggedUser_Controller.getLoggedUser().getPassword());
     }
+    
+    public static void cleanAddResidentFields() {
+        View.MainTutorMenu_GUI.cpfAddResident_txt.setText("");
+        View.MainTutorMenu_GUI.nameAddResident_txt.setText("");
+        View.MainTutorMenu_GUI.emailAddResident_txt.setText("");
+        View.MainTutorMenu_GUI.addressAddResident_txt.setText("");
+    }
 }
