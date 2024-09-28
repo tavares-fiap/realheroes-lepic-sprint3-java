@@ -19,7 +19,7 @@ CREATE TABLE RESIDENT
     email VARCHAR(30),
     address VARCHAR(70),
     password VARCHAR(20),
-    cpf_tutor VARCHAR(11) NOT NULL UNIQUE,
+    cpf_tutor VARCHAR(11) NOT NULL,
     PRIMARY KEY (cpf),
     FOREIGN KEY (cpf_tutor) REFERENCES TUTOR(cpf)
 );
