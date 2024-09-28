@@ -34,6 +34,18 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         exit_btn2 = new javax.swing.JButton();
         logOut_btn2 = new javax.swing.JButton();
+        cpfSingUp_lbl2 = new javax.swing.JLabel();
+        cpfResidentFeedback_cb = new javax.swing.JComboBox();
+        readFeedback_btn = new javax.swing.JButton();
+        addAlterFeedback_btn = new javax.swing.JButton();
+        cpfSingUp_lbl3 = new javax.swing.JLabel();
+        phaseFeedback_cb = new javax.swing.JComboBox();
+        cpfSingUp_lbl4 = new javax.swing.JLabel();
+        attemptFeedback_cb = new javax.swing.JComboBox();
+        cpfSingUp_lbl5 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        feedback_txt = new javax.swing.JTextArea();
+        deleteFeedback_btn = new javax.swing.JButton();
         residentsBG_lbl = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         exit_btn1 = new javax.swing.JButton();
@@ -93,6 +105,72 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         });
         jPanel2.add(logOut_btn2);
         logOut_btn2.setBounds(270, 590, 110, 30);
+
+        cpfSingUp_lbl2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        cpfSingUp_lbl2.setForeground(new java.awt.Color(255, 255, 255));
+        cpfSingUp_lbl2.setText("CPF:");
+        jPanel2.add(cpfSingUp_lbl2);
+        cpfSingUp_lbl2.setBounds(20, 100, 70, 30);
+
+        cpfResidentFeedback_cb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "CPF DO RESIDENTE" }));
+        jPanel2.add(cpfResidentFeedback_cb);
+        cpfResidentFeedback_cb.setBounds(120, 100, 240, 30);
+
+        readFeedback_btn.setText("CONSULTAR FEEDBACK");
+        readFeedback_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                readFeedback_btnActionPerformed(evt);
+            }
+        });
+        jPanel2.add(readFeedback_btn);
+        readFeedback_btn.setBounds(90, 380, 220, 40);
+
+        addAlterFeedback_btn.setText("ADICIONAR/ALTERAR FEEDBACK");
+        jPanel2.add(addAlterFeedback_btn);
+        addAlterFeedback_btn.setBounds(90, 440, 220, 40);
+
+        cpfSingUp_lbl3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        cpfSingUp_lbl3.setForeground(new java.awt.Color(255, 255, 255));
+        cpfSingUp_lbl3.setText("FASE:");
+        jPanel2.add(cpfSingUp_lbl3);
+        cpfSingUp_lbl3.setBounds(20, 140, 70, 30);
+
+        phaseFeedback_cb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE A TENTATIVA" }));
+        phaseFeedback_cb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                phaseFeedback_cbActionPerformed(evt);
+            }
+        });
+        jPanel2.add(phaseFeedback_cb);
+        phaseFeedback_cb.setBounds(120, 140, 240, 30);
+
+        cpfSingUp_lbl4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        cpfSingUp_lbl4.setForeground(new java.awt.Color(255, 255, 255));
+        cpfSingUp_lbl4.setText("FEEDBACK:");
+        jPanel2.add(cpfSingUp_lbl4);
+        cpfSingUp_lbl4.setBounds(20, 230, 110, 30);
+
+        attemptFeedback_cb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE A TENTATIVA" }));
+        jPanel2.add(attemptFeedback_cb);
+        attemptFeedback_cb.setBounds(140, 180, 220, 30);
+
+        cpfSingUp_lbl5.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        cpfSingUp_lbl5.setForeground(new java.awt.Color(255, 255, 255));
+        cpfSingUp_lbl5.setText("TENTATIVA:");
+        jPanel2.add(cpfSingUp_lbl5);
+        cpfSingUp_lbl5.setBounds(20, 180, 110, 30);
+
+        feedback_txt.setColumns(20);
+        feedback_txt.setRows(5);
+        feedback_txt.setText("ESCREVA SEU FEEDBACK AQUI");
+        jScrollPane1.setViewportView(feedback_txt);
+
+        jPanel2.add(jScrollPane1);
+        jScrollPane1.setBounds(140, 230, 220, 90);
+
+        deleteFeedback_btn.setText("EXCLUIR FEEDBACK");
+        jPanel2.add(deleteFeedback_btn);
+        deleteFeedback_btn.setBounds(90, 500, 220, 40);
 
         residentsBG_lbl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/RealHeroesBG1.png"))); // NOI18N
         jPanel2.add(residentsBG_lbl);
@@ -417,6 +495,14 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         Model.ResidentFuncs_DAO.addResident(cpf, name, email, address, Controller.LoggedUser_Controller.getLoggedUser().getCpf());
     }//GEN-LAST:event_sendSingUp_btnActionPerformed
 
+    private void phaseFeedback_cbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phaseFeedback_cbActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_phaseFeedback_cbActionPerformed
+
+    private void readFeedback_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_readFeedback_btnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_readFeedback_btnActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -468,15 +554,23 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addAlterFeedback_btn;
     public static javax.swing.JTextField addressAddResident_txt;
     public static javax.swing.JTextField addressProfile_txt;
     private javax.swing.JLabel addressSingUp_lbl;
     private javax.swing.JLabel addressSingUp_lbl1;
+    private javax.swing.JComboBox attemptFeedback_cb;
     public static javax.swing.JTextField cpfAddResident_txt;
     public static javax.swing.JTextField cpfProfile_txt;
+    private javax.swing.JComboBox cpfResidentFeedback_cb;
     private javax.swing.JLabel cpfSingUp_lbl;
     private javax.swing.JLabel cpfSingUp_lbl1;
+    private javax.swing.JLabel cpfSingUp_lbl2;
+    private javax.swing.JLabel cpfSingUp_lbl3;
+    private javax.swing.JLabel cpfSingUp_lbl4;
+    private javax.swing.JLabel cpfSingUp_lbl5;
     public static javax.swing.JButton deleteAccountProfile_btn;
+    private javax.swing.JButton deleteFeedback_btn;
     public static javax.swing.JTextField emailAddResident_txt;
     public static javax.swing.JTextField emailProfile_txt;
     private javax.swing.JLabel emailSingUp_lbl;
@@ -484,9 +578,11 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
     public static javax.swing.JButton exit_btn;
     public static javax.swing.JButton exit_btn1;
     public static javax.swing.JButton exit_btn2;
+    private javax.swing.JTextArea feedback_txt;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     public static javax.swing.JButton logOut_btn;
     public static javax.swing.JButton logOut_btn1;
@@ -498,7 +594,9 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
     private javax.swing.JLabel newResidentBG_lbl;
     public static javax.swing.JPasswordField passwordProfile_txt;
     private javax.swing.JLabel passwordSingUp_lbl;
+    private javax.swing.JComboBox phaseFeedback_cb;
     private javax.swing.JLabel profileBG_lbl;
+    private javax.swing.JButton readFeedback_btn;
     public static javax.swing.JButton refreshFields_btn;
     private javax.swing.JLabel residentData_lbl;
     private javax.swing.JLabel residentsBG_lbl;
