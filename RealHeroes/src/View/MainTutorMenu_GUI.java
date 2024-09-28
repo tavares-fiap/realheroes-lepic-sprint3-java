@@ -38,6 +38,16 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         exit_btn1 = new javax.swing.JButton();
         logOut_btn1 = new javax.swing.JButton();
+        sendSingUp_btn = new javax.swing.JButton();
+        cpfAddResident_txt = new javax.swing.JTextField();
+        nameAddResident_txt = new javax.swing.JTextField();
+        emailAddResident_txt = new javax.swing.JTextField();
+        addressAddResident_txt = new javax.swing.JTextField();
+        residentData_lbl = new javax.swing.JLabel();
+        addressSingUp_lbl1 = new javax.swing.JLabel();
+        emailSingUp_lbl1 = new javax.swing.JLabel();
+        nameSingUp_lbl1 = new javax.swing.JLabel();
+        cpfSingUp_lbl1 = new javax.swing.JLabel();
         newResidentBG_lbl = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         deleteAccountProfile_btn = new javax.swing.JButton();
@@ -111,6 +121,73 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         });
         jPanel3.add(logOut_btn1);
         logOut_btn1.setBounds(270, 590, 110, 30);
+
+        sendSingUp_btn.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        sendSingUp_btn.setText("CADASTRAR");
+        sendSingUp_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sendSingUp_btnActionPerformed(evt);
+            }
+        });
+        jPanel3.add(sendSingUp_btn);
+        sendSingUp_btn.setBounds(100, 450, 200, 30);
+
+        cpfAddResident_txt.setText("CPF");
+        cpfAddResident_txt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cpfAddResident_txtActionPerformed(evt);
+            }
+        });
+        jPanel3.add(cpfAddResident_txt);
+        cpfAddResident_txt.setBounds(110, 180, 260, 30);
+
+        nameAddResident_txt.setText("NOME COMPLETO");
+        nameAddResident_txt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nameAddResident_txtActionPerformed(evt);
+            }
+        });
+        jPanel3.add(nameAddResident_txt);
+        nameAddResident_txt.setBounds(110, 240, 260, 30);
+
+        emailAddResident_txt.setText("EMAIL");
+        jPanel3.add(emailAddResident_txt);
+        emailAddResident_txt.setBounds(110, 300, 260, 30);
+
+        addressAddResident_txt.setText("ENDERECO");
+        jPanel3.add(addressAddResident_txt);
+        addressAddResident_txt.setBounds(110, 360, 260, 30);
+
+        residentData_lbl.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        residentData_lbl.setForeground(new java.awt.Color(255, 255, 255));
+        residentData_lbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        residentData_lbl.setText("Dados do residente");
+        jPanel3.add(residentData_lbl);
+        residentData_lbl.setBounds(10, 110, 370, 30);
+
+        addressSingUp_lbl1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        addressSingUp_lbl1.setForeground(new java.awt.Color(255, 255, 255));
+        addressSingUp_lbl1.setText("Endereco:");
+        jPanel3.add(addressSingUp_lbl1);
+        addressSingUp_lbl1.setBounds(10, 360, 110, 30);
+
+        emailSingUp_lbl1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        emailSingUp_lbl1.setForeground(new java.awt.Color(255, 255, 255));
+        emailSingUp_lbl1.setText("Email:");
+        jPanel3.add(emailSingUp_lbl1);
+        emailSingUp_lbl1.setBounds(10, 300, 70, 30);
+
+        nameSingUp_lbl1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        nameSingUp_lbl1.setForeground(new java.awt.Color(255, 255, 255));
+        nameSingUp_lbl1.setText("Nome:");
+        jPanel3.add(nameSingUp_lbl1);
+        nameSingUp_lbl1.setBounds(10, 240, 70, 30);
+
+        cpfSingUp_lbl1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        cpfSingUp_lbl1.setForeground(new java.awt.Color(255, 255, 255));
+        cpfSingUp_lbl1.setText("CPF:");
+        jPanel3.add(cpfSingUp_lbl1);
+        cpfSingUp_lbl1.setBounds(10, 180, 70, 30);
 
         newResidentBG_lbl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/RealHeroesBG5.png"))); // NOI18N
         jPanel3.add(newResidentBG_lbl);
@@ -324,6 +401,24 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_deleteAccountProfile_btnActionPerformed
 
+    private void nameAddResident_txtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameAddResident_txtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nameAddResident_txtActionPerformed
+
+    private void cpfAddResident_txtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cpfAddResident_txtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cpfAddResident_txtActionPerformed
+
+    private void sendSingUp_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendSingUp_btnActionPerformed
+        String cpf = cpfAddResident_txt.getText();
+        String name = nameAddResident_txt.getText();
+        String email = emailAddResident_txt.getText();
+        String address = addressAddResident_txt.getText();
+        //if (Model.TutorFuncs_DAO.signUp(cpf, name, email, address)) {
+          //  Model.Funcs_DAO.changeScreen(this, new MainTutorMenu_GUI());
+        //}
+    }//GEN-LAST:event_sendSingUp_btnActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -375,13 +470,19 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public static javax.swing.JTextField addressAddResident_txt;
     public static javax.swing.JTextField addressProfile_txt;
     private javax.swing.JLabel addressSingUp_lbl;
+    private javax.swing.JLabel addressSingUp_lbl1;
+    public static javax.swing.JTextField cpfAddResident_txt;
     public static javax.swing.JTextField cpfProfile_txt;
     private javax.swing.JLabel cpfSingUp_lbl;
+    private javax.swing.JLabel cpfSingUp_lbl1;
     public static javax.swing.JButton deleteAccountProfile_btn;
+    public static javax.swing.JTextField emailAddResident_txt;
     public static javax.swing.JTextField emailProfile_txt;
     private javax.swing.JLabel emailSingUp_lbl;
+    private javax.swing.JLabel emailSingUp_lbl1;
     public static javax.swing.JButton exit_btn;
     public static javax.swing.JButton exit_btn1;
     public static javax.swing.JButton exit_btn2;
@@ -392,14 +493,18 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
     public static javax.swing.JButton logOut_btn;
     public static javax.swing.JButton logOut_btn1;
     public static javax.swing.JButton logOut_btn2;
+    public static javax.swing.JTextField nameAddResident_txt;
     public static javax.swing.JTextField nameProfile_txt;
     private javax.swing.JLabel nameSingUp_lbl;
+    private javax.swing.JLabel nameSingUp_lbl1;
     private javax.swing.JLabel newResidentBG_lbl;
     public static javax.swing.JPasswordField passwordProfile_txt;
     private javax.swing.JLabel passwordSingUp_lbl;
     private javax.swing.JLabel profileBG_lbl;
     public static javax.swing.JButton refreshFields_btn;
+    private javax.swing.JLabel residentData_lbl;
     private javax.swing.JLabel residentsBG_lbl;
+    public static javax.swing.JButton sendSingUp_btn;
     private javax.swing.JToggleButton showPassword_btn;
     public static javax.swing.JButton updateProfile_btn;
     // End of variables declaration//GEN-END:variables
