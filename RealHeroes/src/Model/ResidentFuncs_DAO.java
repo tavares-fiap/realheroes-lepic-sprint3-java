@@ -172,12 +172,57 @@ public class ResidentFuncs_DAO {
         e.printStackTrace();
     }
     }
+    public static void setPreviousFeedback(){
+        String selectedPhase = (String) phaseFeedback_cb.getSelectedItem();
+
+        int selectedPhaseInt;
+        try {
+            selectedPhaseInt = Integer.parseInt(selectedPhase);
+        } catch (NumberFormatException e) {
+            e.printStackTrace(); // Lidar com erro se o valor não puder ser convertido
+            return; // Retorna se houver erro
+        }
+    
+        String selectedAttempt = (String) attemptFeedback_cb.getSelectedItem();
+
+        int selectedAttemptInt;
+        try {
+            selectedAttemptInt = Integer.parseInt(selectedAttempt);
+        } catch (NumberFormatException e) {
+            e.printStackTrace(); // Lidar com erro se o valor não puder ser convertido
+            return; // Retorna se houver erro
+        }
+    
+        String query = "SELECT feedback "+
+                "FROM PHASE_TRAIN "+
+                "WHERE IDSelectedPhase = ? AND IDAttempt = ?";
+        try (Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+         PreparedStatement stmt = conn.prepareStatement(query)) {
+
+        stmt.setInt(1, selectedPhaseInt); // Definindo o CPF do residente selecionado na consulta
+        stmt.setInt(2, selectedAttemptInt); // Definindo o ID da fase selecionada na consulta
+        
+        ResultSet rs = stmt.executeQuery();
+
+        
+        while (rs.next()) {
+            String feedback = rs.getString("feedback");  // Obtém o valor da coluna 'feedback'
+            if (feedback != null && !feedback.trim().isEmpty()) {
+            feedback_txt.setText(feedback);  // Atualiza apenas se não for nulo ou vazio
+        }
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    }
+    
     
     public static void setUpdateFeedback() {
     String feedbackText = feedback_txt.getText();
-    
-    String selectedPhase = (String) phaseFeedback_cb.getSelectedItem();
 
+    // Obter o ID da fase selecionada
+    String selectedPhase = (String) phaseFeedback_cb.getSelectedItem();
     int selectedPhaseInt;
     try {
         selectedPhaseInt = Integer.parseInt(selectedPhase);
@@ -185,9 +230,9 @@ public class ResidentFuncs_DAO {
         e.printStackTrace(); // Lidar com erro se o valor não puder ser convertido
         return; // Retorna se houver erro
     }
-    
-    String selectedAttempt = (String) attemptFeedback_cb.getSelectedItem();
 
+    // Obter o ID da tentativa selecionada
+    String selectedAttempt = (String) attemptFeedback_cb.getSelectedItem();
     int selectedAttemptInt;
     try {
         selectedAttemptInt = Integer.parseInt(selectedAttempt);
@@ -195,28 +240,64 @@ public class ResidentFuncs_DAO {
         e.printStackTrace(); // Lidar com erro se o valor não puder ser convertido
         return; // Retorna se houver erro
     }
-    
-    String query = "UPDATE PHASE_TRAIN " +  
-                   "SET FEEDBACK = ? " +
-                   "WHERE IDSelectedPhase = ? AND IDAttempt = ?";
+
+    // Verifica se já existe um feedback anterior
+    String previousFeedback = null;
+    String queryPreviousFeedback = "SELECT feedback FROM PHASE_TRAIN WHERE IDSelectedPhase = ? AND IDAttempt = ?";
     
     try (Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
-         PreparedStatement stmt = conn.prepareStatement(query)) {
+         PreparedStatement stmtPrev = conn.prepareStatement(queryPreviousFeedback)) {
 
-        stmt.setString(1, feedbackText); // Definindo o texto do feedback
-        stmt.setInt(2, selectedPhaseInt); // Definindo o ID da fase selecionada
-        stmt.setInt(3, selectedAttemptInt); // Definindo o ID da tentativa selecionada
-        
-        int rowsAffected = stmt.executeUpdate(); // Use executeUpdate para atualizações
+        stmtPrev.setInt(1, selectedPhaseInt);  // Definindo o ID da fase selecionada
+        stmtPrev.setInt(2, selectedAttemptInt);  // Definindo o ID da tentativa selecionada
+
+        ResultSet rs = stmtPrev.executeQuery();
+        if (rs.next()) {
+            previousFeedback = rs.getString("feedback");  // Obtem o feedback anterior
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return; // Retorna se houver erro na consulta
+    }
+
+    // Se houver um feedback anterior e ele não for vazio ou nulo, exibe um JOptionPane de confirmação
+    if (previousFeedback != null && !previousFeedback.trim().isEmpty()) {
+        int confirm = JOptionPane.showConfirmDialog(null, 
+                "Já existe um feedback para esta tentativa. Deseja realmente alterar?"+
+                        "\nFeedback atual: " + previousFeedback, 
+                "Confirmar alteração", 
+                JOptionPane.YES_NO_OPTION);
+
+        // Se o usuário clicar em "Não", cancelar a operação
+        if (confirm != JOptionPane.YES_OPTION) {
+            return; // Cancela a atualização do feedback
+        }
+    }
+
+    // Atualiza o feedback
+    String queryUpdate = "UPDATE PHASE_TRAIN " +  
+                         "SET FEEDBACK = ? " +
+                         "WHERE IDSelectedPhase = ? AND IDAttempt = ?";
+
+    try (Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+         PreparedStatement stmt = conn.prepareStatement(queryUpdate)) {
+
+        stmt.setString(1, feedbackText);  // Definindo o novo texto do feedback
+        stmt.setInt(2, selectedPhaseInt);  // Definindo o ID da fase selecionada
+        stmt.setInt(3, selectedAttemptInt);  // Definindo o ID da tentativa selecionada
+
+        int rowsAffected = stmt.executeUpdate();  // Use executeUpdate para atualizações
         
         if (rowsAffected > 0) {
-            JOptionPane.showMessageDialog(null, "Feedback adicionado com sucesso!");
+            JOptionPane.showMessageDialog(null, "Feedback atualizado com sucesso!");
         } else {
             JOptionPane.showMessageDialog(null, "Nenhuma linha foi atualizada.");
         }
+
     } catch (SQLException e) {
         e.printStackTrace();
     }
 }
-
+    
 }

@@ -171,6 +171,11 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         cpfSingUp_lbl4.setBounds(20, 230, 110, 30);
 
         attemptFeedback_cb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE A TENTATIVA" }));
+        attemptFeedback_cb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                attemptFeedback_cbActionPerformed(evt);
+            }
+        });
         jPanel2.add(attemptFeedback_cb);
         attemptFeedback_cb.setBounds(140, 180, 220, 30);
 
@@ -539,6 +544,10 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
     private void addAlterFeedback_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAlterFeedback_btnActionPerformed
         Model.ResidentFuncs_DAO.setUpdateFeedback();
     }//GEN-LAST:event_addAlterFeedback_btnActionPerformed
+
+    private void attemptFeedback_cbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_attemptFeedback_cbActionPerformed
+        Model.ResidentFuncs_DAO.setPreviousFeedback();
+    }//GEN-LAST:event_attemptFeedback_cbActionPerformed
 
     /**
      * @param args the command line arguments
