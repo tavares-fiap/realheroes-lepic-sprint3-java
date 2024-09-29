@@ -112,7 +112,22 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         jPanel2.add(cpfSingUp_lbl2);
         cpfSingUp_lbl2.setBounds(20, 100, 70, 30);
 
-        cpfResidentFeedback_cb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "CPF DO RESIDENTE" }));
+        cpfResidentFeedback_cb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "CLIQUE NUM ITEM PARA ATUALZAR" }));
+        cpfResidentFeedback_cb.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                cpfResidentFeedback_cbFocusGained(evt);
+            }
+        });
+        cpfResidentFeedback_cb.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cpfResidentFeedback_cbMouseClicked(evt);
+            }
+        });
+        cpfResidentFeedback_cb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cpfResidentFeedback_cbActionPerformed(evt);
+            }
+        });
         jPanel2.add(cpfResidentFeedback_cb);
         cpfResidentFeedback_cb.setBounds(120, 100, 240, 30);
 
@@ -126,6 +141,11 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         readFeedback_btn.setBounds(90, 380, 220, 40);
 
         addAlterFeedback_btn.setText("ADICIONAR/ALTERAR FEEDBACK");
+        addAlterFeedback_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addAlterFeedback_btnActionPerformed(evt);
+            }
+        });
         jPanel2.add(addAlterFeedback_btn);
         addAlterFeedback_btn.setBounds(90, 440, 220, 40);
 
@@ -496,12 +516,29 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_sendSingUp_btnActionPerformed
 
     private void phaseFeedback_cbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phaseFeedback_cbActionPerformed
-        // TODO add your handling code here:
+        Model.ResidentFuncs_DAO.updateAttemptCombobox();
     }//GEN-LAST:event_phaseFeedback_cbActionPerformed
 
     private void readFeedback_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_readFeedback_btnActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_readFeedback_btnActionPerformed
+
+    private void cpfResidentFeedback_cbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cpfResidentFeedback_cbActionPerformed
+        Model.ResidentFuncs_DAO.updateCombobox();
+        Model.ResidentFuncs_DAO.updatePhaseCombobox();
+    }//GEN-LAST:event_cpfResidentFeedback_cbActionPerformed
+
+    private void cpfResidentFeedback_cbMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cpfResidentFeedback_cbMouseClicked
+   
+    }//GEN-LAST:event_cpfResidentFeedback_cbMouseClicked
+
+    private void cpfResidentFeedback_cbFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cpfResidentFeedback_cbFocusGained
+ 
+    }//GEN-LAST:event_cpfResidentFeedback_cbFocusGained
+
+    private void addAlterFeedback_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAlterFeedback_btnActionPerformed
+        Model.ResidentFuncs_DAO.setUpdateFeedback();
+    }//GEN-LAST:event_addAlterFeedback_btnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -559,10 +596,10 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
     public static javax.swing.JTextField addressProfile_txt;
     private javax.swing.JLabel addressSingUp_lbl;
     private javax.swing.JLabel addressSingUp_lbl1;
-    private javax.swing.JComboBox attemptFeedback_cb;
+    public static javax.swing.JComboBox attemptFeedback_cb;
     public static javax.swing.JTextField cpfAddResident_txt;
     public static javax.swing.JTextField cpfProfile_txt;
-    private javax.swing.JComboBox cpfResidentFeedback_cb;
+    public static javax.swing.JComboBox cpfResidentFeedback_cb;
     private javax.swing.JLabel cpfSingUp_lbl;
     private javax.swing.JLabel cpfSingUp_lbl1;
     private javax.swing.JLabel cpfSingUp_lbl2;
@@ -578,7 +615,7 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
     public static javax.swing.JButton exit_btn;
     public static javax.swing.JButton exit_btn1;
     public static javax.swing.JButton exit_btn2;
-    private javax.swing.JTextArea feedback_txt;
+    public static javax.swing.JTextArea feedback_txt;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -594,7 +631,7 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
     private javax.swing.JLabel newResidentBG_lbl;
     public static javax.swing.JPasswordField passwordProfile_txt;
     private javax.swing.JLabel passwordSingUp_lbl;
-    private javax.swing.JComboBox phaseFeedback_cb;
+    public static javax.swing.JComboBox phaseFeedback_cb;
     private javax.swing.JLabel profileBG_lbl;
     private javax.swing.JButton readFeedback_btn;
     public static javax.swing.JButton refreshFields_btn;
