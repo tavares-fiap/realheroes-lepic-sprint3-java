@@ -5,10 +5,12 @@ import static View.MainTutorMenu_GUI.cpfResidentFeedback_cb;
 import static View.MainTutorMenu_GUI.feedback_txt;
 import static View.MainTutorMenu_GUI.phaseFeedback_cb;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
 import javax.swing.JOptionPane;
 
 public class ResidentFuncs_DAO {
@@ -127,7 +129,6 @@ public class ResidentFuncs_DAO {
     public static void updateAttemptCombobox() {
     String selectedCpf = (String) cpfResidentFeedback_cb.getSelectedItem();
     String selectedPhase = (String) phaseFeedback_cb.getSelectedItem();
-    
     int selectedPhaseInt;
     try {
         selectedPhaseInt = Integer.parseInt(selectedPhase);
@@ -172,52 +173,77 @@ public class ResidentFuncs_DAO {
         e.printStackTrace();
     }
     }
-    public static void setPreviousFeedback(){
-        String selectedPhase = (String) phaseFeedback_cb.getSelectedItem();
+    public static void setPreviousFeedback() {
+    String selectedPhase = (String) phaseFeedback_cb.getSelectedItem();
 
-        int selectedPhaseInt;
-        try {
-            selectedPhaseInt = Integer.parseInt(selectedPhase);
-        } catch (NumberFormatException e) {
-            e.printStackTrace(); // Lidar com erro se o valor não puder ser convertido
-            return; // Retorna se houver erro
-        }
-    
-        String selectedAttempt = (String) attemptFeedback_cb.getSelectedItem();
+    int selectedPhaseInt;
+    try {
+        selectedPhaseInt = Integer.parseInt(selectedPhase);
+    } catch (NumberFormatException e) {
+        e.printStackTrace(); // Lidar com erro se o valor não puder ser convertido
+        return; // Retorna se houver erro
+    }
 
-        int selectedAttemptInt;
-        try {
-            selectedAttemptInt = Integer.parseInt(selectedAttempt);
-        } catch (NumberFormatException e) {
-            e.printStackTrace(); // Lidar com erro se o valor não puder ser convertido
-            return; // Retorna se houver erro
-        }
-    
-        String query = "SELECT feedback "+
-                "FROM PHASE_TRAIN "+
-                "WHERE IDSelectedPhase = ? AND IDAttempt = ?";
-        try (Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+    String selectedAttempt = (String) attemptFeedback_cb.getSelectedItem();
+
+    // Verifica se o item selecionado é um valor válido, e não a opção padrão "SELECIONE A TENTATIVA"
+    if (selectedAttempt.equals("SELECIONE A TENTATIVA")) {
+        JOptionPane.showMessageDialog(null, "Por favor, selecione uma tentativa válida.");
+        return;  // Cancela a operação se a tentativa não for válida
+    }
+
+    int selectedAttemptInt;
+    try {
+        selectedAttemptInt = Integer.parseInt(selectedAttempt);
+    } catch (NumberFormatException e) {
+        e.printStackTrace(); // Lidar com erro se o valor não puder ser convertido
+        return; // Retorna se houver erro
+    }
+
+    // Continuar com a lógica do feedback se a tentativa for válida
+    String query = "SELECT PT.feedback, T.score, PT.date_of_completion, PT.completion_time " +
+                   "FROM PHASE_TRAIN PT " +
+                   "JOIN TRAIN T ON PT.IDattempt = T.IDattempt " +
+                   "WHERE PT.IDSelectedPhase = ? AND PT.IDattempt = ?";
+
+    try (Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
          PreparedStatement stmt = conn.prepareStatement(query)) {
 
-        stmt.setInt(1, selectedPhaseInt); // Definindo o CPF do residente selecionado na consulta
-        stmt.setInt(2, selectedAttemptInt); // Definindo o ID da fase selecionada na consulta
+        stmt.setInt(1, selectedPhaseInt); // Definindo o ID da fase selecionada na consulta
+        stmt.setInt(2, selectedAttemptInt); // Definindo o ID da tentativa selecionada na consulta
         
         ResultSet rs = stmt.executeQuery();
 
-        
-        while (rs.next()) {
-            String feedback = rs.getString("feedback");  // Obtém o valor da coluna 'feedback'
+        // Se os dados sobre a tentativa forem encontrados, exibe um JOptionPane com as informações
+        if (rs.next()) {
+            String feedback = rs.getString("feedback");
+            int score = rs.getInt("score");  // Obtém o valor da coluna 'score'
+            Date dateOfCompletion = rs.getDate("date_of_completion");  // Obtém a data de conclusão
+            Time completionTime = rs.getTime("completion_time");  // Obtém o tempo de conclusão
+
+            // Prepara a mensagem para o JOptionPane
+            String message = "Dados sobre a tentativa:\n"
+                           + "Score: " + score + "\n"
+                           + "Data de Conclusão: " + dateOfCompletion + "\n"
+                           + "Tempo de Conclusão: " + completionTime + "\n"
+                           + "Feedback: " + (feedback != null && !feedback.trim().isEmpty() ? feedback : "Nenhum feedback");
+
+            // Exibe um JOptionPane com as informações
+            JOptionPane.showMessageDialog(null, message, "Informações da Tentativa", JOptionPane.INFORMATION_MESSAGE);
+
+            // Se houver feedback, atualiza o campo de texto
             if (feedback != null && !feedback.trim().isEmpty()) {
-            feedback_txt.setText(feedback);  // Atualiza apenas se não for nulo ou vazio
-        }
+                feedback_txt.setText(feedback);  // Atualiza a JTextArea com o feedback
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Nenhuma tentativa encontrada para os parâmetros fornecidos.");
         }
 
     } catch (SQLException e) {
         e.printStackTrace();
     }
-    }
-    
-    
+}
+
     public static void setUpdateFeedback() {
     String feedbackText = feedback_txt.getText();
 
