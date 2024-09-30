@@ -13,7 +13,7 @@ public class TutorFuncs_DAO {
     private static String dbUrl = Controller.DataBaseConfig_DB.getUrl();
     private static String dbUsername = Controller.DataBaseConfig_DB.getUsername();
     private static String dbPassword = Controller.DataBaseConfig_DB.getPassword();
-    
+
     public static boolean signUp(String cpf, String name, String email, String address, String password) {
         Controller.Connect_DB.loadDriver();
         if (Funcs_DAO.isCpfValid(cpf) && Funcs_DAO.isNameValid(name)) {
@@ -55,9 +55,9 @@ public class TutorFuncs_DAO {
     }
 
     public static boolean updateTutor(String cpf, String name, String email, String address, String password) {
-        if (Funcs_DAO.isNameValid(name)){    
+        if (Funcs_DAO.isNameValid(name)) {
             try (java.sql.Connection con = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
-                PreparedStatement pstmt = con.prepareStatement("UPDATE TUTOR SET name=?, email=?, address=?, password=? WHERE cpf=?")) {
+                    PreparedStatement pstmt = con.prepareStatement("UPDATE TUTOR SET name=?, email=?, address=?, password=? WHERE cpf=?")) {
                 pstmt.setString(1, name);
                 pstmt.setString(2, email);
                 pstmt.setString(3, address);
@@ -107,7 +107,18 @@ public class TutorFuncs_DAO {
                 JOptionPane.showMessageDialog(null, "Usuario com CPF: " + cpf + " inexistente...\nVerifique as informacoes!");
                 return false;
             }
+        } catch (SQLException e) {
+            // Verifica se o código do erro é 1451 (violação de chave estrangeira)
+            if (e.getErrorCode() == 1451) {
+                JOptionPane.showMessageDialog(null, "Erro ao excluir dados! Não é possível excluir este usuário pois há RESIDENTES vinculados a ele.");
+            } else {
+                JOptionPane.showMessageDialog(null, "Erro ao excluir dados! Por favor, tente novamente.");
+            }
+            //Logger.getLogger(View.MainTutorMenu_GUI.class.getName()).log(Level.SEVERE, null, e);
+            return false;
+
         } catch (Exception e) {
+            // Tratamento para quaisquer outras exceções não previstas
             System.out.println(e);
             JOptionPane.showMessageDialog(null, "Erro ao excluir dados!");
             return false;
