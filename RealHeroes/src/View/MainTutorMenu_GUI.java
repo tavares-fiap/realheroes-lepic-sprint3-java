@@ -31,11 +31,40 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
             ResultSetMetaData metaData = rs.getMetaData();
             int numberOfColumns = metaData.getColumnCount();
             Vector columnNames = new Vector();
-            // AS LINHAS ABAIXO SÃO REFERENTES AOS CAMPOS DA TABELA CLIENTE
+
             columnNames.addElement("ID");
             columnNames.addElement("SCORE");
             columnNames.addElement("DATA");
             columnNames.addElement("HR_CONCLUSÃO");
+
+            Vector rows = new Vector();
+            while (rs.next()) {
+                Vector newRow = new Vector();
+                for (int i = 1; i <= numberOfColumns; i++) {
+                    newRow.addElement(rs.getObject(i));
+                }
+                rows.addElement(newRow);
+            }
+            return new DefaultTableModel(rows, columnNames);
+        } catch (Exception e) {
+
+            return null;
+        }
+    }
+
+    // ---Fim Jtable
+    
+    //-- Inicio Jtable 
+    public static DefaultTableModel residentInfoFunc(ResultSet rs) {
+        try {
+            ResultSetMetaData metaData = rs.getMetaData();
+            int numberOfColumns = metaData.getColumnCount();
+            Vector columnNames = new Vector();
+
+            columnNames.addElement("CPF");
+            columnNames.addElement("NOME");
+            columnNames.addElement("EMAIL");
+            columnNames.addElement("ENDERECO");
 
             Vector rows = new Vector();
             while (rs.next()) {
@@ -64,6 +93,13 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
     private void initComponents() {
 
         jToggleButton1 = new javax.swing.JToggleButton();
+        entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("REALHEROES?zeroDateTimeBehavior=convertToNullPU").createEntityManager();
+        residentQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT r FROM Resident r");
+        residentList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : residentQuery.getResultList();
+        residentQuery1 = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT r FROM Resident r");
+        residentList1 = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : residentQuery1.getResultList();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jEditorPane1 = new javax.swing.JEditorPane();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -121,8 +157,29 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         logOut_btn = new javax.swing.JButton();
         exit_btn = new javax.swing.JButton();
         profileBG_lbl = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        residentInfo = new javax.swing.JTable();
+        readResident_btn = new javax.swing.JButton();
+        logOut_btn3 = new javax.swing.JButton();
+        exit_btn3 = new javax.swing.JButton();
+        transferResident_btn = new javax.swing.JButton();
+        deleteResident_btn = new javax.swing.JButton();
+        updateResident_btn = new javax.swing.JButton();
+        cleanFields_btn = new javax.swing.JButton();
+        nameSingUp_lbl2 = new javax.swing.JLabel();
+        residentName_txt = new javax.swing.JTextField();
+        emailSingUp_lbl2 = new javax.swing.JLabel();
+        residentEmail_txt = new javax.swing.JTextField();
+        addressSingUp_lbl2 = new javax.swing.JLabel();
+        residentAddress_txt = new javax.swing.JTextField();
+        cpfResidentMyResidents_cb = new javax.swing.JComboBox();
+        cpfSingUp_lbl6 = new javax.swing.JLabel();
+        residentsBG_lbl1 = new javax.swing.JLabel();
 
         jToggleButton1.setText("jToggleButton1");
+
+        jScrollPane4.setViewportView(jEditorPane1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -414,7 +471,7 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         jPanel3.add(newResidentBG_lbl);
         newResidentBG_lbl.setBounds(0, -10, 400, 710);
 
-        jTabbedPane1.addTab("Adicionar Novo Residente", jPanel3);
+        jTabbedPane1.addTab("Add Residente", jPanel3);
 
         jPanel1.setLayout(null);
 
@@ -540,11 +597,174 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Perfil", jPanel1);
 
+        jPanel4.setLayout(null);
+
+        residentInfo.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane5.setViewportView(residentInfo);
+
+        jPanel4.add(jScrollPane5);
+        jScrollPane5.setBounds(10, 70, 370, 120);
+
+        readResident_btn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        readResident_btn.setText("CONSULTAR");
+        readResident_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                readResident_btnActionPerformed(evt);
+            }
+        });
+        jPanel4.add(readResident_btn);
+        readResident_btn.setBounds(40, 390, 320, 30);
+
+        logOut_btn3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        logOut_btn3.setText("LOGOUT");
+        logOut_btn3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logOut_btn3ActionPerformed(evt);
+            }
+        });
+        jPanel4.add(logOut_btn3);
+        logOut_btn3.setBounds(270, 590, 110, 30);
+
+        exit_btn3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        exit_btn3.setText("SAIR");
+        exit_btn3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exit_btn3ActionPerformed(evt);
+            }
+        });
+        jPanel4.add(exit_btn3);
+        exit_btn3.setBounds(270, 630, 110, 30);
+
+        transferResident_btn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        transferResident_btn.setForeground(new java.awt.Color(255, 0, 0));
+        transferResident_btn.setText("TRANSFERIR RESIDENTE");
+        transferResident_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                transferResident_btnActionPerformed(evt);
+            }
+        });
+        jPanel4.add(transferResident_btn);
+        transferResident_btn.setBounds(40, 510, 320, 30);
+
+        deleteResident_btn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        deleteResident_btn.setForeground(new java.awt.Color(255, 0, 0));
+        deleteResident_btn.setText("EXCLUIR RESIDENTE");
+        deleteResident_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteResident_btnActionPerformed(evt);
+            }
+        });
+        jPanel4.add(deleteResident_btn);
+        deleteResident_btn.setBounds(40, 550, 320, 30);
+
+        updateResident_btn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        updateResident_btn.setText("ALTERAR INFORMACOES");
+        updateResident_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateResident_btnActionPerformed(evt);
+            }
+        });
+        jPanel4.add(updateResident_btn);
+        updateResident_btn.setBounds(40, 430, 320, 30);
+
+        cleanFields_btn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        cleanFields_btn.setText("LIMPAR CAMPOS");
+        cleanFields_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cleanFields_btnActionPerformed(evt);
+            }
+        });
+        jPanel4.add(cleanFields_btn);
+        cleanFields_btn.setBounds(40, 470, 320, 30);
+
+        nameSingUp_lbl2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        nameSingUp_lbl2.setForeground(new java.awt.Color(255, 255, 255));
+        nameSingUp_lbl2.setText("Nome:");
+        jPanel4.add(nameSingUp_lbl2);
+        nameSingUp_lbl2.setBounds(10, 250, 70, 30);
+
+        residentName_txt.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jPanel4.add(residentName_txt);
+        residentName_txt.setBounds(110, 250, 270, 30);
+
+        emailSingUp_lbl2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        emailSingUp_lbl2.setForeground(new java.awt.Color(255, 255, 255));
+        emailSingUp_lbl2.setText("Email:");
+        jPanel4.add(emailSingUp_lbl2);
+        emailSingUp_lbl2.setBounds(10, 300, 70, 30);
+
+        residentEmail_txt.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jPanel4.add(residentEmail_txt);
+        residentEmail_txt.setBounds(110, 300, 270, 30);
+
+        addressSingUp_lbl2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        addressSingUp_lbl2.setForeground(new java.awt.Color(255, 255, 255));
+        addressSingUp_lbl2.setText("Endereco:");
+        jPanel4.add(addressSingUp_lbl2);
+        addressSingUp_lbl2.setBounds(10, 350, 110, 30);
+
+        residentAddress_txt.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jPanel4.add(residentAddress_txt);
+        residentAddress_txt.setBounds(110, 350, 270, 30);
+
+        cpfResidentMyResidents_cb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "CLIQUE NUM ITEM PARA ATUALZAR" }));
+        cpfResidentMyResidents_cb.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cpfResidentMyResidents_cbItemStateChanged(evt);
+            }
+        });
+        cpfResidentMyResidents_cb.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                cpfResidentMyResidents_cbFocusGained(evt);
+            }
+        });
+        cpfResidentMyResidents_cb.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cpfResidentMyResidents_cbMouseClicked(evt);
+            }
+        });
+        cpfResidentMyResidents_cb.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+                cpfResidentMyResidents_cbCaretPositionChanged(evt);
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+            }
+        });
+        cpfResidentMyResidents_cb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cpfResidentMyResidents_cbActionPerformed(evt);
+            }
+        });
+        jPanel4.add(cpfResidentMyResidents_cb);
+        cpfResidentMyResidents_cb.setBounds(110, 200, 270, 30);
+
+        cpfSingUp_lbl6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        cpfSingUp_lbl6.setForeground(new java.awt.Color(255, 255, 255));
+        cpfSingUp_lbl6.setText("CPF:");
+        jPanel4.add(cpfSingUp_lbl6);
+        cpfSingUp_lbl6.setBounds(10, 200, 70, 30);
+
+        residentsBG_lbl1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/RealHeroesBG2.png"))); // NOI18N
+        jPanel4.add(residentsBG_lbl1);
+        residentsBG_lbl1.setBounds(0, -10, 400, 710);
+
+        jTabbedPane1.addTab("Meus Residentes", jPanel4);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -555,45 +775,20 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void showPassword_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showPassword_btnActionPerformed
-        if (showPassword_btn.isSelected()) {
-            // Mostrar os caracteres reais
-            passwordProfile_txt.setEchoChar('\0');
-        } else {
-            // Ocultar os caracteres reais
-            passwordProfile_txt.setEchoChar('\u25cf'); 
-        }
-    }//GEN-LAST:event_showPassword_btnActionPerformed
+    private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPane1StateChanged
+        Model.ResidentFuncs_DAO.updateCombobox();
+        Model.ResidentFuncs_DAO.updateMyResidentsTable();
+    }//GEN-LAST:event_jTabbedPane1StateChanged
 
     private void exit_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exit_btnActionPerformed
         Model.Funcs_DAO.exit();
     }//GEN-LAST:event_exit_btnActionPerformed
-
-    private void exit_btn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exit_btn1ActionPerformed
-        Model.Funcs_DAO.exit();
-    }//GEN-LAST:event_exit_btn1ActionPerformed
-
-    private void exit_btn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exit_btn2ActionPerformed
-        Model.Funcs_DAO.exit();
-    }//GEN-LAST:event_exit_btn2ActionPerformed
 
     private void logOut_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOut_btnActionPerformed
         Controller.LoggedUser_Controller.logout();
         JOptionPane.showMessageDialog(null, "Logout realizado com sucesso! Ate mais!");
         Model.Funcs_DAO.changeScreen(this, new SetUp_GUI());
     }//GEN-LAST:event_logOut_btnActionPerformed
-
-    private void logOut_btn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOut_btn1ActionPerformed
-        Controller.LoggedUser_Controller.logout();
-        JOptionPane.showMessageDialog(null, "Logout realizado com sucesso! Ate mais!");
-        Model.Funcs_DAO.changeScreen(this, new SetUp_GUI());
-    }//GEN-LAST:event_logOut_btn1ActionPerformed
-
-    private void logOut_btn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOut_btn2ActionPerformed
-        Controller.LoggedUser_Controller.logout();
-        JOptionPane.showMessageDialog(null, "Logout realizado com sucesso! Ate mais!");
-        Model.Funcs_DAO.changeScreen(this, new SetUp_GUI());
-    }//GEN-LAST:event_logOut_btn2ActionPerformed
 
     private void refreshFields_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshFields_btnActionPerformed
         Model.Funcs_DAO.profileRefresh();
@@ -611,6 +806,16 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_updateProfile_btnActionPerformed
+
+    private void showPassword_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showPassword_btnActionPerformed
+        if (showPassword_btn.isSelected()) {
+            // Mostrar os caracteres reais
+            passwordProfile_txt.setEchoChar('\0');
+        } else {
+            // Ocultar os caracteres reais
+            passwordProfile_txt.setEchoChar('\u25cf');
+        }
+    }//GEN-LAST:event_showPassword_btnActionPerformed
 
     private void deleteAccountProfile_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteAccountProfile_btnActionPerformed
         if (Model.Funcs_DAO.deleteAccountConfirmation()) {
@@ -635,13 +840,40 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         String email = emailAddResident_txt.getText();
         String address = addressAddResident_txt.getText();
         Model.ResidentFuncs_DAO.addResident(cpf, name, email, address, Controller.LoggedUser_Controller.getLoggedUser().getCpf());
+        //Model.ResidentFuncs_DAO.updateFeedbackTable();
+        Model.ResidentFuncs_DAO.updateCombobox();
         Model.ResidentFuncs_DAO.updateMyResidentsTable();
     }//GEN-LAST:event_sendSingUp_btnActionPerformed
 
+    private void logOut_btn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOut_btn1ActionPerformed
+        Controller.LoggedUser_Controller.logout();
+        JOptionPane.showMessageDialog(null, "Logout realizado com sucesso! Ate mais!");
+        Model.Funcs_DAO.changeScreen(this, new SetUp_GUI());
+    }//GEN-LAST:event_logOut_btn1ActionPerformed
+
+    private void exit_btn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exit_btn1ActionPerformed
+        Model.Funcs_DAO.exit();
+    }//GEN-LAST:event_exit_btn1ActionPerformed
+
+    private void deleteFeedback_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteFeedback_btnActionPerformed
+        Model.ResidentFuncs_DAO.deleteFeedback();
+    }//GEN-LAST:event_deleteFeedback_btnActionPerformed
+
+    private void attemptFeedback_cbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_attemptFeedback_cbActionPerformed
+        if (Model.ResidentFuncs_DAO.updateAttemptCombobox()) {
+            Model.ResidentFuncs_DAO.setPreviousFeedback();
+        }
+    }//GEN-LAST:event_attemptFeedback_cbActionPerformed
+
     private void phaseFeedback_cbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phaseFeedback_cbActionPerformed
-        Model.ResidentFuncs_DAO.updateAttemptCombobox();
-        Model.ResidentFuncs_DAO.updateMyResidentsTable();
+        if (Model.ResidentFuncs_DAO.updateAttemptCombobox()) {
+            Model.ResidentFuncs_DAO.updateFeedbackTable();
+        }
     }//GEN-LAST:event_phaseFeedback_cbActionPerformed
+
+    private void addAlterFeedback_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAlterFeedback_btnActionPerformed
+        Model.ResidentFuncs_DAO.setUpdateFeedback();
+    }//GEN-LAST:event_addAlterFeedback_btnActionPerformed
 
     private void readFeedback_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_readFeedback_btnActionPerformed
         Model.ResidentFuncs_DAO.readFeedback();
@@ -652,28 +884,22 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_cpfResidentFeedback_cbActionPerformed
 
     private void cpfResidentFeedback_cbMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cpfResidentFeedback_cbMouseClicked
-   
+
     }//GEN-LAST:event_cpfResidentFeedback_cbMouseClicked
 
     private void cpfResidentFeedback_cbFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cpfResidentFeedback_cbFocusGained
- 
+
     }//GEN-LAST:event_cpfResidentFeedback_cbFocusGained
 
-    private void addAlterFeedback_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAlterFeedback_btnActionPerformed
-        Model.ResidentFuncs_DAO.setUpdateFeedback();
-    }//GEN-LAST:event_addAlterFeedback_btnActionPerformed
+    private void logOut_btn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOut_btn2ActionPerformed
+        Controller.LoggedUser_Controller.logout();
+        JOptionPane.showMessageDialog(null, "Logout realizado com sucesso! Ate mais!");
+        Model.Funcs_DAO.changeScreen(this, new SetUp_GUI());
+    }//GEN-LAST:event_logOut_btn2ActionPerformed
 
-    private void attemptFeedback_cbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_attemptFeedback_cbActionPerformed
-        Model.ResidentFuncs_DAO.setPreviousFeedback();
-    }//GEN-LAST:event_attemptFeedback_cbActionPerformed
-
-    private void deleteFeedback_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteFeedback_btnActionPerformed
-        Model.ResidentFuncs_DAO.deleteFeedback();
-    }//GEN-LAST:event_deleteFeedback_btnActionPerformed
-
-    private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPane1StateChanged
-        Model.ResidentFuncs_DAO.updateCombobox();
-    }//GEN-LAST:event_jTabbedPane1StateChanged
+    private void exit_btn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exit_btn2ActionPerformed
+        Model.Funcs_DAO.exit();
+    }//GEN-LAST:event_exit_btn2ActionPerformed
 
     private void completionDate_txtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_completionDate_txtActionPerformed
         // TODO add your handling code here:
@@ -682,6 +908,76 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
     private void completionTime_txtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_completionTime_txtActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_completionTime_txtActionPerformed
+
+    private void cpfResidentMyResidents_cbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cpfResidentMyResidents_cbActionPerformed
+        Model.Funcs_DAO.cleanMyResidentsFields();
+    }//GEN-LAST:event_cpfResidentMyResidents_cbActionPerformed
+
+    private void cpfResidentMyResidents_cbMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cpfResidentMyResidents_cbMouseClicked
+        
+    }//GEN-LAST:event_cpfResidentMyResidents_cbMouseClicked
+
+    private void cpfResidentMyResidents_cbFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cpfResidentMyResidents_cbFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cpfResidentMyResidents_cbFocusGained
+
+    private void deleteResident_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteResident_btnActionPerformed
+        String residentCpf = String.valueOf(cpfResidentMyResidents_cb.getSelectedItem()); 
+        if (Model.Funcs_DAO.deleteAccountConfirmation()) {
+            Model.ResidentFuncs_DAO.deleteResident(residentCpf);
+            Model.ResidentFuncs_DAO.updateCombobox();
+            Model.ResidentFuncs_DAO.updateMyResidentsTable();
+        }
+    }//GEN-LAST:event_deleteResident_btnActionPerformed
+
+    private void updateResident_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateResident_btnActionPerformed
+       if (Model.Funcs_DAO.updateConfirmation()) {
+            String residentCpf = String.valueOf(cpfResidentMyResidents_cb.getSelectedItem());
+            String residentName = String.valueOf(residentName_txt.getText()); 
+            String residentEmail = String.valueOf(residentEmail_txt.getText()); 
+            String residentAddress = String.valueOf(residentAddress_txt.getText()); 
+            if (Model.ResidentFuncs_DAO.updateResidentInfo(residentCpf, residentName, residentEmail, residentAddress)) {
+                Model.ResidentFuncs_DAO.updateMyResidentsTable();
+                Model.Funcs_DAO.cleanMyResidentsFields();
+            }
+        }
+    }//GEN-LAST:event_updateResident_btnActionPerformed
+
+    private void cleanFields_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cleanFields_btnActionPerformed
+        Model.Funcs_DAO.cleanMyResidentsFields();
+    }//GEN-LAST:event_cleanFields_btnActionPerformed
+
+    private void transferResident_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transferResident_btnActionPerformed
+        String tutorCpf = JOptionPane.showInputDialog(null, "Digite o CPF do tutor a receber o residente: ");
+        String residentCpf = String.valueOf(cpfResidentMyResidents_cb.getSelectedItem()); 
+        if (Model.ResidentFuncs_DAO.transferResident(residentCpf, tutorCpf)) {
+            Model.ResidentFuncs_DAO.updateCombobox();
+            Model.ResidentFuncs_DAO.updateMyResidentsTable();
+        }
+    }//GEN-LAST:event_transferResident_btnActionPerformed
+
+    private void logOut_btn3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOut_btn3ActionPerformed
+        Controller.LoggedUser_Controller.logout();
+        JOptionPane.showMessageDialog(null, "Logout realizado com sucesso! Ate mais!");
+        Model.Funcs_DAO.changeScreen(this, new SetUp_GUI());
+    }//GEN-LAST:event_logOut_btn3ActionPerformed
+
+    private void exit_btn3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exit_btn3ActionPerformed
+        Model.Funcs_DAO.exit();
+    }//GEN-LAST:event_exit_btn3ActionPerformed
+
+    private void cpfResidentMyResidents_cbItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cpfResidentMyResidents_cbItemStateChanged
+        
+    }//GEN-LAST:event_cpfResidentMyResidents_cbItemStateChanged
+
+    private void cpfResidentMyResidents_cbCaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_cpfResidentMyResidents_cbCaretPositionChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cpfResidentMyResidents_cbCaretPositionChanged
+
+    private void readResident_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_readResident_btnActionPerformed
+        String residentCpf = String.valueOf(cpfResidentMyResidents_cb.getSelectedItem());
+        Model.ResidentFuncs_DAO.readResident(residentCpf);
+    }//GEN-LAST:event_readResident_btnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -739,43 +1035,57 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
     public static javax.swing.JTextField addressProfile_txt;
     private javax.swing.JLabel addressSingUp_lbl;
     private javax.swing.JLabel addressSingUp_lbl1;
+    private javax.swing.JLabel addressSingUp_lbl2;
     public static javax.swing.JComboBox attemptFeedback_cb;
     public static javax.swing.JTable attemptInfo;
+    public static javax.swing.JButton cleanFields_btn;
     public static javax.swing.JTextField completionDate_txt;
     public static javax.swing.JTextField completionTime_txt;
     public static javax.swing.JTextField cpfAddResident_txt;
     public static javax.swing.JTextField cpfProfile_txt;
     public static javax.swing.JComboBox cpfResidentFeedback_cb;
+    public static javax.swing.JComboBox cpfResidentMyResidents_cb;
     private javax.swing.JLabel cpfSingUp_lbl;
     private javax.swing.JLabel cpfSingUp_lbl1;
     private javax.swing.JLabel cpfSingUp_lbl2;
     private javax.swing.JLabel cpfSingUp_lbl3;
     private javax.swing.JLabel cpfSingUp_lbl4;
     private javax.swing.JLabel cpfSingUp_lbl5;
+    private javax.swing.JLabel cpfSingUp_lbl6;
     public static javax.swing.JButton deleteAccountProfile_btn;
     private javax.swing.JButton deleteFeedback_btn;
+    public static javax.swing.JButton deleteResident_btn;
     public static javax.swing.JTextField emailAddResident_txt;
     public static javax.swing.JTextField emailProfile_txt;
     private javax.swing.JLabel emailSingUp_lbl;
     private javax.swing.JLabel emailSingUp_lbl1;
+    private javax.swing.JLabel emailSingUp_lbl2;
+    private javax.persistence.EntityManager entityManager;
     public static javax.swing.JButton exit_btn;
     public static javax.swing.JButton exit_btn1;
     public static javax.swing.JButton exit_btn2;
+    public static javax.swing.JButton exit_btn3;
     public static javax.swing.JTextArea feedback_txt;
+    private javax.swing.JEditorPane jEditorPane1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JToggleButton jToggleButton1;
     public static javax.swing.JButton logOut_btn;
     public static javax.swing.JButton logOut_btn1;
     public static javax.swing.JButton logOut_btn2;
+    public static javax.swing.JButton logOut_btn3;
     public static javax.swing.JTextField nameAddResident_txt;
     public static javax.swing.JTextField nameProfile_txt;
     private javax.swing.JLabel nameSingUp_lbl;
     private javax.swing.JLabel nameSingUp_lbl1;
+    private javax.swing.JLabel nameSingUp_lbl2;
     private javax.swing.JLabel newResidentBG_lbl;
     public static javax.swing.JPasswordField passwordProfile_txt;
     private javax.swing.JLabel passwordSingUp_lbl;
@@ -786,11 +1096,23 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
     public static javax.swing.JTextField playerScore_txt;
     private javax.swing.JLabel profileBG_lbl;
     private javax.swing.JButton readFeedback_btn;
+    public static javax.swing.JButton readResident_btn;
     public static javax.swing.JButton refreshFields_btn;
+    public static javax.swing.JTextField residentAddress_txt;
     private javax.swing.JLabel residentData_lbl;
+    public static javax.swing.JTextField residentEmail_txt;
+    public static javax.swing.JTable residentInfo;
+    private java.util.List<View.Resident> residentList;
+    private java.util.List<View.Resident> residentList1;
+    public static javax.swing.JTextField residentName_txt;
+    private javax.persistence.Query residentQuery;
+    private javax.persistence.Query residentQuery1;
     private javax.swing.JLabel residentsBG_lbl;
+    private javax.swing.JLabel residentsBG_lbl1;
     public static javax.swing.JButton sendSingUp_btn;
     private javax.swing.JToggleButton showPassword_btn;
+    public static javax.swing.JButton transferResident_btn;
     public static javax.swing.JButton updateProfile_btn;
+    public static javax.swing.JButton updateResident_btn;
     // End of variables declaration//GEN-END:variables
 }

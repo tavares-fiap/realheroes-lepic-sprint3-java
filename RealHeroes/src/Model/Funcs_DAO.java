@@ -1,9 +1,6 @@
 package Model;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -40,13 +37,25 @@ public class Funcs_DAO {
         }
         return false;
     }
+    
+    public static boolean transferResidentConfirmation(String tutorName) {
+        String response = JOptionPane.showInputDialog(null, "Tem certeza que deseja transferir o residente para " + tutorName + "?\n1 - Sim\n2 - Cancelar");
+        try {
+            if (Integer.parseInt(response) == 1) {
+                return true;
+            }
+        } catch (Exception e) {
+            return false;
+        }
+        return false;
+    }
 
     public static boolean deleteAccountConfirmation() {
         User loggedUser = Controller.LoggedUser_Controller.getLoggedUser();
-        String response = JOptionPane.showInputDialog(null, "Você tem certeza de que deseja excluir sua conta? Essa ação é irreversível!\n1 - Sim\n2 - Cancelar");
+        String response = JOptionPane.showInputDialog(null, "Você tem certeza de que deseja excluir? Essa ação é irreversível!\n1 - Sim\n2 - Cancelar");
         try {
             if (Integer.parseInt(response) == 1) {
-                response = JOptionPane.showInputDialog(null, "Para confirmar a exclusão da conta, digite seu CPF no campo abaixo:");
+                response = JOptionPane.showInputDialog(null, "Para confirmar a exclusão, digite seu CPF no campo abaixo:");
                 if (response.equals(loggedUser.getCpf())) {
                     return true;
                 }
@@ -60,6 +69,7 @@ public class Funcs_DAO {
         JOptionPane.showMessageDialog(null, "Exclusão cancelada.");
         return false;
     }
+    
 
     public static boolean isCpfValid(String cpf) {
         if (cpf == null || cpf.length() != 11) {
@@ -106,6 +116,12 @@ public class Funcs_DAO {
         View.MainTutorMenu_GUI.nameAddResident_txt.setText("");
         View.MainTutorMenu_GUI.emailAddResident_txt.setText("");
         View.MainTutorMenu_GUI.addressAddResident_txt.setText("");
+    }
+    
+    public static void cleanMyResidentsFields() {
+        View.MainTutorMenu_GUI.residentName_txt.setText("");
+        View.MainTutorMenu_GUI.residentEmail_txt.setText("");
+        View.MainTutorMenu_GUI.residentAddress_txt.setText("");
     }
 }
         

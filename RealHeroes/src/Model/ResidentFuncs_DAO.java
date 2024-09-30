@@ -2,6 +2,7 @@ package Model;
 
 import static View.MainTutorMenu_GUI.attemptFeedback_cb;
 import static View.MainTutorMenu_GUI.cpfResidentFeedback_cb;
+import static View.MainTutorMenu_GUI.cpfResidentMyResidents_cb;
 import static View.MainTutorMenu_GUI.feedback_txt;
 import static View.MainTutorMenu_GUI.phaseFeedback_cb;
 import java.sql.Connection;
@@ -11,6 +12,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class ResidentFuncs_DAO {
@@ -59,7 +62,9 @@ public class ResidentFuncs_DAO {
     public static void updateCombobox() {
         String tutorCpf = Controller.LoggedUser_Controller.getLoggedUser().getCpf(); // Obtendo o CPF do tutor logado
         String query = "SELECT cpf FROM RESIDENT WHERE cpf_tutor = ?";
-
+        cpfResidentFeedback_cb.removeAllItems();
+        cpfResidentMyResidents_cb.removeAllItems();
+        
         try (Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword); PreparedStatement stmt = conn.prepareStatement(query)) {
 
             stmt.setString(1, tutorCpf); // Definindo o CPF do tutor logado na consulta
@@ -69,7 +74,8 @@ public class ResidentFuncs_DAO {
             while (rs.next()) {
                 String cpf = rs.getString("cpf");
                 boolean alreadyExists = false;
-
+                
+                
                 // Verifica se o CPF já está na combobox
                 for (int i = 0; i < cpfResidentFeedback_cb.getItemCount(); i++) {
                     if (cpfResidentFeedback_cb.getItemAt(i).equals(cpf)) {
@@ -77,10 +83,23 @@ public class ResidentFuncs_DAO {
                         break;
                     }
                 }
-
+                
                 // Adiciona o CPF apenas se ele ainda não estiver na combobox
                 if (!alreadyExists) {
                     cpfResidentFeedback_cb.addItem(cpf);
+                }
+                
+                alreadyExists = false;
+                
+                for (int i = 0; i < cpfResidentMyResidents_cb.getItemCount(); i++) {
+                    if (cpfResidentMyResidents_cb.getItemAt(i).equals(cpf)) {
+                        alreadyExists = true;
+                        break;
+                    }
+                }
+
+                if (!alreadyExists) {
+                    cpfResidentMyResidents_cb.addItem(cpf);
                 }
             }
 
@@ -125,14 +144,14 @@ public class ResidentFuncs_DAO {
         }
     }
 
-    public static void updateAttemptCombobox() {
+    public static boolean updateAttemptCombobox() {
         String selectedCpf = (String) cpfResidentFeedback_cb.getSelectedItem();
         String selectedPhase = (String) phaseFeedback_cb.getSelectedItem();
 
         // Verifica se o item selecionado é um valor válido e não a opção padrão "SELECIONE A FASE"
         if (selectedPhase.equals("SELECIONE A FASE")) {
             JOptionPane.showMessageDialog(null, "Por favor, selecione uma fase válida.");
-            return;  // Cancela a operação se a fase não for válida
+            return false;  // Cancela a operação se a fase não for válida
         }
 
         int selectedPhaseInt;
@@ -140,7 +159,7 @@ public class ResidentFuncs_DAO {
             selectedPhaseInt = Integer.parseInt(selectedPhase);
         } catch (NumberFormatException e) {
             e.printStackTrace(); // Lidar com erro se o valor não puder ser convertido
-            return; // Retorna se houver erro
+            return false; // Retorna se houver erro
         }
 
         // Consulta para obter o phaseName e dificulty da tabela GAME_PHASE
@@ -158,14 +177,15 @@ public class ResidentFuncs_DAO {
                 String dificulty = rsPhase.getString("Dificulty");
 
                 // Exibe o JOptionPane com as informações da fase
-                String message = "Informações da Fase:\n"
-                        + "Nome da Fase: " + phaseName + "\n"
-                        + "Dificuldade: " + dificulty;
-                JOptionPane.showMessageDialog(null, message, "Informações da Fase", JOptionPane.INFORMATION_MESSAGE);
+                //String message = "Informações da Fase:\n"
+                //       + "Nome da Fase: " + phaseName + "\n"
+                //        + "Dificuldade: " + dificulty;
+                //JOptionPane.showMessageDialog(null, message, "Informações da Fase", JOptionPane.INFORMATION_MESSAGE);
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
 
         // Consulta para obter as tentativas
@@ -200,9 +220,11 @@ public class ResidentFuncs_DAO {
                     attemptFeedback_cb.addItem(attempt);
                 }
             }
+            return true;
 
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
@@ -238,7 +260,7 @@ public class ResidentFuncs_DAO {
                 + "FROM PHASE_TRAIN PT "
                 + "JOIN TRAIN T ON PT.IDattempt = T.IDattempt "
                 + "WHERE PT.IDSelectedPhase = ? AND PT.IDattempt = ?";
-        
+
         try (Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword); PreparedStatement stmt = conn.prepareStatement(query)) {
 
             stmt.setInt(1, selectedPhaseInt); // Definindo o ID da fase selecionada na consulta
@@ -421,8 +443,8 @@ public class ResidentFuncs_DAO {
         String query = "UPDATE PHASE_TRAIN "
                 + "SET feedback = " + null + " "
                 + "WHERE IDSelectedPhase = ? AND IDAttempt = ?";
-        try (Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword); 
-            PreparedStatement stmt = conn.prepareStatement(query)) {
+        try (Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+                PreparedStatement stmt = conn.prepareStatement(query)) {
 
             stmt.setInt(1, selectedPhaseInt);  // Definindo o ID da fase selecionada
             stmt.setInt(2, selectedAttemptInt);  // Definindo o ID da tentativa selecionada
@@ -439,22 +461,22 @@ public class ResidentFuncs_DAO {
             e.printStackTrace();
         }
     }
-    
-    public static void updateMyResidentsTable() {
+
+    public static void updateFeedbackTable() {
         String selectedCpf = (String) cpfResidentFeedback_cb.getSelectedItem();
         String selectedPhase = (String) phaseFeedback_cb.getSelectedItem();
         Controller.Connect_DB.loadDriver();
-        
-        String sql = "SELECT T.IDATTEMPT, T.SCORE, PT.DATE_OF_COMPLETION, PT.COMPLETION_TIME "
-                    + "FROM TRAIN T "
-                    + "INNER JOIN PHASE_TRAIN PT "
-                    + "ON T.IDATTEMPT = PT.IDATTEMPT "
-                    + "WHERE T.cpf_residente = ? AND PT.IDSELECTEDPHASE = ?";
-        try (Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword); 
-            PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, selectedCpf);  
-            stmt.setInt(2, Integer.parseInt(selectedPhase));  
+        String sql = "SELECT T.IDATTEMPT, T.SCORE, PT.DATE_OF_COMPLETION, PT.COMPLETION_TIME "
+                + "FROM TRAIN T "
+                + "INNER JOIN PHASE_TRAIN PT "
+                + "ON T.IDATTEMPT = PT.IDATTEMPT "
+                + "WHERE T.cpf_residente = ? AND PT.IDSELECTEDPHASE = ?";
+        try (Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, selectedCpf);
+            stmt.setInt(2, Integer.parseInt(selectedPhase));
 
             ResultSet rs = stmt.executeQuery();
             View.MainTutorMenu_GUI.attemptInfo.setModel(View.MainTutorMenu_GUI.attemptInfoFunc(rs));
@@ -462,5 +484,172 @@ public class ResidentFuncs_DAO {
             JOptionPane.showMessageDialog(null, e);
         }
     }
-}
+    
+    public static void updateMyResidentsTable() {
+        String tutorCpf = Controller.LoggedUser_Controller.getLoggedUser().getCpf();
+        Controller.Connect_DB.loadDriver();
 
+        String sql = "SELECT * FROM RESIDENT WHERE cpf_tutor = ?";
+        try (Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, tutorCpf);
+
+            ResultSet rs = stmt.executeQuery();
+            View.MainTutorMenu_GUI.residentInfo.setModel(View.MainTutorMenu_GUI.residentInfoFunc(rs));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+
+    public static boolean transferResident(String residentCpf, String newTutorCpf) {
+        if (Funcs_DAO.isCpfValid(residentCpf) && Funcs_DAO.isCpfValid(newTutorCpf)) {
+            try {
+                com.mysql.jdbc.Connection con = null;
+                try {
+                    con = (com.mysql.jdbc.Connection) DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+                } catch (SQLException ex) {
+                    Logger.getLogger(View.SetUp_GUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                String sql = "SELECT name FROM TUTOR WHERE cpf = ?";
+                PreparedStatement pstmt = (PreparedStatement) con.prepareStatement(sql);
+                pstmt.setString(1, newTutorCpf);
+                ResultSet rs = pstmt.executeQuery();
+
+                if (rs.next()) {
+                    String name = rs.getString("name");
+                    if (Funcs_DAO.transferResidentConfirmation(name)) {
+                        pstmt = con.prepareStatement("UPDATE RESIDENT SET cpf_tutor=? WHERE cpf=?");
+                        pstmt.setString(1, newTutorCpf);
+                        pstmt.setString(2, residentCpf);
+                        int rowsAffected = pstmt.executeUpdate();
+                        if (rowsAffected > 0) {
+                            JOptionPane.showMessageDialog(null, "Residente transferido com sucesso!");
+                            return true;
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Residente não encontrado!");
+                            return false;
+                        }
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Tutor com CPF: " + newTutorCpf + " não foi encontrado.");
+                    return false;
+                }
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Erro ao conectar com o servidor", "ERRO!", 0);
+                return false;
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "CPF Invalido!\nESPERADO: Somente numeros/ 11 digitos");
+            View.SetUp_GUI.cpfSignUp_txt.setText("");
+            return false;
+        }
+        return false;
+    }
+    
+    public static boolean deleteResident(String residentCpf){
+
+        Connection con = null;
+        try {
+            con = (Connection) DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+        } catch (SQLException ex) {
+            Logger.getLogger(View.MainTutorMenu_GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            //apaga registro do usuario
+            String sqlDelete = "DELETE FROM RESIDENT WHERE cpf = ?";
+            PreparedStatement pstmtDelete = (PreparedStatement) con.prepareStatement(sqlDelete);
+            pstmtDelete.setString(1, residentCpf);
+            int rowsAffected = pstmtDelete.executeUpdate(); //executeUpdate para saber se houveram linhas afetadas pelo comando.
+
+            if (rowsAffected > 0) {
+                JOptionPane.showMessageDialog(null, "Residente deletado com sucesso!");
+                //refresh();
+                return true;
+            } else {
+                JOptionPane.showMessageDialog(null, "Residente com CPF: " + residentCpf + " inexistente...\nVerifique as informacoes!");
+                return false;
+            }
+        } catch (SQLException e) {
+            // Verifica se o código do erro é 1451 (violação de chave estrangeira)
+            if (e.getErrorCode() == 1451) {
+                JOptionPane.showMessageDialog(null, "Erro ao excluir dados! Não é possível excluir este usuário pois há RESIDENTES vinculados a ele.");
+            } else {
+                JOptionPane.showMessageDialog(null, "Erro ao excluir dados! Por favor, tente novamente.");
+            }
+            //Logger.getLogger(View.MainTutorMenu_GUI.class.getName()).log(Level.SEVERE, null, e);
+            return false;
+
+        } catch (Exception e) {
+            // Tratamento para quaisquer outras exceções não previstas
+            System.out.println(e);
+            JOptionPane.showMessageDialog(null, "Erro ao excluir dados!");
+            return false;
+        }
+    }
+    
+    public static boolean readResident(String residentCpf){
+        if (Funcs_DAO.isCpfValid(residentCpf)) {
+            try {
+                com.mysql.jdbc.Connection con = null;
+                try {
+                    con = (com.mysql.jdbc.Connection) DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+                } catch (SQLException ex) {
+                    Logger.getLogger(View.SetUp_GUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                String sql = "SELECT * FROM RESIDENT WHERE cpf = ?";
+                PreparedStatement pstmt = (PreparedStatement) con.prepareStatement(sql);
+                pstmt.setString(1, residentCpf);
+                ResultSet rs = pstmt.executeQuery();
+
+                if (rs.next()) {
+                    String name = rs.getString("name");
+                    String email = rs.getString("email");
+                    String address = rs.getString("address");
+                    View.MainTutorMenu_GUI.residentName_txt.setText(name);
+                    View.MainTutorMenu_GUI.residentEmail_txt.setText(email);
+                    View.MainTutorMenu_GUI.residentAddress_txt.setText(address);
+                    return true;
+                } else {
+                    JOptionPane.showMessageDialog(null, "Residente com CPF: " + residentCpf + " não foi encontrado.");
+                    return false;
+                }
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Erro ao conectar com o servidor", "ERRO!", 0);
+                return false;
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "CPF Invalido!\nESPERADO: Somente numeros/ 11 digitos");
+            View.SetUp_GUI.cpfSignUp_txt.setText("");
+            return false;
+        }
+    }
+    
+   public static boolean updateResidentInfo(String cpf, String name, String email, String address){
+        if (Funcs_DAO.isNameValid(name)) {
+            try (java.sql.Connection con = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+                    PreparedStatement pstmt = con.prepareStatement("UPDATE RESIDENT SET name=?, email=?, address=? WHERE cpf=?")) {
+                pstmt.setString(1, name);
+                pstmt.setString(2, email);
+                pstmt.setString(3, address);
+                pstmt.setString(4, cpf);
+                int rowsAffected = pstmt.executeUpdate();
+
+                if (rowsAffected > 0) {
+                    JOptionPane.showMessageDialog(null, "Dados do residente atualizados com sucesso!");
+                    return true;
+                    //refresh();
+                } else {
+                    JOptionPane.showMessageDialog(null, "CPF não encontrado!");
+                    return false;
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Erro ao alterar dados!");
+                return false;
+            }
+        }
+        JOptionPane.showMessageDialog(null, "Nome inválido!");
+        return false;
+   }
+
+}
