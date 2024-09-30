@@ -1,10 +1,18 @@
 package Model;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class Funcs_DAO {
-
+    
+    private static String dbUrl = Controller.DataBaseConfig_DB.getUrl();
+    private static String dbUsername = Controller.DataBaseConfig_DB.getUsername();
+    private static String dbPassword = Controller.DataBaseConfig_DB.getPassword();
+    
     public static void changeScreen(JFrame currentScreen, JFrame nextScreen) {
         currentScreen.dispose();
         nextScreen.setVisible(true);
@@ -100,3 +108,4 @@ public class Funcs_DAO {
         View.MainTutorMenu_GUI.addressAddResident_txt.setText("");
     }
 }
+        
