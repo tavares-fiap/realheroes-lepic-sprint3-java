@@ -1,9 +1,6 @@
 package Model;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -119,6 +116,12 @@ public class Funcs_DAO {
         View.MainTutorMenu_GUI.nameAddResident_txt.setText("");
         View.MainTutorMenu_GUI.emailAddResident_txt.setText("");
         View.MainTutorMenu_GUI.addressAddResident_txt.setText("");
+    }
+    
+    public static void cleanMyResidentsFields() {
+        View.MainTutorMenu_GUI.residentName_txt.setText("");
+        View.MainTutorMenu_GUI.residentEmail_txt.setText("");
+        View.MainTutorMenu_GUI.residentAddress_txt.setText("");
     }
 }
         

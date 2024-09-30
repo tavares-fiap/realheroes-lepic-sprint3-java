@@ -144,14 +144,14 @@ public class ResidentFuncs_DAO {
         }
     }
 
-    public static void updateAttemptCombobox() {
+    public static boolean updateAttemptCombobox() {
         String selectedCpf = (String) cpfResidentFeedback_cb.getSelectedItem();
         String selectedPhase = (String) phaseFeedback_cb.getSelectedItem();
 
         // Verifica se o item selecionado é um valor válido e não a opção padrão "SELECIONE A FASE"
         if (selectedPhase.equals("SELECIONE A FASE")) {
             JOptionPane.showMessageDialog(null, "Por favor, selecione uma fase válida.");
-            return;  // Cancela a operação se a fase não for válida
+            return false;  // Cancela a operação se a fase não for válida
         }
 
         int selectedPhaseInt;
@@ -159,7 +159,7 @@ public class ResidentFuncs_DAO {
             selectedPhaseInt = Integer.parseInt(selectedPhase);
         } catch (NumberFormatException e) {
             e.printStackTrace(); // Lidar com erro se o valor não puder ser convertido
-            return; // Retorna se houver erro
+            return false; // Retorna se houver erro
         }
 
         // Consulta para obter o phaseName e dificulty da tabela GAME_PHASE
@@ -177,14 +177,15 @@ public class ResidentFuncs_DAO {
                 String dificulty = rsPhase.getString("Dificulty");
 
                 // Exibe o JOptionPane com as informações da fase
-                String message = "Informações da Fase:\n"
-                        + "Nome da Fase: " + phaseName + "\n"
-                        + "Dificuldade: " + dificulty;
-                JOptionPane.showMessageDialog(null, message, "Informações da Fase", JOptionPane.INFORMATION_MESSAGE);
+                //String message = "Informações da Fase:\n"
+                //       + "Nome da Fase: " + phaseName + "\n"
+                //        + "Dificuldade: " + dificulty;
+                //JOptionPane.showMessageDialog(null, message, "Informações da Fase", JOptionPane.INFORMATION_MESSAGE);
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
 
         // Consulta para obter as tentativas
@@ -219,9 +220,11 @@ public class ResidentFuncs_DAO {
                     attemptFeedback_cb.addItem(attempt);
                 }
             }
+            return true;
 
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
@@ -459,7 +462,7 @@ public class ResidentFuncs_DAO {
         }
     }
 
-    public static void updateMyResidentsTable() {
+    public static void updateFeedbackTable() {
         String selectedCpf = (String) cpfResidentFeedback_cb.getSelectedItem();
         String selectedPhase = (String) phaseFeedback_cb.getSelectedItem();
         Controller.Connect_DB.loadDriver();
@@ -477,6 +480,23 @@ public class ResidentFuncs_DAO {
 
             ResultSet rs = stmt.executeQuery();
             View.MainTutorMenu_GUI.attemptInfo.setModel(View.MainTutorMenu_GUI.attemptInfoFunc(rs));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+    
+    public static void updateMyResidentsTable() {
+        String tutorCpf = Controller.LoggedUser_Controller.getLoggedUser().getCpf();
+        Controller.Connect_DB.loadDriver();
+
+        String sql = "SELECT * FROM RESIDENT WHERE cpf_tutor = ?";
+        try (Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, tutorCpf);
+
+            ResultSet rs = stmt.executeQuery();
+            View.MainTutorMenu_GUI.residentInfo.setModel(View.MainTutorMenu_GUI.residentInfoFunc(rs));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
@@ -567,5 +587,69 @@ public class ResidentFuncs_DAO {
             return false;
         }
     }
+    
+    public static boolean readResident(String residentCpf){
+        if (Funcs_DAO.isCpfValid(residentCpf)) {
+            try {
+                com.mysql.jdbc.Connection con = null;
+                try {
+                    con = (com.mysql.jdbc.Connection) DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+                } catch (SQLException ex) {
+                    Logger.getLogger(View.SetUp_GUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                String sql = "SELECT * FROM RESIDENT WHERE cpf = ?";
+                PreparedStatement pstmt = (PreparedStatement) con.prepareStatement(sql);
+                pstmt.setString(1, residentCpf);
+                ResultSet rs = pstmt.executeQuery();
+
+                if (rs.next()) {
+                    String name = rs.getString("name");
+                    String email = rs.getString("email");
+                    String address = rs.getString("address");
+                    View.MainTutorMenu_GUI.residentName_txt.setText(name);
+                    View.MainTutorMenu_GUI.residentEmail_txt.setText(email);
+                    View.MainTutorMenu_GUI.residentAddress_txt.setText(address);
+                    return true;
+                } else {
+                    JOptionPane.showMessageDialog(null, "Residente com CPF: " + residentCpf + " não foi encontrado.");
+                    return false;
+                }
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Erro ao conectar com o servidor", "ERRO!", 0);
+                return false;
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "CPF Invalido!\nESPERADO: Somente numeros/ 11 digitos");
+            View.SetUp_GUI.cpfSignUp_txt.setText("");
+            return false;
+        }
+    }
+    
+   public static boolean updateResidentInfo(String cpf, String name, String email, String address){
+        if (Funcs_DAO.isNameValid(name)) {
+            try (java.sql.Connection con = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+                    PreparedStatement pstmt = con.prepareStatement("UPDATE RESIDENT SET name=?, email=?, address=? WHERE cpf=?")) {
+                pstmt.setString(1, name);
+                pstmt.setString(2, email);
+                pstmt.setString(3, address);
+                pstmt.setString(4, cpf);
+                int rowsAffected = pstmt.executeUpdate();
+
+                if (rowsAffected > 0) {
+                    JOptionPane.showMessageDialog(null, "Dados do residente atualizados com sucesso!");
+                    return true;
+                    //refresh();
+                } else {
+                    JOptionPane.showMessageDialog(null, "CPF não encontrado!");
+                    return false;
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Erro ao alterar dados!");
+                return false;
+            }
+        }
+        JOptionPane.showMessageDialog(null, "Nome inválido!");
+        return false;
+   }
 
 }

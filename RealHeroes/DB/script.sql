@@ -8,7 +8,7 @@ CREATE TABLE TUTOR
     name VARCHAR(50) NOT NULL,
     email VARCHAR(30),
     address VARCHAR(70),
-    password VARCHAR(20),
+    password VARCHAR(20) NOT NULL,
     PRIMARY KEY (cpf)
 );
 
@@ -18,7 +18,7 @@ CREATE TABLE RESIDENT
     name VARCHAR(50) NOT NULL,
     email VARCHAR(30),
     address VARCHAR(70),
-    password VARCHAR(20),
+    password VARCHAR(20) NOT NULL,
     cpf_tutor VARCHAR(11) NOT NULL,
     PRIMARY KEY (cpf),
     FOREIGN KEY (cpf_tutor) REFERENCES TUTOR(cpf)
@@ -27,18 +27,18 @@ CREATE TABLE RESIDENT
 CREATE TABLE TRAIN 
 (
     IDattempt INT(3),
-    score INT(3),
-    position INT(3),
+    score INT(3) NOT NULL,
+    position INT(3) NOT NULL,
     cpf_residente VARCHAR(11),
     PRIMARY KEY (IDattempt),
-    FOREIGN KEY (cpf_residente) REFERENCES RESIDENT(cpf)
+    FOREIGN KEY (cpf_residente) REFERENCES RESIDENT(cpf) ON DELETE CASCADE
 );
 
 CREATE TABLE GAME_PHASE
 (
     IDSelectedPhase INT(3),
-    phaseName VARCHAR(20),
-    Dificulty VARCHAR(20),
+    phaseName VARCHAR(20) NOT NULL,
+    Dificulty VARCHAR(20) NOT NULL,
     PRIMARY KEY (IDSelectedPhase),
     CONSTRAINT chk_dificulty CHECK (Dificulty IN ('easy', 'medium', 'hard', 'professional'))
 );
@@ -51,7 +51,7 @@ CREATE TABLE PHASE_TRAIN
    date_of_completion DATE,
    completion_time TIME, 
    PRIMARY KEY (IDattempt, IDSelectedPhase),
-   FOREIGN KEY (IDattempt) REFERENCES TRAIN(IDattempt),
+   FOREIGN KEY (IDattempt) REFERENCES TRAIN(IDattempt) ON DELETE CASCADE,
    FOREIGN KEY (IDSelectedPhase) REFERENCES GAME_PHASE(IDSelectedPhase)
 );
 
