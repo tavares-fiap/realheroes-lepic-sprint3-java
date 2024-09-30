@@ -2,7 +2,7 @@ package Controller;
 
 public class DataBaseConfig_DB {
 
-    private static String url = "jdbc:mysql://localhost:3305/REALHEROES";
+    private static String url = "jdbc:mysql://localhost/REALHEROES";
     private static String username = "root";
     private static String password = "";
 

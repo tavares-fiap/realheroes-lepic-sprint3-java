@@ -5,7 +5,11 @@
  */
 package View;
 
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.util.Vector;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -20,6 +24,35 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         initComponents();
 
     }
+    
+    //-- Inicio Jtable 
+    public static DefaultTableModel attemptInfoFunc(ResultSet rs) {
+        try {
+            ResultSetMetaData metaData = rs.getMetaData();
+            int numberOfColumns = metaData.getColumnCount();
+            Vector columnNames = new Vector();
+            // AS LINHAS ABAIXO SÃO REFERENTES AOS CAMPOS DA TABELA CLIENTE
+            columnNames.addElement("ID");
+            columnNames.addElement("SCORE");
+            columnNames.addElement("DATA");
+            columnNames.addElement("HR_CONCLUSÃO");
+
+            Vector rows = new Vector();
+            while (rs.next()) {
+                Vector newRow = new Vector();
+                for (int i = 1; i <= numberOfColumns; i++) {
+                    newRow.addElement(rs.getObject(i));
+                }
+                rows.addElement(newRow);
+            }
+            return new DefaultTableModel(rows, columnNames);
+        } catch (Exception e) {
+
+            return null;
+        }
+    }
+
+    // ---Fim Jtable
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -30,11 +63,20 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jToggleButton1 = new javax.swing.JToggleButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        attemptInfo = new javax.swing.JTable();
+        playerScore_lbl2 = new javax.swing.JLabel();
+        completionTime_txt = new javax.swing.JTextField();
+        completionDate_txt = new javax.swing.JTextField();
+        playerScore_lbl1 = new javax.swing.JLabel();
         exit_btn2 = new javax.swing.JButton();
         logOut_btn2 = new javax.swing.JButton();
         cpfSingUp_lbl2 = new javax.swing.JLabel();
+        playerScore_lbl = new javax.swing.JLabel();
+        playerScore_txt = new javax.swing.JTextField();
         cpfResidentFeedback_cb = new javax.swing.JComboBox();
         readFeedback_btn = new javax.swing.JButton();
         addAlterFeedback_btn = new javax.swing.JButton();
@@ -80,11 +122,69 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         exit_btn = new javax.swing.JButton();
         profileBG_lbl = new javax.swing.JLabel();
 
+        jToggleButton1.setText("jToggleButton1");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
 
+        jTabbedPane1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jTabbedPane1StateChanged(evt);
+            }
+        });
+
         jPanel2.setPreferredSize(new java.awt.Dimension(396, 704));
         jPanel2.setLayout(null);
+
+        attemptInfo.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane3.setViewportView(attemptInfo);
+
+        jPanel2.add(jScrollPane3);
+        jScrollPane3.setBounds(10, 160, 380, 90);
+
+        playerScore_lbl2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        playerScore_lbl2.setForeground(new java.awt.Color(255, 255, 255));
+        playerScore_lbl2.setText("HORÁRIO:");
+        jPanel2.add(playerScore_lbl2);
+        playerScore_lbl2.setBounds(20, 380, 130, 30);
+
+        completionTime_txt.setText("HORARIO DE CONCLUSAO");
+        completionTime_txt.setDisabledTextColor(new java.awt.Color(255, 0, 0));
+        completionTime_txt.setEnabled(false);
+        completionTime_txt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                completionTime_txtActionPerformed(evt);
+            }
+        });
+        jPanel2.add(completionTime_txt);
+        completionTime_txt.setBounds(140, 380, 240, 30);
+
+        completionDate_txt.setText("DATA CONCLUSÃO");
+        completionDate_txt.setDisabledTextColor(new java.awt.Color(255, 0, 0));
+        completionDate_txt.setEnabled(false);
+        completionDate_txt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                completionDate_txtActionPerformed(evt);
+            }
+        });
+        jPanel2.add(completionDate_txt);
+        completionDate_txt.setBounds(140, 340, 240, 30);
+
+        playerScore_lbl1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        playerScore_lbl1.setForeground(new java.awt.Color(255, 255, 255));
+        playerScore_lbl1.setText("CONCLUSÃO:");
+        jPanel2.add(playerScore_lbl1);
+        playerScore_lbl1.setBounds(20, 340, 130, 30);
 
         exit_btn2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         exit_btn2.setText("SAIR");
@@ -110,7 +210,19 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         cpfSingUp_lbl2.setForeground(new java.awt.Color(255, 255, 255));
         cpfSingUp_lbl2.setText("CPF:");
         jPanel2.add(cpfSingUp_lbl2);
-        cpfSingUp_lbl2.setBounds(20, 100, 70, 30);
+        cpfSingUp_lbl2.setBounds(20, 80, 70, 30);
+
+        playerScore_lbl.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        playerScore_lbl.setForeground(new java.awt.Color(255, 255, 255));
+        playerScore_lbl.setText("SCORE:");
+        jPanel2.add(playerScore_lbl);
+        playerScore_lbl.setBounds(20, 300, 110, 30);
+
+        playerScore_txt.setText("SCORE DA TENTATIVA");
+        playerScore_txt.setDisabledTextColor(new java.awt.Color(255, 0, 0));
+        playerScore_txt.setEnabled(false);
+        jPanel2.add(playerScore_txt);
+        playerScore_txt.setBounds(140, 300, 240, 30);
 
         cpfResidentFeedback_cb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "CLIQUE NUM ITEM PARA ATUALZAR" }));
         cpfResidentFeedback_cb.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -129,16 +241,16 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
             }
         });
         jPanel2.add(cpfResidentFeedback_cb);
-        cpfResidentFeedback_cb.setBounds(120, 100, 240, 30);
+        cpfResidentFeedback_cb.setBounds(120, 80, 260, 30);
 
-        readFeedback_btn.setText("CONSULTAR FEEDBACK");
+        readFeedback_btn.setText("CONSULTAR TENTATIVA");
         readFeedback_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 readFeedback_btnActionPerformed(evt);
             }
         });
         jPanel2.add(readFeedback_btn);
-        readFeedback_btn.setBounds(90, 380, 220, 40);
+        readFeedback_btn.setBounds(20, 520, 220, 30);
 
         addAlterFeedback_btn.setText("ADICIONAR/ALTERAR FEEDBACK");
         addAlterFeedback_btn.addActionListener(new java.awt.event.ActionListener() {
@@ -147,28 +259,28 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
             }
         });
         jPanel2.add(addAlterFeedback_btn);
-        addAlterFeedback_btn.setBounds(90, 440, 220, 40);
+        addAlterFeedback_btn.setBounds(20, 560, 220, 30);
 
         cpfSingUp_lbl3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         cpfSingUp_lbl3.setForeground(new java.awt.Color(255, 255, 255));
         cpfSingUp_lbl3.setText("FASE:");
         jPanel2.add(cpfSingUp_lbl3);
-        cpfSingUp_lbl3.setBounds(20, 140, 70, 30);
+        cpfSingUp_lbl3.setBounds(20, 120, 70, 30);
 
-        phaseFeedback_cb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE A TENTATIVA" }));
+        phaseFeedback_cb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE A FASE" }));
         phaseFeedback_cb.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 phaseFeedback_cbActionPerformed(evt);
             }
         });
         jPanel2.add(phaseFeedback_cb);
-        phaseFeedback_cb.setBounds(120, 140, 240, 30);
+        phaseFeedback_cb.setBounds(120, 120, 260, 30);
 
         cpfSingUp_lbl4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         cpfSingUp_lbl4.setForeground(new java.awt.Color(255, 255, 255));
         cpfSingUp_lbl4.setText("FEEDBACK:");
         jPanel2.add(cpfSingUp_lbl4);
-        cpfSingUp_lbl4.setBounds(20, 230, 110, 30);
+        cpfSingUp_lbl4.setBounds(20, 420, 110, 30);
 
         attemptFeedback_cb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE A TENTATIVA" }));
         attemptFeedback_cb.addActionListener(new java.awt.event.ActionListener() {
@@ -177,13 +289,13 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
             }
         });
         jPanel2.add(attemptFeedback_cb);
-        attemptFeedback_cb.setBounds(140, 180, 220, 30);
+        attemptFeedback_cb.setBounds(140, 260, 240, 30);
 
         cpfSingUp_lbl5.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         cpfSingUp_lbl5.setForeground(new java.awt.Color(255, 255, 255));
         cpfSingUp_lbl5.setText("TENTATIVA:");
         jPanel2.add(cpfSingUp_lbl5);
-        cpfSingUp_lbl5.setBounds(20, 180, 110, 30);
+        cpfSingUp_lbl5.setBounds(20, 260, 110, 30);
 
         feedback_txt.setColumns(20);
         feedback_txt.setRows(5);
@@ -191,8 +303,9 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         jScrollPane1.setViewportView(feedback_txt);
 
         jPanel2.add(jScrollPane1);
-        jScrollPane1.setBounds(140, 230, 220, 90);
+        jScrollPane1.setBounds(140, 420, 240, 80);
 
+        deleteFeedback_btn.setForeground(new java.awt.Color(255, 0, 0));
         deleteFeedback_btn.setText("EXCLUIR FEEDBACK");
         deleteFeedback_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -200,13 +313,13 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
             }
         });
         jPanel2.add(deleteFeedback_btn);
-        deleteFeedback_btn.setBounds(90, 500, 220, 40);
+        deleteFeedback_btn.setBounds(20, 600, 220, 30);
 
         residentsBG_lbl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/RealHeroesBG1.png"))); // NOI18N
         jPanel2.add(residentsBG_lbl);
         residentsBG_lbl.setBounds(0, -10, 400, 710);
 
-        jTabbedPane1.addTab("Meus Residentes", jPanel2);
+        jTabbedPane1.addTab("Feedbacks", jPanel2);
 
         jPanel3.setLayout(null);
 
@@ -316,7 +429,6 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         jPanel1.add(deleteAccountProfile_btn);
         deleteAccountProfile_btn.setBounds(120, 490, 170, 30);
 
-        showPassword_btn.setBackground(new java.awt.Color(255, 255, 255));
         showPassword_btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/eyeIcon.png"))); // NOI18N
         showPassword_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -523,10 +635,12 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         String email = emailAddResident_txt.getText();
         String address = addressAddResident_txt.getText();
         Model.ResidentFuncs_DAO.addResident(cpf, name, email, address, Controller.LoggedUser_Controller.getLoggedUser().getCpf());
+        Model.ResidentFuncs_DAO.updateMyResidentsTable();
     }//GEN-LAST:event_sendSingUp_btnActionPerformed
 
     private void phaseFeedback_cbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phaseFeedback_cbActionPerformed
         Model.ResidentFuncs_DAO.updateAttemptCombobox();
+        Model.ResidentFuncs_DAO.updateMyResidentsTable();
     }//GEN-LAST:event_phaseFeedback_cbActionPerformed
 
     private void readFeedback_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_readFeedback_btnActionPerformed
@@ -534,7 +648,6 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_readFeedback_btnActionPerformed
 
     private void cpfResidentFeedback_cbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cpfResidentFeedback_cbActionPerformed
-        Model.ResidentFuncs_DAO.updateCombobox();
         Model.ResidentFuncs_DAO.updatePhaseCombobox();
     }//GEN-LAST:event_cpfResidentFeedback_cbActionPerformed
 
@@ -557,6 +670,18 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
     private void deleteFeedback_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteFeedback_btnActionPerformed
         Model.ResidentFuncs_DAO.deleteFeedback();
     }//GEN-LAST:event_deleteFeedback_btnActionPerformed
+
+    private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPane1StateChanged
+        Model.ResidentFuncs_DAO.updateCombobox();
+    }//GEN-LAST:event_jTabbedPane1StateChanged
+
+    private void completionDate_txtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_completionDate_txtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_completionDate_txtActionPerformed
+
+    private void completionTime_txtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_completionTime_txtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_completionTime_txtActionPerformed
 
     /**
      * @param args the command line arguments
@@ -615,6 +740,9 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
     private javax.swing.JLabel addressSingUp_lbl;
     private javax.swing.JLabel addressSingUp_lbl1;
     public static javax.swing.JComboBox attemptFeedback_cb;
+    public static javax.swing.JTable attemptInfo;
+    public static javax.swing.JTextField completionDate_txt;
+    public static javax.swing.JTextField completionTime_txt;
     public static javax.swing.JTextField cpfAddResident_txt;
     public static javax.swing.JTextField cpfProfile_txt;
     public static javax.swing.JComboBox cpfResidentFeedback_cb;
@@ -638,7 +766,9 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JToggleButton jToggleButton1;
     public static javax.swing.JButton logOut_btn;
     public static javax.swing.JButton logOut_btn1;
     public static javax.swing.JButton logOut_btn2;
@@ -650,6 +780,10 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
     public static javax.swing.JPasswordField passwordProfile_txt;
     private javax.swing.JLabel passwordSingUp_lbl;
     public static javax.swing.JComboBox phaseFeedback_cb;
+    private javax.swing.JLabel playerScore_lbl;
+    private javax.swing.JLabel playerScore_lbl1;
+    private javax.swing.JLabel playerScore_lbl2;
+    public static javax.swing.JTextField playerScore_txt;
     private javax.swing.JLabel profileBG_lbl;
     private javax.swing.JButton readFeedback_btn;
     public static javax.swing.JButton refreshFields_btn;
