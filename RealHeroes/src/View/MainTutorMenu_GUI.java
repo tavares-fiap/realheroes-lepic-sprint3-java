@@ -194,6 +194,11 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         jScrollPane1.setBounds(140, 230, 220, 90);
 
         deleteFeedback_btn.setText("EXCLUIR FEEDBACK");
+        deleteFeedback_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteFeedback_btnActionPerformed(evt);
+            }
+        });
         jPanel2.add(deleteFeedback_btn);
         deleteFeedback_btn.setBounds(90, 500, 220, 40);
 
@@ -525,7 +530,7 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_phaseFeedback_cbActionPerformed
 
     private void readFeedback_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_readFeedback_btnActionPerformed
-        // TODO add your handling code here:
+        Model.ResidentFuncs_DAO.readFeedback();
     }//GEN-LAST:event_readFeedback_btnActionPerformed
 
     private void cpfResidentFeedback_cbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cpfResidentFeedback_cbActionPerformed
@@ -548,6 +553,10 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
     private void attemptFeedback_cbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_attemptFeedback_cbActionPerformed
         Model.ResidentFuncs_DAO.setPreviousFeedback();
     }//GEN-LAST:event_attemptFeedback_cbActionPerformed
+
+    private void deleteFeedback_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteFeedback_btnActionPerformed
+        Model.ResidentFuncs_DAO.deleteFeedback();
+    }//GEN-LAST:event_deleteFeedback_btnActionPerformed
 
     /**
      * @param args the command line arguments

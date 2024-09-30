@@ -129,6 +129,13 @@ public class ResidentFuncs_DAO {
     public static void updateAttemptCombobox() {
     String selectedCpf = (String) cpfResidentFeedback_cb.getSelectedItem();
     String selectedPhase = (String) phaseFeedback_cb.getSelectedItem();
+
+    // Verifica se o item selecionado é um valor válido e não a opção padrão "SELECIONE A FASE"
+    if (selectedPhase.equals("SELECIONE A FASE")) {
+        JOptionPane.showMessageDialog(null, "Por favor, selecione uma fase válida.");
+        return;  // Cancela a operação se a fase não for válida
+    }
+
     int selectedPhaseInt;
     try {
         selectedPhaseInt = Integer.parseInt(selectedPhase);
@@ -137,6 +144,33 @@ public class ResidentFuncs_DAO {
         return; // Retorna se houver erro
     }
     
+    // Consulta para obter o phaseName e dificulty da tabela GAME_PHASE
+    String queryPhaseInfo = "SELECT phaseName, Dificulty FROM GAME_PHASE WHERE IDSelectedPhase = ?";
+
+    try (Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+         PreparedStatement stmtPhase = conn.prepareStatement(queryPhaseInfo)) {
+
+        stmtPhase.setInt(1, selectedPhaseInt); // Definindo o ID da fase selecionada na consulta
+
+        ResultSet rsPhase = stmtPhase.executeQuery();
+
+        // Se as informações da fase forem encontradas, exibe um JOptionPane com o phaseName e Dificulty
+        if (rsPhase.next()) {
+            String phaseName = rsPhase.getString("phaseName");
+            String dificulty = rsPhase.getString("Dificulty");
+
+            // Exibe o JOptionPane com as informações da fase
+            String message = "Informações da Fase:\n" +
+                             "Nome da Fase: " + phaseName + "\n" +
+                             "Dificuldade: " + dificulty;
+            JOptionPane.showMessageDialog(null, message, "Informações da Fase", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    // Consulta para obter as tentativas
     String query = "SELECT T.IDattempt " +  // Corrigido: adicionado espaço aqui
                    "FROM PHASE_TRAIN PT " +
                    "JOIN TRAIN T ON PT.IDattempt = T.IDattempt " +
@@ -172,7 +206,8 @@ public class ResidentFuncs_DAO {
     } catch (SQLException e) {
         e.printStackTrace();
     }
-    }
+}
+
     public static void setPreviousFeedback() {
     String selectedPhase = (String) phaseFeedback_cb.getSelectedItem();
 
@@ -225,16 +260,10 @@ public class ResidentFuncs_DAO {
             String message = "Dados sobre a tentativa:\n"
                            + "Score: " + score + "\n"
                            + "Data de Conclusão: " + dateOfCompletion + "\n"
-                           + "Tempo de Conclusão: " + completionTime + "\n"
-                           + "Feedback: " + (feedback != null && !feedback.trim().isEmpty() ? feedback : "Nenhum feedback");
+                           + "Horário de Conclusão: " + completionTime + "\n";
 
             // Exibe um JOptionPane com as informações
             JOptionPane.showMessageDialog(null, message, "Informações da Tentativa", JOptionPane.INFORMATION_MESSAGE);
-
-            // Se houver feedback, atualiza o campo de texto
-            if (feedback != null && !feedback.trim().isEmpty()) {
-                feedback_txt.setText(feedback);  // Atualiza a JTextArea com o feedback
-            }
         } else {
             JOptionPane.showMessageDialog(null, "Nenhuma tentativa encontrada para os parâmetros fornecidos.");
         }
@@ -325,5 +354,99 @@ public class ResidentFuncs_DAO {
         e.printStackTrace();
     }
 }
+    public static void readFeedback(){
+        String selectedPhase = (String) phaseFeedback_cb.getSelectedItem();
+
+    int selectedPhaseInt;
+    try {
+        selectedPhaseInt = Integer.parseInt(selectedPhase);
+    } catch (NumberFormatException e) {
+        e.printStackTrace(); // Lidar com erro se o valor não puder ser convertido
+        return; // Retorna se houver erro
+    }
+
+    String selectedAttempt = (String) attemptFeedback_cb.getSelectedItem();
     
+    int selectedAttemptInt;
+    try {
+        selectedAttemptInt = Integer.parseInt(selectedAttempt);
+    } catch (NumberFormatException e) {
+        e.printStackTrace(); // Lidar com erro se o valor não puder ser convertido
+        return; // Retorna se houver erro
+    }
+
+    // Continuar com a lógica do feedback se a tentativa for válida
+    String query = "SELECT PT.feedback " +
+                   "FROM PHASE_TRAIN PT " +
+                   "JOIN TRAIN T ON PT.IDattempt = T.IDattempt " +
+                   "WHERE PT.IDSelectedPhase = ? AND PT.IDattempt = ?";
+
+    try (Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+         PreparedStatement stmt = conn.prepareStatement(query)) {
+
+        stmt.setInt(1, selectedPhaseInt); // Definindo o ID da fase selecionada na consulta
+        stmt.setInt(2, selectedAttemptInt); // Definindo o ID da tentativa selecionada na consulta
+        
+        ResultSet rs = stmt.executeQuery();
+
+        // Se os dados sobre a tentativa forem encontrados, exibe um JOptionPane com as informações
+        if (rs.next()) {
+            String feedback = rs.getString("feedback");
+            // Se houver feedback, atualiza o campo de texto
+            if (feedback != null && !feedback.trim().isEmpty()) {
+                feedback_txt.setText(feedback);  // Atualiza a JTextArea com o feedback
+                JOptionPane.showMessageDialog(null, "Feedback adicionado na caixa de texto destinada ao feedback.");
+            } else {
+            JOptionPane.showMessageDialog(null, "Ainda não há feedback vinculado a essa tentativa dessa fase");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Feedback não encontrado!");
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    }
+    
+    public static void deleteFeedback(){
+        String selectedPhase = (String) phaseFeedback_cb.getSelectedItem();
+        
+        int selectedPhaseInt;
+        try {
+            selectedPhaseInt = Integer.parseInt(selectedPhase);
+        } catch (NumberFormatException e) {
+            e.printStackTrace(); // Lidar com erro se o valor não puder ser convertido
+            return; // Retorna se houver erro
+        
+        } 
+        // Obter o ID da tentativa selecionada
+        String selectedAttempt = (String) attemptFeedback_cb.getSelectedItem();
+        int selectedAttemptInt;
+        try {
+            selectedAttemptInt = Integer.parseInt(selectedAttempt);
+        } catch (NumberFormatException e) {
+            e.printStackTrace(); // Lidar com erro se o valor não puder ser convertido
+            return; // Retorna se houver erro
+        }
+        String query = "UPDATE PHASE_TRAIN "+
+                "SET feedback = "+null+" "+
+                "WHERE IDSelectedPhase = ? AND IDAttempt = ?";
+        try (Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+         PreparedStatement stmt = conn.prepareStatement(query)) {
+
+        stmt.setInt(1, selectedPhaseInt);  // Definindo o ID da fase selecionada
+        stmt.setInt(2, selectedAttemptInt);  // Definindo o ID da tentativa selecionada
+
+        int rowsAffected = stmt.executeUpdate();  // Use executeUpdate para atualizações
+        
+        if (rowsAffected > 0) {
+            JOptionPane.showMessageDialog(null, "Feedback excluído com sucesso!");
+        } else {
+            JOptionPane.showMessageDialog(null, "Nenhuma linha foi atualizada.");
+        }
+        feedback_txt.setText("ESCREVA SEU FEEDBACK AQUI");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
