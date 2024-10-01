@@ -12,16 +12,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
-public class ResidentFuncs_DAO {
 
+public class ResidentFuncs_DAO {
     private static String dbUrl = Controller.DataBaseConfig_DB.getUrl();
     private static String dbUsername = Controller.DataBaseConfig_DB.getUsername();
     private static String dbPassword = Controller.DataBaseConfig_DB.getPassword();
     private static final String standardPassword = "12345678"; //deve ser alterada pelo residente quando logar a primeira vez
+    private static Map<String, String> resultMap = new HashMap<>();
 
     public static void addResident(String cpf, String name, String email, String address, String cpfTutor) {
         Controller.Connect_DB.loadDriver();
@@ -59,12 +62,11 @@ public class ResidentFuncs_DAO {
         }
     }
 
-    public static void updateCombobox() {
+    public static void refreshResidentCpfOptions() {
         String tutorCpf = Controller.LoggedUser_Controller.getLoggedUser().getCpf(); // Obtendo o CPF do tutor logado
         String query = "SELECT cpf FROM RESIDENT WHERE cpf_tutor = ?";
         cpfResidentFeedback_cb.removeAllItems();
-        cpfResidentMyResidents_cb.removeAllItems();
-        
+        cpfResidentMyResidents_cb.removeAllItems();   
         try (Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword); PreparedStatement stmt = conn.prepareStatement(query)) {
 
             stmt.setString(1, tutorCpf); // Definindo o CPF do tutor logado na consulta
@@ -108,7 +110,7 @@ public class ResidentFuncs_DAO {
         }
     }
 
-    public static void updatePhaseCombobox() {
+    public static void refreshPhaseOptions() {
         String selectedCpf = (String) cpfResidentFeedback_cb.getSelectedItem();
         String query = "SELECT GP.IDSelectedPhase "
                 + "FROM PHASE_TRAIN PT "
@@ -144,7 +146,7 @@ public class ResidentFuncs_DAO {
         }
     }
 
-    public static boolean updateAttemptCombobox() {
+    public static boolean refreshAttemptOptions() {
         String selectedCpf = (String) cpfResidentFeedback_cb.getSelectedItem();
         String selectedPhase = (String) phaseFeedback_cb.getSelectedItem();
 
@@ -228,66 +230,68 @@ public class ResidentFuncs_DAO {
         }
     }
 
-    public static void setPreviousFeedback() {
+    public static void showSelectedAttemptInfo() {
         String selectedPhase = (String) phaseFeedback_cb.getSelectedItem();
-
+        String selectedAttempt = (String) attemptFeedback_cb.getSelectedItem();
         int selectedPhaseInt;
+        int selectedAttemptInt;
+        
         try {
             selectedPhaseInt = Integer.parseInt(selectedPhase);
-        } catch (NumberFormatException e) {
-            e.printStackTrace(); // Lidar com erro se o valor não puder ser convertido
-            return; // Retorna se houver erro
-        }
-
-        String selectedAttempt = (String) attemptFeedback_cb.getSelectedItem();
-
-        // Verifica se o item selecionado é um valor válido, e não a opção padrão "SELECIONE A TENTATIVA"
-        if (selectedAttempt.equals("SELECIONE A TENTATIVA")) {
-            JOptionPane.showMessageDialog(null, "Por favor, selecione uma tentativa válida.");
-            return;  // Cancela a operação se a tentativa não for válida
-        }
-
-        int selectedAttemptInt;
-        try {
             selectedAttemptInt = Integer.parseInt(selectedAttempt);
         } catch (NumberFormatException e) {
             e.printStackTrace(); // Lidar com erro se o valor não puder ser convertido
+            JOptionPane.showMessageDialog(null, "Fase ou tentativa nao sao numeros!");
             return; // Retorna se houver erro
         }
-
-        // Continuar com a lógica do feedback se a tentativa for válida
+        
+        Map<String, String> attemptInfo = getAttemptDetails(selectedPhaseInt, selectedAttemptInt);
+        
+        String feedback = attemptInfo.get("feedback");
+        String score = attemptInfo.get("score");
+        String dateOfCompletion = attemptInfo.get("dateOfCompletion");
+        String completionTime = attemptInfo.get("completionTime");
+        
+        View.MainTutorMenu_GUI.playerScore_txt.setText(score);
+        View.MainTutorMenu_GUI.completionDate_txt.setText(dateOfCompletion);
+        View.MainTutorMenu_GUI.completionTime_txt.setText(completionTime);
+        View.MainTutorMenu_GUI.feedback_txt.setText(feedback);
+    }
+    
+    public static Map<String, String> getAttemptDetails(Integer selectedPhase, Integer selectedAttempt){
         String query = "SELECT PT.feedback, T.score, PT.date_of_completion, PT.completion_time "
                 + "FROM PHASE_TRAIN PT "
                 + "JOIN TRAIN T ON PT.IDattempt = T.IDattempt "
                 + "WHERE PT.IDSelectedPhase = ? AND PT.IDattempt = ?";
-
         try (Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword); PreparedStatement stmt = conn.prepareStatement(query)) {
-
-            stmt.setInt(1, selectedPhaseInt); // Definindo o ID da fase selecionada na consulta
-            stmt.setInt(2, selectedAttemptInt); // Definindo o ID da tentativa selecionada na consulta
+            stmt.setInt(1, selectedPhase); // Definindo o ID da fase selecionada na consulta
+            stmt.setInt(2, selectedAttempt); // Definindo o ID da tentativa selecionada na consulta
 
             ResultSet rs = stmt.executeQuery();
 
-            // Se os dados sobre a tentativa forem encontrados, exibe um JOptionPane com as informações
             if (rs.next()) {
                 String feedback = rs.getString("feedback");
                 int score = rs.getInt("score");  // Obtém o valor da coluna 'score'
                 Date dateOfCompletion = rs.getDate("date_of_completion");  // Obtém a data de conclusão
                 Time completionTime = rs.getTime("completion_time");  // Obtém o tempo de conclusão
-                View.MainTutorMenu_GUI.playerScore_txt.setText(String.valueOf(score));
-                View.MainTutorMenu_GUI.completionDate_txt.setText(String.valueOf(dateOfCompletion));
-                View.MainTutorMenu_GUI.completionTime_txt.setText(String.valueOf(completionTime));
-                View.MainTutorMenu_GUI.feedback_txt.setText(String.valueOf(feedback));
+                
+                resultMap.put("feedback", feedback);
+                resultMap.put("score", String.valueOf(score));
+                resultMap.put("dateOfCompletion", String.valueOf(dateOfCompletion));
+                resultMap.put("completionTime", String.valueOf(completionTime));
+
+                return resultMap;
             } else {
                 JOptionPane.showMessageDialog(null, "Nenhuma tentativa encontrada para os parâmetros fornecidos.");
+                return null;
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
+            return null;
         }
     }
 
-    public static void setUpdateFeedback() {
+    public static void updateAttemptFeedback() {
         String feedbackText = feedback_txt.getText();
 
         // Obter o ID da fase selecionada

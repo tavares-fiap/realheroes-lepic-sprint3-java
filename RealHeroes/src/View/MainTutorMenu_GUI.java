@@ -776,7 +776,7 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPane1StateChanged
-        Model.ResidentFuncs_DAO.updateCombobox();
+        Model.ResidentFuncs_DAO.refreshResidentCpfOptions();
         Model.ResidentFuncs_DAO.updateMyResidentsTable();
     }//GEN-LAST:event_jTabbedPane1StateChanged
 
@@ -841,7 +841,7 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         String address = addressAddResident_txt.getText();
         Model.ResidentFuncs_DAO.addResident(cpf, name, email, address, Controller.LoggedUser_Controller.getLoggedUser().getCpf());
         //Model.ResidentFuncs_DAO.updateFeedbackTable();
-        Model.ResidentFuncs_DAO.updateCombobox();
+        Model.ResidentFuncs_DAO.refreshResidentCpfOptions();
         Model.ResidentFuncs_DAO.updateMyResidentsTable();
     }//GEN-LAST:event_sendSingUp_btnActionPerformed
 
@@ -860,19 +860,19 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_deleteFeedback_btnActionPerformed
 
     private void attemptFeedback_cbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_attemptFeedback_cbActionPerformed
-        if (Model.ResidentFuncs_DAO.updateAttemptCombobox()) {
-            Model.ResidentFuncs_DAO.setPreviousFeedback();
+        if (Model.ResidentFuncs_DAO.refreshAttemptOptions()) {
+            Model.ResidentFuncs_DAO.showSelectedAttemptInfo();
         }
     }//GEN-LAST:event_attemptFeedback_cbActionPerformed
 
     private void phaseFeedback_cbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phaseFeedback_cbActionPerformed
-        if (Model.ResidentFuncs_DAO.updateAttemptCombobox()) {
+        if (Model.ResidentFuncs_DAO.refreshAttemptOptions()) {
             Model.ResidentFuncs_DAO.updateFeedbackTable();
         }
     }//GEN-LAST:event_phaseFeedback_cbActionPerformed
 
     private void addAlterFeedback_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAlterFeedback_btnActionPerformed
-        Model.ResidentFuncs_DAO.setUpdateFeedback();
+        Model.ResidentFuncs_DAO.updateAttemptFeedback();
     }//GEN-LAST:event_addAlterFeedback_btnActionPerformed
 
     private void readFeedback_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_readFeedback_btnActionPerformed
@@ -880,7 +880,7 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_readFeedback_btnActionPerformed
 
     private void cpfResidentFeedback_cbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cpfResidentFeedback_cbActionPerformed
-        Model.ResidentFuncs_DAO.updatePhaseCombobox();
+        Model.ResidentFuncs_DAO.refreshPhaseOptions();
     }//GEN-LAST:event_cpfResidentFeedback_cbActionPerformed
 
     private void cpfResidentFeedback_cbMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cpfResidentFeedback_cbMouseClicked
@@ -925,7 +925,7 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         String residentCpf = String.valueOf(cpfResidentMyResidents_cb.getSelectedItem()); 
         if (Model.Funcs_DAO.deleteAccountConfirmation()) {
             Model.ResidentFuncs_DAO.deleteResident(residentCpf);
-            Model.ResidentFuncs_DAO.updateCombobox();
+            Model.ResidentFuncs_DAO.refreshResidentCpfOptions();
             Model.ResidentFuncs_DAO.updateMyResidentsTable();
         }
     }//GEN-LAST:event_deleteResident_btnActionPerformed
@@ -951,7 +951,7 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         String tutorCpf = JOptionPane.showInputDialog(null, "Digite o CPF do tutor a receber o residente: ");
         String residentCpf = String.valueOf(cpfResidentMyResidents_cb.getSelectedItem()); 
         if (Model.ResidentFuncs_DAO.transferResident(residentCpf, tutorCpf)) {
-            Model.ResidentFuncs_DAO.updateCombobox();
+            Model.ResidentFuncs_DAO.refreshResidentCpfOptions();
             Model.ResidentFuncs_DAO.updateMyResidentsTable();
         }
     }//GEN-LAST:event_transferResident_btnActionPerformed
