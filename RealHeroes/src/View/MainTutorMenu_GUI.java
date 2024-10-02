@@ -114,7 +114,6 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         playerScore_lbl = new javax.swing.JLabel();
         playerScore_txt = new javax.swing.JTextField();
         cpfResidentFeedback_cb = new javax.swing.JComboBox();
-        readFeedback_btn = new javax.swing.JButton();
         addAlterFeedback_btn = new javax.swing.JButton();
         cpfSingUp_lbl3 = new javax.swing.JLabel();
         phaseFeedback_cb = new javax.swing.JComboBox();
@@ -300,15 +299,6 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         jPanel2.add(cpfResidentFeedback_cb);
         cpfResidentFeedback_cb.setBounds(120, 80, 260, 30);
 
-        readFeedback_btn.setText("CONSULTAR TENTATIVA");
-        readFeedback_btn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                readFeedback_btnActionPerformed(evt);
-            }
-        });
-        jPanel2.add(readFeedback_btn);
-        readFeedback_btn.setBounds(20, 520, 220, 30);
-
         addAlterFeedback_btn.setText("ADICIONAR/ALTERAR FEEDBACK");
         addAlterFeedback_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -316,7 +306,7 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
             }
         });
         jPanel2.add(addAlterFeedback_btn);
-        addAlterFeedback_btn.setBounds(20, 560, 220, 30);
+        addAlterFeedback_btn.setBounds(20, 530, 220, 30);
 
         cpfSingUp_lbl3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         cpfSingUp_lbl3.setForeground(new java.awt.Color(255, 255, 255));
@@ -370,7 +360,7 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
             }
         });
         jPanel2.add(deleteFeedback_btn);
-        deleteFeedback_btn.setBounds(20, 600, 220, 30);
+        deleteFeedback_btn.setBounds(20, 570, 220, 30);
 
         residentsBG_lbl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/RealHeroesBG1.png"))); // NOI18N
         jPanel2.add(residentsBG_lbl);
@@ -776,8 +766,8 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPane1StateChanged
-        Model.ResidentFuncs_DAO.refreshResidentCpfOptions();
-        Model.ResidentFuncs_DAO.updateMyResidentsTable();
+        Model.RefreshFuncs_DAO.refreshResidentCpfOptions();
+        Model.RefreshFuncs_DAO.refreshMyResidentsTable();
     }//GEN-LAST:event_jTabbedPane1StateChanged
 
     private void exit_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exit_btnActionPerformed
@@ -840,9 +830,9 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         String email = emailAddResident_txt.getText();
         String address = addressAddResident_txt.getText();
         Model.ResidentFuncs_DAO.addResident(cpf, name, email, address, Controller.LoggedUser_Controller.getLoggedUser().getCpf());
-        //Model.ResidentFuncs_DAO.updateFeedbackTable();
-        Model.ResidentFuncs_DAO.refreshResidentCpfOptions();
-        Model.ResidentFuncs_DAO.updateMyResidentsTable();
+        //Model.ResidentFuncs_DAO.refreshFeedbackTable();
+        Model.RefreshFuncs_DAO.refreshResidentCpfOptions();
+        Model.RefreshFuncs_DAO.refreshMyResidentsTable();
     }//GEN-LAST:event_sendSingUp_btnActionPerformed
 
     private void logOut_btn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOut_btn1ActionPerformed
@@ -860,27 +850,24 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_deleteFeedback_btnActionPerformed
 
     private void attemptFeedback_cbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_attemptFeedback_cbActionPerformed
-        if (Model.ResidentFuncs_DAO.refreshAttemptOptions()) {
+        if (Model.RefreshFuncs_DAO.refreshAttemptOptions()) {
             Model.ResidentFuncs_DAO.showSelectedAttemptInfo();
         }
     }//GEN-LAST:event_attemptFeedback_cbActionPerformed
 
     private void phaseFeedback_cbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phaseFeedback_cbActionPerformed
-        if (Model.ResidentFuncs_DAO.refreshAttemptOptions()) {
-            Model.ResidentFuncs_DAO.updateFeedbackTable();
+        if (Model.RefreshFuncs_DAO.refreshAttemptOptions()) {
+            Model.RefreshFuncs_DAO.refreshFeedbackTable();
         }
     }//GEN-LAST:event_phaseFeedback_cbActionPerformed
 
     private void addAlterFeedback_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAlterFeedback_btnActionPerformed
-        Model.ResidentFuncs_DAO.updateAttemptFeedback();
+        String feedbackText = feedback_txt.getText();
+        Model.ResidentFuncs_DAO.updateAttemptFeedback(feedbackText);
     }//GEN-LAST:event_addAlterFeedback_btnActionPerformed
 
-    private void readFeedback_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_readFeedback_btnActionPerformed
-        Model.ResidentFuncs_DAO.readFeedback();
-    }//GEN-LAST:event_readFeedback_btnActionPerformed
-
     private void cpfResidentFeedback_cbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cpfResidentFeedback_cbActionPerformed
-        Model.ResidentFuncs_DAO.refreshPhaseOptions();
+        Model.RefreshFuncs_DAO.refreshPhaseOptions();
     }//GEN-LAST:event_cpfResidentFeedback_cbActionPerformed
 
     private void cpfResidentFeedback_cbMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cpfResidentFeedback_cbMouseClicked
@@ -925,8 +912,8 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         String residentCpf = String.valueOf(cpfResidentMyResidents_cb.getSelectedItem()); 
         if (Model.Funcs_DAO.deleteAccountConfirmation()) {
             Model.ResidentFuncs_DAO.deleteResident(residentCpf);
-            Model.ResidentFuncs_DAO.refreshResidentCpfOptions();
-            Model.ResidentFuncs_DAO.updateMyResidentsTable();
+            Model.RefreshFuncs_DAO.refreshResidentCpfOptions();
+            Model.RefreshFuncs_DAO.refreshMyResidentsTable();
         }
     }//GEN-LAST:event_deleteResident_btnActionPerformed
 
@@ -937,7 +924,7 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
             String residentEmail = String.valueOf(residentEmail_txt.getText()); 
             String residentAddress = String.valueOf(residentAddress_txt.getText()); 
             if (Model.ResidentFuncs_DAO.updateResidentInfo(residentCpf, residentName, residentEmail, residentAddress)) {
-                Model.ResidentFuncs_DAO.updateMyResidentsTable();
+                Model.RefreshFuncs_DAO.refreshMyResidentsTable();
                 Model.Funcs_DAO.cleanMyResidentsFields();
             }
         }
@@ -951,8 +938,8 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         String tutorCpf = JOptionPane.showInputDialog(null, "Digite o CPF do tutor a receber o residente: ");
         String residentCpf = String.valueOf(cpfResidentMyResidents_cb.getSelectedItem()); 
         if (Model.ResidentFuncs_DAO.transferResident(residentCpf, tutorCpf)) {
-            Model.ResidentFuncs_DAO.refreshResidentCpfOptions();
-            Model.ResidentFuncs_DAO.updateMyResidentsTable();
+            Model.RefreshFuncs_DAO.refreshResidentCpfOptions();
+            Model.RefreshFuncs_DAO.refreshMyResidentsTable();
         }
     }//GEN-LAST:event_transferResident_btnActionPerformed
 
@@ -1095,7 +1082,6 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
     private javax.swing.JLabel playerScore_lbl2;
     public static javax.swing.JTextField playerScore_txt;
     private javax.swing.JLabel profileBG_lbl;
-    private javax.swing.JButton readFeedback_btn;
     public static javax.swing.JButton readResident_btn;
     public static javax.swing.JButton refreshFields_btn;
     public static javax.swing.JTextField residentAddress_txt;

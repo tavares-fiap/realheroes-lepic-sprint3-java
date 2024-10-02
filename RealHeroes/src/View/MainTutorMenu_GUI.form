@@ -357,19 +357,6 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Component class="javax.swing.JButton" name="readFeedback_btn">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="CONSULTAR TENTATIVA"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="readFeedback_btnActionPerformed"/>
-              </Events>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="20" y="520" width="220" height="30"/>
-                </Constraint>
-              </Constraints>
-            </Component>
             <Component class="javax.swing.JButton" name="addAlterFeedback_btn">
               <Properties>
                 <Property name="text" type="java.lang.String" value="ADICIONAR/ALTERAR FEEDBACK"/>
@@ -379,7 +366,7 @@
               </Events>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="20" y="560" width="220" height="30"/>
+                  <AbsoluteConstraints x="20" y="530" width="220" height="30"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -507,7 +494,7 @@
               </Events>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="20" y="600" width="220" height="30"/>
+                  <AbsoluteConstraints x="20" y="570" width="220" height="30"/>
                 </Constraint>
               </Constraints>
             </Component>
