@@ -60,9 +60,8 @@ public class ResidentFuncs_DAO {
         }
     }
 
-    public static void showSelectedAttemptInfo() {
-        String selectedPhase = (String) phaseFeedback_cb.getSelectedItem();
-        String selectedAttempt = (String) attemptFeedback_cb.getSelectedItem();
+    public static void showSelectedAttemptInfo(String selectedPhase, String selectedAttempt) {
+       
         int selectedPhaseInt;
         int selectedAttemptInt;
 
@@ -70,13 +69,16 @@ public class ResidentFuncs_DAO {
             selectedPhaseInt = Integer.parseInt(selectedPhase);
             selectedAttemptInt = Integer.parseInt(selectedAttempt);
         } catch (NumberFormatException e) {
-            e.printStackTrace(); // Lidar com erro se o valor não puder ser convertido
-            JOptionPane.showMessageDialog(null, "Fase ou tentativa nao sao numeros!");
+            System.out.println("Fase ou tentativa nao sao numeros! showSelectedAttemptInfo:" + e);
             return; // Retorna se houver erro
         }
 
         Map<String, String> attemptInfo = getAttemptDetails(selectedPhaseInt, selectedAttemptInt);
 
+        if (attemptInfo == null) {
+            return;
+        }
+        
         String feedback = attemptInfo.get("feedback");
         String score = attemptInfo.get("score");
         String dateOfCompletion = attemptInfo.get("dateOfCompletion");
@@ -86,6 +88,7 @@ public class ResidentFuncs_DAO {
         View.MainTutorMenu_GUI.completionDate_txt.setText(dateOfCompletion);
         View.MainTutorMenu_GUI.completionTime_txt.setText(completionTime);
         View.MainTutorMenu_GUI.feedback_txt.setText(feedback);
+        return;
     }
 
     public static Map<String, String> getAttemptDetails(Integer selectedPhase, Integer selectedAttempt) {
@@ -98,6 +101,7 @@ public class ResidentFuncs_DAO {
             stmt.setInt(2, selectedAttempt); // Definindo o ID da tentativa selecionada na consulta
 
             ResultSet rs = stmt.executeQuery();
+            
 
             if (rs.next()) {
                 String feedback = rs.getString("feedback");

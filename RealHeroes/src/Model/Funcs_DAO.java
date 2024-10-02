@@ -123,5 +123,14 @@ public class Funcs_DAO {
         View.MainTutorMenu_GUI.residentEmail_txt.setText("");
         View.MainTutorMenu_GUI.residentAddress_txt.setText("");
     }
+    
+    public static void resetFeedbackFields() {
+        View.MainTutorMenu_GUI.playerScore_txt.setText("");
+        View.MainTutorMenu_GUI.completionDate_txt.setText("");
+        View.MainTutorMenu_GUI.completionTime_txt.setText("");
+        View.MainTutorMenu_GUI.feedback_txt.setText("");
+        //View.MainTutorMenu_GUI.phaseFeedback_cb.setSelectedIndex(0);
+        
+    }
 }
         

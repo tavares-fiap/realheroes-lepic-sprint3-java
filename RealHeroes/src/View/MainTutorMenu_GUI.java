@@ -47,11 +47,27 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
             }
             return new DefaultTableModel(rows, columnNames);
         } catch (Exception e) {
-
             return null;
         }
     }
 
+    // ---Fim Jtable
+    
+    //-- Inicio Jtable 
+    public static DefaultTableModel clearAttemptInfoFunc() {
+        try {
+            DefaultTableModel model = new DefaultTableModel();
+
+            model.addColumn("ID");
+            model.addColumn("SCORE");
+            model.addColumn("DATA");
+            model.addColumn("HR_CONCLUSÃO");
+            model.setRowCount(0);
+            return model;
+        } catch (Exception e) {
+            return null;
+        }
+    }
     // ---Fim Jtable
     
     //-- Inicio Jtable 
@@ -277,6 +293,11 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         playerScore_txt.setText("SCORE DA TENTATIVA");
         playerScore_txt.setDisabledTextColor(new java.awt.Color(255, 0, 0));
         playerScore_txt.setEnabled(false);
+        playerScore_txt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                playerScore_txtActionPerformed(evt);
+            }
+        });
         jPanel2.add(playerScore_txt);
         playerScore_txt.setBounds(140, 300, 240, 30);
 
@@ -850,15 +871,22 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_deleteFeedback_btnActionPerformed
 
     private void attemptFeedback_cbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_attemptFeedback_cbActionPerformed
-        if (Model.RefreshFuncs_DAO.refreshAttemptOptions()) {
-            Model.ResidentFuncs_DAO.showSelectedAttemptInfo();
-        }
+        String selectedPhase = (String) phaseFeedback_cb.getSelectedItem();
+        String selectedAttempt = (String) attemptFeedback_cb.getSelectedItem();
+        Model.ResidentFuncs_DAO.showSelectedAttemptInfo(selectedPhase, selectedAttempt);
     }//GEN-LAST:event_attemptFeedback_cbActionPerformed
 
     private void phaseFeedback_cbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phaseFeedback_cbActionPerformed
-        if (Model.RefreshFuncs_DAO.refreshAttemptOptions()) {
-            Model.RefreshFuncs_DAO.refreshFeedbackTable();
-        }
+        //if (Model.RefreshFuncs_DAO.refreshAttemptOptions()) {
+        //    Model.RefreshFuncs_DAO.refreshFeedbackTable();
+        //}
+
+        String selectedPhase = String.valueOf(phaseFeedback_cb.getSelectedItem());
+        String selectedCpf = String.valueOf(cpfResidentFeedback_cb.getSelectedItem());
+        Model.RefreshFuncs_DAO.refreshAttemptOptions(selectedPhase, selectedCpf);
+        Model.RefreshFuncs_DAO.refreshFeedbackTable(selectedPhase, selectedCpf); //ESSA FUNÇÃO TEM QUE VERIFICAR SE O RETORNO DA QUERY É VAZIO, SE FOR VAZIO, PREENCHE A TABLE A COM NADA. SE NAO, PREENCHE NORMAL
+        Model.Funcs_DAO.resetFeedbackFields();
+        
     }//GEN-LAST:event_phaseFeedback_cbActionPerformed
 
     private void addAlterFeedback_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAlterFeedback_btnActionPerformed
@@ -867,7 +895,14 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_addAlterFeedback_btnActionPerformed
 
     private void cpfResidentFeedback_cbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cpfResidentFeedback_cbActionPerformed
-        Model.RefreshFuncs_DAO.refreshPhaseOptions();
+        //Model.RefreshFuncs_DAO.refreshPhaseOptions();
+        //Model.Funcs_DAO.cleanFeedbackFields();
+        //Model.RefreshFuncs_DAO.refreshFeedbackTable();
+        
+        
+        String selectedCpf = (String) cpfResidentFeedback_cb.getSelectedItem();
+        Model.RefreshFuncs_DAO.refreshPhaseOptions(selectedCpf);
+        Model.Funcs_DAO.resetFeedbackFields();
     }//GEN-LAST:event_cpfResidentFeedback_cbActionPerformed
 
     private void cpfResidentFeedback_cbMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cpfResidentFeedback_cbMouseClicked
@@ -965,6 +1000,10 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         String residentCpf = String.valueOf(cpfResidentMyResidents_cb.getSelectedItem());
         Model.ResidentFuncs_DAO.readResident(residentCpf);
     }//GEN-LAST:event_readResident_btnActionPerformed
+
+    private void playerScore_txtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playerScore_txtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_playerScore_txtActionPerformed
 
     /**
      * @param args the command line arguments

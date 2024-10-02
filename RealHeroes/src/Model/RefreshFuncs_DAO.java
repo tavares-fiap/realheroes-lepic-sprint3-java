@@ -11,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import java.sql.SQLException;
+import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
 
 
 public class RefreshFuncs_DAO {
@@ -18,11 +20,16 @@ public class RefreshFuncs_DAO {
     private static String dbUsername = Controller.DataBaseConfig_DB.getUsername();
     private static String dbPassword = Controller.DataBaseConfig_DB.getPassword();
     
-    public static void refreshFeedbackTable() {
-        String selectedCpf = (String) cpfResidentFeedback_cb.getSelectedItem();
-        String selectedPhase = (String) phaseFeedback_cb.getSelectedItem();
+    public static void refreshFeedbackTable(String selectedPhase, String selectedCpf) {
+        int selectedPhaseInt;
+        try {
+            selectedPhaseInt = Integer.parseInt(selectedPhase);
+        } catch (NumberFormatException e) {
+            System.out.println("Erro ao converter para int em refreshFeedbackTable" + e); // Lidar com erro se o valor não puder ser convertido
+            return; // Retorna se houver erro
+        }
+        
         Controller.Connect_DB.loadDriver();
-
         String sql = "SELECT T.IDATTEMPT, T.SCORE, PT.DATE_OF_COMPLETION, PT.COMPLETION_TIME "
                 + "FROM TRAIN T "
                 + "INNER JOIN PHASE_TRAIN PT "
@@ -32,10 +39,16 @@ public class RefreshFuncs_DAO {
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, selectedCpf);
-            stmt.setInt(2, Integer.parseInt(selectedPhase));
+            stmt.setInt(2, selectedPhaseInt);
 
             ResultSet rs = stmt.executeQuery();
-            View.MainTutorMenu_GUI.attemptInfo.setModel(View.MainTutorMenu_GUI.attemptInfoFunc(rs));
+            
+            if (rs.isBeforeFirst()){ // rs.next() MOVE o cursor, por isso, quando so tem um registro, ele pula aquele registro.
+                View.MainTutorMenu_GUI.attemptInfo.setModel(View.MainTutorMenu_GUI.attemptInfoFunc(rs));
+            } else {
+                View.MainTutorMenu_GUI.attemptInfo.setModel(View.MainTutorMenu_GUI.clearAttemptInfoFunc());
+            }
+            
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
@@ -105,8 +118,9 @@ public class RefreshFuncs_DAO {
         }
     }
 
-    public static void refreshPhaseOptions() {
-        String selectedCpf = (String) cpfResidentFeedback_cb.getSelectedItem();
+    public static void refreshPhaseOptions(String selectedCpf) {
+        phaseFeedback_cb.removeAllItems();
+        
         String query = "SELECT GP.IDSelectedPhase "
                 + "FROM PHASE_TRAIN PT "
                 + "JOIN TRAIN T ON PT.IDattempt = T.IDattempt "
@@ -116,7 +130,8 @@ public class RefreshFuncs_DAO {
 
             stmt.setString(1, selectedCpf); // Definindo o CPF do tutor logado na consulta
             ResultSet rs = stmt.executeQuery();
-
+            
+            phaseFeedback_cb.addItem("SELECIONE UMA FASE");
             // Verificando e adicionando os CPFs à JComboBox, se ainda não estiverem presentes
             while (rs.next()) {
                 String phase = rs.getString("IDSelectedPhase");
@@ -141,22 +156,21 @@ public class RefreshFuncs_DAO {
         }
     }
 
-    public static boolean refreshAttemptOptions() {
-        String selectedCpf = (String) cpfResidentFeedback_cb.getSelectedItem();
-        String selectedPhase = (String) phaseFeedback_cb.getSelectedItem();
-
+    public static void refreshAttemptOptions(String selectedPhase, String selectedCpf) {
         // Verifica se o item selecionado é um valor válido e não a opção padrão "SELECIONE A FASE"
-        if (selectedPhase.equals("SELECIONE A FASE")) {
-            JOptionPane.showMessageDialog(null, "Por favor, selecione uma fase válida.");
-            return false;  // Cancela a operação se a fase não for válida
-        }
-
+        //if (selectedPhase.equals("SELECIONE A FASE")) {
+        //    JOptionPane.showMessageDialog(null, "Por favor, selecione uma fase válida.");
+        //    return false;  // Cancela a operação se a fase não for válida
+        //}
+        
+        attemptFeedback_cb.removeAllItems();
+        
         int selectedPhaseInt;
         try {
             selectedPhaseInt = Integer.parseInt(selectedPhase);
         } catch (NumberFormatException e) {
-            e.printStackTrace(); // Lidar com erro se o valor não puder ser convertido
-            return false; // Retorna se houver erro
+            System.out.println("Erro ao converter para int em updateAttemptCombobox" + e); // Lidar com erro se o valor não puder ser convertido
+            return; // Retorna se houver erro
         }
 
         // Consulta para obter o phaseName e dificulty da tabela GAME_PHASE
@@ -182,23 +196,25 @@ public class RefreshFuncs_DAO {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+            return;
         }
 
         // Consulta para obter as tentativas
         String query = "SELECT T.IDattempt "
-                + // Corrigido: adicionado espaço aqui
-                "FROM PHASE_TRAIN PT "
+                + "FROM PHASE_TRAIN PT "
                 + "JOIN TRAIN T ON PT.IDattempt = T.IDattempt "
                 + "WHERE T.cpf_residente = ? AND PT.IDSelectedPhase = ?";
 
-        try (Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword); PreparedStatement stmt = conn.prepareStatement(query)) {
+        try (Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword); 
+                PreparedStatement stmt = conn.prepareStatement(query)) {
 
             stmt.setString(1, selectedCpf); // Definindo o CPF do residente selecionado na consulta
             stmt.setInt(2, selectedPhaseInt); // Definindo o ID da fase selecionada na consulta
 
             ResultSet rs = stmt.executeQuery();
-
+            
+            attemptFeedback_cb.addItem("SELECIONE UMA TENTATIVA");
+            
             // Verificando e adicionando os tentativas à JComboBox, se ainda não estiverem presentes
             while (rs.next()) {
                 String attempt = rs.getString("IDattempt"); // A coluna é chamada IDattempt
@@ -217,11 +233,10 @@ public class RefreshFuncs_DAO {
                     attemptFeedback_cb.addItem(attempt);
                 }
             }
-            return true;
 
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+            return;
         }
     }
 }
