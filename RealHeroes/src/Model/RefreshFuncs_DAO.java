@@ -26,6 +26,7 @@ public class RefreshFuncs_DAO {
             selectedPhaseInt = Integer.parseInt(selectedPhase);
         } catch (NumberFormatException e) {
             System.out.println("Erro ao converter para int em refreshFeedbackTable" + e); // Lidar com erro se o valor não puder ser convertido
+            View.MainTutorMenu_GUI.attemptInfo.setModel(View.MainTutorMenu_GUI.clearAttemptInfoFunc());
             return; // Retorna se houver erro
         }
         
