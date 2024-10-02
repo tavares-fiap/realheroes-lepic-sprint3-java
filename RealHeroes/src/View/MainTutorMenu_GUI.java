@@ -867,13 +867,13 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_exit_btn1ActionPerformed
 
     private void deleteFeedback_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteFeedback_btnActionPerformed
-        Model.ResidentFuncs_DAO.deleteFeedback();
+        Model.AttemptFuncs_DAO.deleteAttemptFeedback();
     }//GEN-LAST:event_deleteFeedback_btnActionPerformed
 
     private void attemptFeedback_cbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_attemptFeedback_cbActionPerformed
         String selectedPhase = (String) phaseFeedback_cb.getSelectedItem();
         String selectedAttempt = (String) attemptFeedback_cb.getSelectedItem();
-        Model.ResidentFuncs_DAO.showSelectedAttemptInfo(selectedPhase, selectedAttempt);
+        Model.AttemptFuncs_DAO.showSelectedAttemptInfo(selectedPhase, selectedAttempt);
     }//GEN-LAST:event_attemptFeedback_cbActionPerformed
 
     private void phaseFeedback_cbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phaseFeedback_cbActionPerformed
@@ -891,7 +891,7 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
 
     private void addAlterFeedback_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAlterFeedback_btnActionPerformed
         String feedbackText = feedback_txt.getText();
-        Model.ResidentFuncs_DAO.updateAttemptFeedback(feedbackText);
+        Model.AttemptFuncs_DAO.updateAttemptFeedback(feedbackText);
     }//GEN-LAST:event_addAlterFeedback_btnActionPerformed
 
     private void cpfResidentFeedback_cbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cpfResidentFeedback_cbActionPerformed
