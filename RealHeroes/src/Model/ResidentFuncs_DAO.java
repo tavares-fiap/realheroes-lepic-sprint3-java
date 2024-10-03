@@ -19,42 +19,9 @@ public class ResidentFuncs_DAO {
 
 
     public static void addResident(String cpf, String name, String email, String address, String cpfTutor) {
-        
-        boolean existeTutor = false;
-        
         Controller.Connect_DB.loadDriver();
-        
-        if (Funcs_DAO.isCpfValid(cpf) && Funcs_DAO.isCpfValid(cpfTutor) && Funcs_DAO.isNameValid(name)) {
-            String sql = "SELECT * FROM TUTOR";
 
-            try (Connection con = DriverManager.getConnection(dbUrl, dbUsername, dbPassword); PreparedStatement insert = con.prepareStatement(sql)) {
-                
-                PreparedStatement pstmt = (PreparedStatement) con.prepareStatement(sql);
-                ResultSet rs = pstmt.executeQuery();
-                
-                while(rs.next()){
-                    String cpfBusca = rs.getString("cpf");
-                    if (cpf.equals(cpfBusca)){
-                        existeTutor = true;
-                        JOptionPane.showMessageDialog(null, "ERRO! CPF já cadastrado como Tutor.");
-                        break;
-                    }
-                }
-
-            } catch (SQLException ex) {
-                if ("23000".equals(ex.getSQLState())) {
-                    System.out.println(ex);
-                    JOptionPane.showMessageDialog(null, "Erro: CPF já cadastrado no sistema!", "ERRO!", JOptionPane.ERROR_MESSAGE);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Ocorreu algum erro na inserção!", "ERRO!", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Nome ou CPF Invalido!\nCPF ESPERADO: Somente numeros/ 11 digitos\nNOME ESPERADO: Somente letras e espaços");
-            View.SetUp_GUI.cpfSignUp_txt.setText("");
-        }
-        
-        if (Funcs_DAO.isCpfValid(cpf) && Funcs_DAO.isCpfValid(cpfTutor) && Funcs_DAO.isNameValid(name)) {
+        if (Funcs_DAO.isCpfValid(cpf) && Funcs_DAO.isCpfValid(cpfTutor) && Funcs_DAO.isNameValid(name) && !Funcs_DAO.isCpfRegistered(cpf)) {
             String sql = "INSERT INTO RESIDENT (cpf, name, email, address, password, cpf_tutor) VALUES (?, ?, ?, ?, ?, ?)";
 
             try (Connection con = DriverManager.getConnection(dbUrl, dbUsername, dbPassword); PreparedStatement insert = con.prepareStatement(sql)) {
@@ -66,14 +33,13 @@ public class ResidentFuncs_DAO {
                 insert.setString(4, address);
                 insert.setString(5, standardPassword);
                 insert.setString(6, cpfTutor);
-                
-                if (!existeTutor){
-                    // Executando a inserção
-                    insert.executeUpdate();
-                    JOptionPane.showMessageDialog(null, "Residente inserido com sucesso em sua lista!", "", JOptionPane.INFORMATION_MESSAGE);
 
-                    Model.Funcs_DAO.cleanAddResidentFields();
-                }
+                // Executando a inserção
+                insert.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Residente inserido com sucesso em sua lista!", "", JOptionPane.INFORMATION_MESSAGE);
+
+                Model.Funcs_DAO.cleanAddResidentFields();
+
             } catch (SQLException ex) {
                 if ("23000".equals(ex.getSQLState())) {
                     System.out.println(ex);

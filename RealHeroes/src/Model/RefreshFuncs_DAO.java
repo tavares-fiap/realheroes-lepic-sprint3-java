@@ -44,7 +44,7 @@ public class RefreshFuncs_DAO {
 
             ResultSet rs = stmt.executeQuery();
             
-            if (rs.isBeforeFirst()){ // rs.next() MOVE o cursor, por isso, quando so tem um registro, ele pula aquele registro.
+            if (rs.isBeforeFirst()){ // rs.next() MOVE o cursor (nao tenho certeza, pelo que pesquisei era pra funcionar com .next()), por isso, quando so tem um registro, ele pula aquele registro.
                 View.MainTutorMenu_GUI.attemptInfo.setModel(View.MainTutorMenu_GUI.attemptInfoFunc(rs));
             } else {
                 View.MainTutorMenu_GUI.attemptInfo.setModel(View.MainTutorMenu_GUI.clearAttemptInfoFunc());

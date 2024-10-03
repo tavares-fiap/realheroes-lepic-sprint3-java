@@ -16,7 +16,7 @@ public class TutorFuncs_DAO {
 
     public static boolean signUp(String cpf, String name, String email, String address, String password) {
         Controller.Connect_DB.loadDriver();
-        if (Funcs_DAO.isCpfValid(cpf) && Funcs_DAO.isNameValid(name)) {
+        if (Funcs_DAO.isCpfValid(cpf) && Funcs_DAO.isNameValid(name) && !Funcs_DAO.isCpfRegistered(cpf)) {
             try {
                 Connection con = null;
                 try {
