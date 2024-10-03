@@ -42,7 +42,7 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/RealHeroesBG4.png"))); // NOI18N
         jLabel1.setText("jLabel1");
         jPanel1.add(jLabel1);
-        jLabel1.setBounds(0, 0, 390, 680);
+        jLabel1.setBounds(0, 0, 390, 690);
 
         jTabbedPane1.addTab("Reservar Óculos", jPanel1);
 
@@ -64,7 +64,7 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/RealHeroesBG3.png"))); // NOI18N
         jLabel2.setText("jLabel2");
         jPanel3.add(jLabel2);
-        jLabel2.setBounds(-1, 0, 390, 680);
+        jLabel2.setBounds(-1, -10, 390, 720);
 
         jTabbedPane1.addTab("Perfil", jPanel3);
 
