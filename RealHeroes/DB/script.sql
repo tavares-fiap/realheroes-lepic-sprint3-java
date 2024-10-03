@@ -55,6 +55,24 @@ CREATE TABLE PHASE_TRAIN
    FOREIGN KEY (IDSelectedPhase) REFERENCES GAME_PHASE(IDSelectedPhase)
 );
 
+CREATE TABLE DEVICE
+(
+   IDdevice INT(3),
+   Description VARCHAR(70) NOT NULL,
+   Marca VARCHAR (10),
+   PRIMARY KEY (IDdevice)
+);
+
+CREATE TABLE STOCK
+(
+   IDdevice INT(3),
+   cpf_residente VARCHAR(11),
+   DataRT DATE NOT NULL,
+   DataDev DATE,
+   PRIMARY KEY (IDdevice, cpf_residente, DataRT),
+   FOREIGN KEY (IDdevice) REFERENCES DEVICE(IDdevice),
+   FOREIGN KEY (cpf_residente) REFERENCES RESIDENT(cpf)
+);
 
 INSERT INTO TUTOR (cpf, name, email, address, password)
 VALUES ('12345678910', 'Pedro Tavares', 'exemplo@gmail.com', 'Rua dos Carurus 879', '123456');
@@ -153,9 +171,18 @@ VALUES (5, 5, 'Desempenho satisfatório', '2024-10-02', '02:10:00');
 INSERT INTO PHASE_TRAIN (IDattempt, IDSelectedPhase, feedback, date_of_completion, completion_time) 
 VALUES (6, 6, 'Superou as expectativas', '2024-10-03', '02:20:30');
 
+INSERT INTO DEVICE VALUES(1, "Oculus Quest 3 128 GB Advanced All-in-One", "Meta");
+INSERT INTO DEVICE VALUES(2, "Oculus Quest 3 512 GB Advanced All-in-One", "Meta");
+INSERT INTO DEVICE VALUES(3, "Oculus Quest 2 128 GB Advanced All-in-One", "Meta");
+
+INSERT INTO STOCK VALUES(1, 12345678911, '2024-09-13', '2024-10-01');
+INSERT INTO STOCK VALUES(2, 22334455667, '2024-09-28', NULL);
+INSERT INTO STOCK VALUES(2, 12345678911, '2024-07-05', '2024-07-29');
 
 SELECT * FROM TUTOR;
 SELECT * FROM RESIDENT;
 SELECT * FROM TRAIN;
 SELECT * FROM GAME_PHASE;
 SELECT * FROM PHASE_TRAIN;
+SELECT * FROM DEVICE;
+SELECT * FROM STOCK;
