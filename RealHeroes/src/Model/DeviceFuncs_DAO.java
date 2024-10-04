@@ -27,30 +27,44 @@ public class DeviceFuncs_DAO {
              PreparedStatement stmt = conn.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
             View.MainResidentMenu_GUI.deviceInfo.setModel(View.MainResidentMenu_GUI.deviceInfoFunc(rs));
-            /*StringBuilder availableDevices = new StringBuilder("Óculos disponíveis:\n");
-            boolean hasDevices = false;
-
-            while (rs.next()) {
-                hasDevices = true;
-                int idDevice = rs.getInt("IDdevice");
-                String description = rs.getString("Description");
-                String marca = rs.getString("Marca");
-
-                availableDevices.append("ID: ").append(idDevice)
-                                .append(", Descrição: ").append(description)
-                                .append(", Marca: ").append(marca).append("\n");
-            }
-
-            if (!hasDevices) {
-                availableDevices.append("Nenhum óculos disponível.");
-            }
-
-            // Exibe os óculos disponíveis em um JOptionPane
-            JOptionPane.showMessageDialog(null, availableDevices.toString(), "Óculos Disponíveis", JOptionPane.INFORMATION_MESSAGE);*/
 
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Erro ao buscar óculos disponíveis.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
+    public static void setDeviceIds() {
+    String query = "SELECT D.IDdevice " +
+                       "FROM DEVICE D " +
+                       "LEFT JOIN STOCK S ON D.IDdevice = S.IDdevice AND S.DataDev IS NULL " +
+                       "WHERE S.IDdevice IS NULL";
+
+    try (Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+         PreparedStatement stmt = conn.prepareStatement(query);
+         ResultSet rs = stmt.executeQuery()) {
+
+        // Limpa a JComboBox antes de adicionar novos itens
+        View.MainResidentMenu_GUI.idDevice_cb.removeAllItems();
+
+        // Itera sobre o ResultSet e adiciona cada ID à JComboBox
+        while (rs.next()) {
+            int idDevice = rs.getInt("IDdevice");
+            // Adiciona o ID à JComboBox
+            View.MainResidentMenu_GUI.idDevice_cb.addItem(idDevice);
+        }
+
+        // Mensagem de sucesso ou nenhuma disponível
+        if (View.MainResidentMenu_GUI.idDevice_cb.getItemCount() > 0) {
+            JOptionPane.showMessageDialog(null, "Dispositivos carregados com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Nenhum dispositivo encontrado.", "Informação", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Erro ao buscar dispositivos.", "Erro", JOptionPane.ERROR_MESSAGE);
+    }
+}
+
+    
 }

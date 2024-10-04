@@ -232,6 +232,7 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
 
     private void searchDevices_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchDevices_btnActionPerformed
         Model.DeviceFuncs_DAO.getAvaiableDevices();
+        Model.DeviceFuncs_DAO.setDeviceIds();
     }//GEN-LAST:event_searchDevices_btnActionPerformed
 
     /**
@@ -278,7 +279,7 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
     private java.util.List<View.Device> deviceList;
     private javax.persistence.Query deviceQuery;
     private javax.persistence.EntityManager entityManager;
-    private javax.swing.JComboBox idDevice_cb;
+    public static javax.swing.JComboBox idDevice_cb;
     private javax.swing.JLabel idDispositivo_lbl;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
