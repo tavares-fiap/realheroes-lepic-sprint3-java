@@ -11,7 +11,11 @@ public class LoggedUser_Controller {
     }
 
     public static void setLoggedUser(User user) {
-        loggedUser = user;
+        if (user != null) {
+            loggedUser = user;
+        } else {
+            throw new IllegalArgumentException("O usuário não pode ser nulo");
+        }
     }
     
     public static void logout(){

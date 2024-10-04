@@ -177,18 +177,21 @@ public class ResidentFuncs_DAO {
         }
     }
 
-    public static boolean updateResidentInfo(String cpf, String name, String email, String address) {
+    public static boolean updateResident(String cpf, String name, String email, String address, String password) {
         if (Funcs_DAO.isNameValid(name)) {
             try (java.sql.Connection con = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
-                    PreparedStatement pstmt = con.prepareStatement("UPDATE RESIDENT SET name=?, email=?, address=? WHERE cpf=?")) {
+                    PreparedStatement pstmt = con.prepareStatement("UPDATE RESIDENT SET name=?, email=?, address=?, password=? WHERE cpf=?")) {
                 pstmt.setString(1, name);
                 pstmt.setString(2, email);
                 pstmt.setString(3, address);
-                pstmt.setString(4, cpf);
+                pstmt.setString(4, password);
+                pstmt.setString(5, cpf);
+                
                 int rowsAffected = pstmt.executeUpdate();
-
                 if (rowsAffected > 0) {
-                    JOptionPane.showMessageDialog(null, "Dados do residente atualizados com sucesso!");
+                    Resident resident = (Resident) Controller.LoggedUser_Controller.getLoggedUser(); //casting
+                    Controller.LoggedUser_Controller.setLoggedUser(new Resident(cpf, name, email, address, password, resident.getTutor()));
+                    JOptionPane.showMessageDialog(null, "Dados atualizados com sucesso!");
                     return true;
                     //refresh();
                 } else {
@@ -203,5 +206,30 @@ public class ResidentFuncs_DAO {
         JOptionPane.showMessageDialog(null, "Nome inválido!");
         return false;
     }
+    
+    public static Resident getResidentByCpf(String cpf) throws SQLException {
+    try (Connection con = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+         PreparedStatement pstmt = con.prepareStatement("SELECT * FROM RESIDENT WHERE cpf = ?")) {
+        pstmt.setString(1, cpf);
+        try (ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) {
+                // Recuperando informações do Resident
+                String name = rs.getString("name");
+                String email = rs.getString("email");
+                String address = rs.getString("address");
+                String password = rs.getString("password");
+                String cpfTutor = rs.getString("cpf_tutor");
+
+                // Agora buscamos o Tutor relacionado a este Resident
+                Tutor tutor = TutorFuncs_DAO.getTutorByCpf(cpfTutor);
+
+                // Retornando o Resident com o Tutor associado
+                return new Resident(cpf, name, email, address, password, tutor);
+            }
+        }
+    }
+    return null; // Retorna null se o Resident não for encontrado
+}
+
 
 }

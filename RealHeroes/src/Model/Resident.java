@@ -9,5 +9,9 @@ public class Resident extends User{
         super(cpf, name, email, address, password);
         this.tutor = tutor;
     }
+
+    public Tutor getTutor() {
+        return tutor;
+    }
     
 }

@@ -175,7 +175,6 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         exit_btn3 = new javax.swing.JButton();
         transferResident_btn = new javax.swing.JButton();
         deleteResident_btn = new javax.swing.JButton();
-        updateResident_btn = new javax.swing.JButton();
         cleanFields_btn = new javax.swing.JButton();
         nameSingUp_lbl2 = new javax.swing.JLabel();
         residentName_txt = new javax.swing.JTextField();
@@ -634,7 +633,7 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
             }
         });
         jPanel4.add(readResident_btn);
-        readResident_btn.setBounds(40, 390, 320, 30);
+        readResident_btn.setBounds(40, 420, 320, 30);
 
         logOut_btn3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         logOut_btn3.setText("LOGOUT");
@@ -665,7 +664,7 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
             }
         });
         jPanel4.add(transferResident_btn);
-        transferResident_btn.setBounds(40, 510, 320, 30);
+        transferResident_btn.setBounds(40, 500, 320, 30);
 
         deleteResident_btn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         deleteResident_btn.setForeground(new java.awt.Color(255, 0, 0));
@@ -676,17 +675,7 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
             }
         });
         jPanel4.add(deleteResident_btn);
-        deleteResident_btn.setBounds(40, 550, 320, 30);
-
-        updateResident_btn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        updateResident_btn.setText("ALTERAR INFORMACOES");
-        updateResident_btn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateResident_btnActionPerformed(evt);
-            }
-        });
-        jPanel4.add(updateResident_btn);
-        updateResident_btn.setBounds(40, 430, 320, 30);
+        deleteResident_btn.setBounds(40, 540, 320, 30);
 
         cleanFields_btn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         cleanFields_btn.setText("LIMPAR CAMPOS");
@@ -696,7 +685,7 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
             }
         });
         jPanel4.add(cleanFields_btn);
-        cleanFields_btn.setBounds(40, 470, 320, 30);
+        cleanFields_btn.setBounds(40, 460, 320, 30);
 
         nameSingUp_lbl2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         nameSingUp_lbl2.setForeground(new java.awt.Color(255, 255, 255));
@@ -705,6 +694,7 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         nameSingUp_lbl2.setBounds(10, 250, 70, 30);
 
         residentName_txt.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        residentName_txt.setEnabled(false);
         jPanel4.add(residentName_txt);
         residentName_txt.setBounds(110, 250, 270, 30);
 
@@ -715,6 +705,7 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         emailSingUp_lbl2.setBounds(10, 300, 70, 30);
 
         residentEmail_txt.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        residentEmail_txt.setEnabled(false);
         jPanel4.add(residentEmail_txt);
         residentEmail_txt.setBounds(110, 300, 270, 30);
 
@@ -725,6 +716,7 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         addressSingUp_lbl2.setBounds(10, 350, 110, 30);
 
         residentAddress_txt.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        residentAddress_txt.setEnabled(false);
         jPanel4.add(residentAddress_txt);
         residentAddress_txt.setBounds(110, 350, 270, 30);
 
@@ -952,19 +944,6 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_deleteResident_btnActionPerformed
 
-    private void updateResident_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateResident_btnActionPerformed
-       if (Model.Funcs_DAO.updateConfirmation()) {
-            String residentCpf = String.valueOf(cpfResidentMyResidents_cb.getSelectedItem());
-            String residentName = String.valueOf(residentName_txt.getText()); 
-            String residentEmail = String.valueOf(residentEmail_txt.getText()); 
-            String residentAddress = String.valueOf(residentAddress_txt.getText()); 
-            if (Model.ResidentFuncs_DAO.updateResidentInfo(residentCpf, residentName, residentEmail, residentAddress)) {
-                Model.RefreshFuncs_DAO.refreshMyResidentsTable();
-                Model.Funcs_DAO.cleanMyResidentsFields();
-            }
-        }
-    }//GEN-LAST:event_updateResident_btnActionPerformed
-
     private void cleanFields_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cleanFields_btnActionPerformed
         Model.Funcs_DAO.cleanMyResidentsFields();
     }//GEN-LAST:event_cleanFields_btnActionPerformed
@@ -1137,6 +1116,5 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
     private javax.swing.JToggleButton showPassword_btn;
     public static javax.swing.JButton transferResident_btn;
     public static javax.swing.JButton updateProfile_btn;
-    public static javax.swing.JButton updateResident_btn;
     // End of variables declaration//GEN-END:variables
 }
