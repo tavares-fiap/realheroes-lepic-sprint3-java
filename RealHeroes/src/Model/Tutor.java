@@ -7,4 +7,8 @@ public class Tutor extends User{
         super(cpf, name, email, address, password);
     }
     
+    @Override
+    public String toString() {
+        return super.toString() + "\nTipo: Tutor";
+    }
 }
