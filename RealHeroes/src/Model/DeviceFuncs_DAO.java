@@ -122,4 +122,28 @@ public class DeviceFuncs_DAO {
             return null;
         }
     }
+    
+    public static void reserveDevice (int idDevice, String cpfResidente, String dataRT){
+        String query = "INSERT INTO STOCK VALUES (?, ?, ?, ?)";
+
+        try (Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            // Convertendo a String para java.sql.Date
+            Date dataRTDate = Date.valueOf(dataRT);  // dataRT deve estar no formato "yyyy-MM-dd"
+
+            stmt.setInt(1, idDevice);
+            stmt.setString(2, cpfResidente);
+            stmt.setDate(3, dataRTDate);  // Inserindo a data no formato correto
+            stmt.setDate(4, null);
+            
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Registro inserido com sucesso!");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
