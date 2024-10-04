@@ -59,7 +59,7 @@ CREATE TABLE DEVICE
 (
    IDdevice INT(3),
    Description VARCHAR(70) NOT NULL,
-   Marca VARCHAR (10),
+   Brand VARCHAR (10),
    PRIMARY KEY (IDdevice)
 );
 

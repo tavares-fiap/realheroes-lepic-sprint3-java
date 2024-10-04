@@ -63,6 +63,13 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
         entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("realheroes?zeroDateTimeBehavior=convertToNullPU").createEntityManager();
         deviceQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT d FROM Device d");
         deviceList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : deviceQuery.getResultList();
+        entityManager0 = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("REALHEROES?zeroDateTimeBehavior=convertToNullPU").createEntityManager();
+        deviceQuery1 = java.beans.Beans.isDesignTime() ? null : entityManager0.createQuery("SELECT d FROM Device d");
+        deviceList1 = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : deviceQuery1.getResultList();
+        deviceQuery2 = java.beans.Beans.isDesignTime() ? null : entityManager0.createQuery("SELECT d FROM Device d");
+        deviceList2 = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : deviceQuery2.getResultList();
+        deviceQuery3 = java.beans.Beans.isDesignTime() ? null : entityManager0.createQuery("SELECT d FROM Device d");
+        deviceList3 = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : deviceQuery3.getResultList();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -88,12 +95,12 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
 
         jPanel1.setLayout(null);
 
-        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, deviceList, deviceInfo);
+        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, deviceList3, deviceInfo);
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${IDdevice}"));
-        columnBinding.setColumnName("IDdispositivo");
+        columnBinding.setColumnName("IDdevice");
         columnBinding.setColumnClass(Integer.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${description}"));
-        columnBinding.setColumnName("Descrição");
+        columnBinding.setColumnName("Description");
         columnBinding.setColumnClass(String.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${marca}"));
         columnBinding.setColumnName("Marca");
@@ -115,6 +122,11 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
         searchDevices_btn.setBounds(10, 190, 370, 25);
 
         idDevice_cb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE O DISPOSITIVO DESEJADO" }));
+        idDevice_cb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                idDevice_cbActionPerformed(evt);
+            }
+        });
         jPanel1.add(idDevice_cb);
         idDevice_cb.setBounds(150, 230, 230, 30);
 
@@ -235,6 +247,11 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
         Model.DeviceFuncs_DAO.setDeviceIds();
     }//GEN-LAST:event_searchDevices_btnActionPerformed
 
+    private void idDevice_cbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idDevice_cbActionPerformed
+        Integer selectedID = (Integer) idDevice_cb.getSelectedItem();
+        Model.DeviceFuncs_DAO.showSelectedDeviceInfo(String.valueOf(selectedID));
+    }//GEN-LAST:event_idDevice_cbActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -277,8 +294,15 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
     public static javax.swing.JTextArea deviceDescription_txt;
     public static javax.swing.JTable deviceInfo;
     private java.util.List<View.Device> deviceList;
+    private java.util.List<View.Device> deviceList1;
+    private java.util.List<View.Device> deviceList2;
+    private java.util.List<View.Device> deviceList3;
     private javax.persistence.Query deviceQuery;
+    private javax.persistence.Query deviceQuery1;
+    private javax.persistence.Query deviceQuery2;
+    private javax.persistence.Query deviceQuery3;
     private javax.persistence.EntityManager entityManager;
+    private javax.persistence.EntityManager entityManager0;
     public static javax.swing.JComboBox idDevice_cb;
     private javax.swing.JLabel idDispositivo_lbl;
     private javax.swing.JButton jButton2;
