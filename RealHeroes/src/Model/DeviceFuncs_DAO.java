@@ -6,16 +6,21 @@
 package Model;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JOptionPane;
 
 public class DeviceFuncs_DAO {
     private static String dbUrl = Controller.DataBaseConfig_DB.getUrl();
     private static String dbUsername = Controller.DataBaseConfig_DB.getUsername();
     private static String dbPassword = Controller.DataBaseConfig_DB.getPassword();
+    private static Map<String, String> residentResultMap = new HashMap<>();
     
     public static void getAvaiableDevices(){
     String query = "SELECT D.IDdevice, D.Description, D.Marca " +
@@ -66,5 +71,55 @@ public class DeviceFuncs_DAO {
     }
 }
 
-    
+    public static void showSelectedDeviceInfo(String selectedID) {
+       
+        int selectedIDInt;
+
+        try {
+            selectedIDInt = Integer.parseInt(selectedID);
+        } catch (NumberFormatException e) {
+            System.out.println("ID nao numérico! showSelectedIDInfo:" + e);
+            return; // Retorna se houver erro
+        }
+
+        Map<String, String> attemptInfo = getDeviceDetails(selectedIDInt);
+
+        if (attemptInfo == null) {
+            return;
+        }
+        
+        String desc = attemptInfo.get("description");
+        String brand = attemptInfo.get("brand");
+        View.MainResidentMenu_GUI.deviceDescription_txt.setText(desc);
+        View.MainResidentMenu_GUI.brand_txt.setText(brand);
+        return;
+    }
+
+    public static Map<String, String> getDeviceDetails(Integer selectedID) {
+        String query = "SELECT description, marca "
+                + "FROM DEVICE "
+                + "WHERE IDdevice = ?";
+        try (Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword); PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, selectedID); // Definindo o ID do dispositivo selecionado na consulta
+
+            ResultSet rs = stmt.executeQuery();
+            
+
+            if (rs.next()) {
+                String description = rs.getString("description");
+                String brand = rs.getString("marca");
+
+                residentResultMap.put("description", description);
+                residentResultMap.put("brand", String.valueOf(brand));
+                
+                return residentResultMap;
+            } else {
+                JOptionPane.showMessageDialog(null, "Nenhuma tentativa encontrada para os parâmetros fornecidos.");
+                return null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
