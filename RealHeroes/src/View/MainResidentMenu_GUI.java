@@ -8,6 +8,7 @@ package View;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.util.Vector;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -85,9 +86,13 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
         brand_lbl1 = new javax.swing.JLabel();
         dataRt_txt = new javax.swing.JTextField();
         reserveDevice_btn = new javax.swing.JButton();
+        logOut_btn2 = new javax.swing.JButton();
+        exit_btn2 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
+        logOut_btn3 = new javax.swing.JButton();
+        exit_btn3 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -119,7 +124,7 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
             }
         });
         jPanel1.add(searchDevices_btn);
-        searchDevices_btn.setBounds(10, 190, 370, 25);
+        searchDevices_btn.setBounds(10, 190, 370, 23);
 
         idDevice_cb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE O DISPOSITIVO DESEJADO" }));
         idDevice_cb.addActionListener(new java.awt.event.ActionListener() {
@@ -193,10 +198,30 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
         jPanel1.add(reserveDevice_btn);
         reserveDevice_btn.setBounds(220, 470, 160, 40);
 
+        logOut_btn2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        logOut_btn2.setText("LOGOUT");
+        logOut_btn2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logOut_btn2ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(logOut_btn2);
+        logOut_btn2.setBounds(270, 590, 110, 30);
+
+        exit_btn2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        exit_btn2.setText("SAIR");
+        exit_btn2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exit_btn2ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(exit_btn2);
+        exit_btn2.setBounds(270, 630, 110, 30);
+
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/RealHeroesBG4.png"))); // NOI18N
         jLabel1.setText("jLabel1");
         jPanel1.add(jLabel1);
-        jLabel1.setBounds(0, 0, 390, 720);
+        jLabel1.setBounds(0, -20, 390, 740);
 
         jTabbedPane1.addTab("Reservar Óculos", jPanel1);
 
@@ -214,6 +239,26 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
         jTabbedPane1.addTab("Visualizar Feedbacks", jPanel2);
 
         jPanel3.setLayout(null);
+
+        logOut_btn3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        logOut_btn3.setText("LOGOUT");
+        logOut_btn3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logOut_btn3ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(logOut_btn3);
+        logOut_btn3.setBounds(270, 590, 110, 30);
+
+        exit_btn3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        exit_btn3.setText("SAIR");
+        exit_btn3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exit_btn3ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(exit_btn3);
+        exit_btn3.setBounds(270, 630, 110, 30);
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/RealHeroesBG3.png"))); // NOI18N
         jLabel2.setText("jLabel2");
@@ -295,6 +340,26 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
     Model.DeviceFuncs_DAO.reserveDevice(selectedID, selectedCPF, selectedDataRt);
     }//GEN-LAST:event_reserveDevice_btnActionPerformed
 
+    private void logOut_btn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOut_btn2ActionPerformed
+        Controller.LoggedUser_Controller.logout();
+        JOptionPane.showMessageDialog(null, "Logout realizado com sucesso! Ate mais!");
+        Model.Funcs_DAO.changeScreen(this, new SetUp_GUI());
+    }//GEN-LAST:event_logOut_btn2ActionPerformed
+
+    private void exit_btn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exit_btn2ActionPerformed
+        Model.Funcs_DAO.exit();
+    }//GEN-LAST:event_exit_btn2ActionPerformed
+
+    private void logOut_btn3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOut_btn3ActionPerformed
+        Controller.LoggedUser_Controller.logout();
+        JOptionPane.showMessageDialog(null, "Logout realizado com sucesso! Ate mais!");
+        Model.Funcs_DAO.changeScreen(this, new SetUp_GUI());
+    }//GEN-LAST:event_logOut_btn3ActionPerformed
+
+    private void exit_btn3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exit_btn3ActionPerformed
+        Model.Funcs_DAO.exit();
+    }//GEN-LAST:event_exit_btn3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -347,6 +412,8 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
     private javax.persistence.Query deviceQuery3;
     private javax.persistence.EntityManager entityManager;
     private javax.persistence.EntityManager entityManager0;
+    public static javax.swing.JButton exit_btn2;
+    public static javax.swing.JButton exit_btn3;
     public static javax.swing.JComboBox idDevice_cb;
     private javax.swing.JLabel idDispositivo_lbl;
     private javax.swing.JLabel jLabel1;
@@ -357,6 +424,8 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
+    public static javax.swing.JButton logOut_btn2;
+    public static javax.swing.JButton logOut_btn3;
     private javax.swing.JLabel playerScore_lbl;
     private javax.swing.JButton reserveDevice_btn;
     private javax.swing.JButton searchDevices_btn;
