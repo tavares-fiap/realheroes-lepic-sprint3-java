@@ -153,7 +153,7 @@ public class ResidentFuncs_DAO {
                 PreparedStatement pstmt = (PreparedStatement) con.prepareStatement(sql);
                 pstmt.setString(1, residentCpf);
                 ResultSet rs = pstmt.executeQuery();
-
+            
                 if (rs.next()) {
                     String name = rs.getString("name");
                     String email = rs.getString("email");

@@ -5,11 +5,21 @@
  */
 package View;
 
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
 /**
  *
  * @author labsfiap
  */
 public class MainResidentMenu_GUI extends javax.swing.JFrame {
+
+    public static TableModel deviceInfo(ResultSet rs) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
     /**
      * Creates new form MainResidentMenu_GUI
@@ -17,7 +27,29 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
     public MainResidentMenu_GUI() {
         initComponents();
     }
+    public static DefaultTableModel deviceInfoFunc(ResultSet rs) {
+        try {
+            ResultSetMetaData metaData = rs.getMetaData();
+            int numberOfColumns = metaData.getColumnCount();
+            Vector columnNames = new Vector();
 
+            columnNames.addElement("IDdevice");
+            columnNames.addElement("Description");
+            columnNames.addElement("Marca");
+
+            Vector rows = new Vector();
+            while (rs.next()) {
+                Vector newRow = new Vector();
+                for (int i = 1; i <= numberOfColumns; i++) {
+                    newRow.addElement(rs.getObject(i));
+                }
+                rows.addElement(newRow);
+            }
+            return new DefaultTableModel(rows, columnNames);
+        } catch (Exception e) {
+            return null;
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -34,8 +66,8 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        deviceInfo = new javax.swing.JTable();
+        searchDevices_btn = new javax.swing.JButton();
         idDevice_cb = new javax.swing.JComboBox();
         idDispositivo_lbl = new javax.swing.JLabel();
         playerScore_lbl = new javax.swing.JLabel();
@@ -56,7 +88,7 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
 
         jPanel1.setLayout(null);
 
-        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, deviceList, jTable1);
+        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, deviceList, deviceInfo);
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${IDdevice}"));
         columnBinding.setColumnName("IDdispositivo");
         columnBinding.setColumnClass(Integer.class);
@@ -68,14 +100,19 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
         columnBinding.setColumnClass(String.class);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(deviceInfo);
 
         jPanel1.add(jScrollPane1);
         jScrollPane1.setBounds(0, 90, 390, 90);
 
-        jButton1.setText("Buscar dispositivos disponíveis");
-        jPanel1.add(jButton1);
-        jButton1.setBounds(10, 190, 370, 23);
+        searchDevices_btn.setText("Buscar dispositivos disponíveis");
+        searchDevices_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchDevices_btnActionPerformed(evt);
+            }
+        });
+        jPanel1.add(searchDevices_btn);
+        searchDevices_btn.setBounds(10, 190, 370, 25);
 
         idDevice_cb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE O DISPOSITIVO DESEJADO" }));
         jPanel1.add(idDevice_cb);
@@ -142,9 +179,7 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/RealHeroesBG4.png"))); // NOI18N
         jLabel1.setText("jLabel1");
         jPanel1.add(jLabel1);
-      
         jLabel1.setBounds(0, 0, 390, 720);
-
 
         jTabbedPane1.addTab("Reservar Óculos", jPanel1);
 
@@ -195,6 +230,10 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
 
+    private void searchDevices_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchDevices_btnActionPerformed
+        Model.DeviceFuncs_DAO.getAvaiableDevices();
+    }//GEN-LAST:event_searchDevices_btnActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -235,12 +274,12 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
     private javax.swing.JLabel brand_lbl1;
     public static javax.swing.JTextField brand_txt;
     public static javax.swing.JTextArea deviceDescription_txt;
+    public static javax.swing.JTable deviceInfo;
     private java.util.List<View.Device> deviceList;
     private javax.persistence.Query deviceQuery;
     private javax.persistence.EntityManager entityManager;
     private javax.swing.JComboBox idDevice_cb;
     private javax.swing.JLabel idDispositivo_lbl;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -250,9 +289,9 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel playerScore_lbl;
+    private javax.swing.JButton searchDevices_btn;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }
