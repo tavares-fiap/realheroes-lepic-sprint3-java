@@ -140,6 +140,7 @@ public class DeviceFuncs_DAO {
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {
                 System.out.println("Registro inserido com sucesso!");
+                JOptionPane.showMessageDialog(null, "Dispositivo reservado com Sucesso!");
             }
 
         } catch (Exception e) {
