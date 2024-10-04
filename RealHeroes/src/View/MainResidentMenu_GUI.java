@@ -91,6 +91,7 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
+        myTutor_btn = new javax.swing.JButton();
         refreshFields_btn = new javax.swing.JButton();
         updateProfile_btn = new javax.swing.JButton();
         showPassword_btn = new javax.swing.JToggleButton();
@@ -252,6 +253,16 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
         jTabbedPane1.addTab("Visualizar Feedbacks", jPanel2);
 
         jPanel3.setLayout(null);
+
+        myTutor_btn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        myTutor_btn.setText("MEU TUTOR");
+        myTutor_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                myTutor_btnActionPerformed(evt);
+            }
+        });
+        jPanel3.add(myTutor_btn);
+        myTutor_btn.setBounds(20, 450, 350, 30);
 
         refreshFields_btn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         refreshFields_btn.setText("RESETAR CAMPOS");
@@ -494,6 +505,11 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_cpfProfile_txtActionPerformed
 
+    private void myTutor_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myTutor_btnActionPerformed
+        Model.Resident logedResident = (Model.Resident) Controller.LoggedUser_Controller.getLoggedUser();
+        JOptionPane.showMessageDialog(null, "-=-=-=-=-=-SEU TUTOR-=-=-=-=-=-\n" + logedResident.getTutor().toString());
+    }//GEN-LAST:event_myTutor_btnActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -566,6 +582,7 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     public static javax.swing.JButton logOut_btn2;
     public static javax.swing.JButton logOut_btn3;
+    public static javax.swing.JButton myTutor_btn;
     public static javax.swing.JTextField nameProfile_txt;
     private javax.swing.JLabel nameSingUp_lbl;
     public static javax.swing.JPasswordField passwordProfile_txt;

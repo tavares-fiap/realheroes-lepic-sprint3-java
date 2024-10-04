@@ -14,4 +14,8 @@ public class Resident extends User{
         return tutor;
     }
     
+    @Override
+    public String toString() {
+        return super.toString() + "\nTipo: Residente\nTutor: " + this.tutor.getCpf() + " || " + this.tutor.getName();
+    }
 }
