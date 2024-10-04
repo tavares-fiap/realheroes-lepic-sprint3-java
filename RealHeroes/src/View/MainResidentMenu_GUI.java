@@ -91,6 +91,19 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
+        refreshFields_btn = new javax.swing.JButton();
+        updateProfile_btn = new javax.swing.JButton();
+        showPassword_btn = new javax.swing.JToggleButton();
+        passwordProfile_txt = new javax.swing.JPasswordField();
+        passwordSingUp_lbl = new javax.swing.JLabel();
+        addressProfile_txt = new javax.swing.JTextField();
+        addressSingUp_lbl = new javax.swing.JLabel();
+        emailProfile_txt = new javax.swing.JTextField();
+        emailSingUp_lbl = new javax.swing.JLabel();
+        nameProfile_txt = new javax.swing.JTextField();
+        nameSingUp_lbl = new javax.swing.JLabel();
+        cpfProfile_txt = new javax.swing.JTextField();
+        cpfProfile_lbl = new javax.swing.JLabel();
         logOut_btn3 = new javax.swing.JButton();
         exit_btn3 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
@@ -115,7 +128,7 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
         jScrollPane1.setViewportView(deviceInfo);
 
         jPanel1.add(jScrollPane1);
-        jScrollPane1.setBounds(0, 90, 390, 90);
+        jScrollPane1.setBounds(0, 80, 390, 160);
 
         searchDevices_btn.setText("Buscar dispositivos disponíveis");
         searchDevices_btn.addActionListener(new java.awt.event.ActionListener() {
@@ -124,7 +137,7 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
             }
         });
         jPanel1.add(searchDevices_btn);
-        searchDevices_btn.setBounds(10, 190, 370, 23);
+        searchDevices_btn.setBounds(10, 260, 370, 23);
 
         idDevice_cb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE O DISPOSITIVO DESEJADO" }));
         idDevice_cb.addActionListener(new java.awt.event.ActionListener() {
@@ -133,25 +146,25 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
             }
         });
         jPanel1.add(idDevice_cb);
-        idDevice_cb.setBounds(150, 230, 230, 30);
+        idDevice_cb.setBounds(150, 300, 230, 30);
 
         idDispositivo_lbl.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         idDispositivo_lbl.setForeground(new java.awt.Color(255, 255, 255));
         idDispositivo_lbl.setText("ID Dispositivo:");
         jPanel1.add(idDispositivo_lbl);
-        idDispositivo_lbl.setBounds(10, 230, 150, 30);
+        idDispositivo_lbl.setBounds(10, 300, 150, 30);
 
         playerScore_lbl.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         playerScore_lbl.setForeground(new java.awt.Color(255, 255, 255));
         playerScore_lbl.setText("Descrição:");
         jPanel1.add(playerScore_lbl);
-        playerScore_lbl.setBounds(10, 270, 110, 30);
+        playerScore_lbl.setBounds(10, 340, 110, 30);
 
         brand_lbl.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         brand_lbl.setForeground(new java.awt.Color(255, 255, 255));
         brand_lbl.setText("MARCA:");
         jPanel1.add(brand_lbl);
-        brand_lbl.setBounds(10, 370, 130, 30);
+        brand_lbl.setBounds(10, 440, 130, 30);
 
         brand_txt.setText("MARCA DO DISPOSITIVO");
         brand_txt.setDisabledTextColor(new java.awt.Color(255, 0, 0));
@@ -162,7 +175,7 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
             }
         });
         jPanel1.add(brand_txt);
-        brand_txt.setBounds(150, 370, 230, 30);
+        brand_txt.setBounds(150, 440, 230, 30);
 
         deviceDescription_txt.setEditable(false);
         deviceDescription_txt.setColumns(20);
@@ -172,13 +185,13 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
         jScrollPane2.setViewportView(deviceDescription_txt);
 
         jPanel1.add(jScrollPane2);
-        jScrollPane2.setBounds(150, 270, 230, 80);
+        jScrollPane2.setBounds(150, 340, 230, 80);
 
         brand_lbl1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         brand_lbl1.setForeground(new java.awt.Color(255, 255, 255));
         brand_lbl1.setText("DATA PARA RETIRAR:");
         jPanel1.add(brand_lbl1);
-        brand_lbl1.setBounds(10, 420, 200, 30);
+        brand_lbl1.setBounds(10, 490, 200, 30);
 
         dataRt_txt.setText("AAAA-MM-DD");
         dataRt_txt.addActionListener(new java.awt.event.ActionListener() {
@@ -187,7 +200,7 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
             }
         });
         jPanel1.add(dataRt_txt);
-        dataRt_txt.setBounds(290, 420, 90, 30);
+        dataRt_txt.setBounds(290, 490, 90, 30);
 
         reserveDevice_btn.setText("Reservar Dispositivo");
         reserveDevice_btn.addActionListener(new java.awt.event.ActionListener() {
@@ -196,7 +209,7 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
             }
         });
         jPanel1.add(reserveDevice_btn);
-        reserveDevice_btn.setBounds(220, 470, 160, 40);
+        reserveDevice_btn.setBounds(220, 540, 160, 40);
 
         logOut_btn2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         logOut_btn2.setText("LOGOUT");
@@ -239,6 +252,96 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
         jTabbedPane1.addTab("Visualizar Feedbacks", jPanel2);
 
         jPanel3.setLayout(null);
+
+        refreshFields_btn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        refreshFields_btn.setText("RESETAR CAMPOS");
+        refreshFields_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshFields_btnActionPerformed(evt);
+            }
+        });
+        jPanel3.add(refreshFields_btn);
+        refreshFields_btn.setBounds(200, 490, 170, 30);
+
+        updateProfile_btn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        updateProfile_btn.setText("ALTERAR");
+        updateProfile_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateProfile_btnActionPerformed(evt);
+            }
+        });
+        jPanel3.add(updateProfile_btn);
+        updateProfile_btn.setBounds(20, 490, 170, 30);
+
+        showPassword_btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/eyeIcon.png"))); // NOI18N
+        showPassword_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showPassword_btnActionPerformed(evt);
+            }
+        });
+        jPanel3.add(showPassword_btn);
+        showPassword_btn.setBounds(333, 380, 50, 30);
+
+        passwordProfile_txt.setText(Controller.LoggedUser_Controller.getLoggedUser().getPassword());
+        jPanel3.add(passwordProfile_txt);
+        passwordProfile_txt.setBounds(110, 380, 220, 30);
+
+        passwordSingUp_lbl.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        passwordSingUp_lbl.setForeground(new java.awt.Color(255, 255, 255));
+        passwordSingUp_lbl.setText("Senha:");
+        jPanel3.add(passwordSingUp_lbl);
+        passwordSingUp_lbl.setBounds(10, 380, 70, 30);
+
+        addressProfile_txt.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        addressProfile_txt.setText(Controller.LoggedUser_Controller.getLoggedUser().getAddress());
+        jPanel3.add(addressProfile_txt);
+        addressProfile_txt.setBounds(110, 330, 270, 30);
+
+        addressSingUp_lbl.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        addressSingUp_lbl.setForeground(new java.awt.Color(255, 255, 255));
+        addressSingUp_lbl.setText("Endereco:");
+        jPanel3.add(addressSingUp_lbl);
+        addressSingUp_lbl.setBounds(10, 330, 110, 30);
+
+        emailProfile_txt.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        emailProfile_txt.setText(Controller.LoggedUser_Controller.getLoggedUser().getEmail());
+        jPanel3.add(emailProfile_txt);
+        emailProfile_txt.setBounds(110, 280, 270, 30);
+
+        emailSingUp_lbl.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        emailSingUp_lbl.setForeground(new java.awt.Color(255, 255, 255));
+        emailSingUp_lbl.setText("Email:");
+        jPanel3.add(emailSingUp_lbl);
+        emailSingUp_lbl.setBounds(10, 280, 70, 30);
+
+        nameProfile_txt.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        nameProfile_txt.setText(Controller.LoggedUser_Controller.getLoggedUser().getName());
+        jPanel3.add(nameProfile_txt);
+        nameProfile_txt.setBounds(110, 230, 270, 30);
+
+        nameSingUp_lbl.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        nameSingUp_lbl.setForeground(new java.awt.Color(255, 255, 255));
+        nameSingUp_lbl.setText("Nome:");
+        jPanel3.add(nameSingUp_lbl);
+        nameSingUp_lbl.setBounds(10, 230, 70, 30);
+
+        cpfProfile_txt.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        cpfProfile_txt.setText(Controller.LoggedUser_Controller.getLoggedUser().getCpf());
+        cpfProfile_txt.setDisabledTextColor(new java.awt.Color(255, 102, 102));
+        cpfProfile_txt.setEnabled(false);
+        cpfProfile_txt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cpfProfile_txtActionPerformed(evt);
+            }
+        });
+        jPanel3.add(cpfProfile_txt);
+        cpfProfile_txt.setBounds(110, 180, 270, 30);
+
+        cpfProfile_lbl.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        cpfProfile_lbl.setForeground(new java.awt.Color(255, 255, 255));
+        cpfProfile_lbl.setText("CPF:");
+        jPanel3.add(cpfProfile_lbl);
+        cpfProfile_lbl.setBounds(10, 180, 70, 30);
 
         logOut_btn3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         logOut_btn3.setText("LOGOUT");
@@ -360,6 +463,37 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
         Model.Funcs_DAO.exit();
     }//GEN-LAST:event_exit_btn3ActionPerformed
 
+    private void refreshFields_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshFields_btnActionPerformed
+        Model.Funcs_DAO.profileRefresh();
+    }//GEN-LAST:event_refreshFields_btnActionPerformed
+
+    private void updateProfile_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateProfile_btnActionPerformed
+        if (Model.Funcs_DAO.updateConfirmation()) {
+            String cpf = cpfProfile_txt.getText();
+            String name = nameProfile_txt.getText();
+            String email = emailProfile_txt.getText();
+            String address = addressProfile_txt.getText();
+            String password = passwordProfile_txt.getText();
+            if (Model.ResidentFuncs_DAO.updateResident(cpf, name, email, address, password)) {
+                Model.Funcs_DAO.profileRefresh();
+            }
+        }
+    }//GEN-LAST:event_updateProfile_btnActionPerformed
+
+    private void showPassword_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showPassword_btnActionPerformed
+        if (showPassword_btn.isSelected()) {
+            // Mostrar os caracteres reais
+            passwordProfile_txt.setEchoChar('\0');
+        } else {
+            // Ocultar os caracteres reais
+            passwordProfile_txt.setEchoChar('\u25cf');
+        }
+    }//GEN-LAST:event_showPassword_btnActionPerformed
+
+    private void cpfProfile_txtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cpfProfile_txtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cpfProfile_txtActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -396,9 +530,13 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public static javax.swing.JTextField addressProfile_txt;
+    private javax.swing.JLabel addressSingUp_lbl;
     private javax.swing.JLabel brand_lbl;
     private javax.swing.JLabel brand_lbl1;
     public static javax.swing.JTextField brand_txt;
+    private javax.swing.JLabel cpfProfile_lbl;
+    public static javax.swing.JTextField cpfProfile_txt;
     public static javax.swing.JTextField dataRt_txt;
     public static javax.swing.JTextArea deviceDescription_txt;
     public static javax.swing.JTable deviceInfo;
@@ -410,6 +548,8 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
     private javax.persistence.Query deviceQuery1;
     private javax.persistence.Query deviceQuery2;
     private javax.persistence.Query deviceQuery3;
+    public static javax.swing.JTextField emailProfile_txt;
+    private javax.swing.JLabel emailSingUp_lbl;
     private javax.persistence.EntityManager entityManager;
     private javax.persistence.EntityManager entityManager0;
     public static javax.swing.JButton exit_btn2;
@@ -426,9 +566,16 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     public static javax.swing.JButton logOut_btn2;
     public static javax.swing.JButton logOut_btn3;
+    public static javax.swing.JTextField nameProfile_txt;
+    private javax.swing.JLabel nameSingUp_lbl;
+    public static javax.swing.JPasswordField passwordProfile_txt;
+    private javax.swing.JLabel passwordSingUp_lbl;
     private javax.swing.JLabel playerScore_lbl;
+    public static javax.swing.JButton refreshFields_btn;
     private javax.swing.JButton reserveDevice_btn;
     private javax.swing.JButton searchDevices_btn;
+    private javax.swing.JToggleButton showPassword_btn;
+    public static javax.swing.JButton updateProfile_btn;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }
