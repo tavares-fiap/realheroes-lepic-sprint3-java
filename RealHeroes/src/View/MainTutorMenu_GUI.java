@@ -109,11 +109,6 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
     private void initComponents() {
 
         jToggleButton1 = new javax.swing.JToggleButton();
-        entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("REALHEROES?zeroDateTimeBehavior=convertToNullPU").createEntityManager();
-        residentQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT r FROM Resident r");
-        residentList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : residentQuery.getResultList();
-        residentQuery1 = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT r FROM Resident r");
-        residentList1 = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : residentQuery1.getResultList();
         jScrollPane4 = new javax.swing.JScrollPane();
         jEditorPane1 = new javax.swing.JEditorPane();
         jTabbedPane1 = new javax.swing.JTabbedPane();
@@ -510,6 +505,11 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         cpfProfile_txt.setText(Controller.LoggedUser_Controller.getLoggedUser().getCpf());
         cpfProfile_txt.setDisabledTextColor(new java.awt.Color(255, 102, 102));
         cpfProfile_txt.setEnabled(false);
+        cpfProfile_txt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cpfProfile_txtActionPerformed(evt);
+            }
+        });
         jPanel1.add(cpfProfile_txt);
         cpfProfile_txt.setBounds(110, 180, 270, 30);
 
@@ -775,7 +775,7 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1005,6 +1005,10 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_playerScore_txtActionPerformed
 
+    private void cpfProfile_txtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cpfProfile_txtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cpfProfile_txtActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1086,7 +1090,6 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
     private javax.swing.JLabel emailSingUp_lbl;
     private javax.swing.JLabel emailSingUp_lbl1;
     private javax.swing.JLabel emailSingUp_lbl2;
-    private javax.persistence.EntityManager entityManager;
     public static javax.swing.JButton exit_btn;
     public static javax.swing.JButton exit_btn1;
     public static javax.swing.JButton exit_btn2;
@@ -1127,11 +1130,7 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
     private javax.swing.JLabel residentData_lbl;
     public static javax.swing.JTextField residentEmail_txt;
     public static javax.swing.JTable residentInfo;
-    private java.util.List<View.Resident> residentList;
-    private java.util.List<View.Resident> residentList1;
     public static javax.swing.JTextField residentName_txt;
-    private javax.persistence.Query residentQuery;
-    private javax.persistence.Query residentQuery1;
     private javax.swing.JLabel residentsBG_lbl;
     private javax.swing.JLabel residentsBG_lbl1;
     public static javax.swing.JButton sendSingUp_btn;

@@ -83,8 +83,8 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         deviceDescription_txt = new javax.swing.JTextArea();
         brand_lbl1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
+        dataRt_txt = new javax.swing.JTextField();
+        reserveDevice_btn = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -175,18 +175,23 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
         jPanel1.add(brand_lbl1);
         brand_lbl1.setBounds(10, 420, 200, 30);
 
-        jTextField1.setText("AAAA-MM-DD");
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        dataRt_txt.setText("AAAA-MM-DD");
+        dataRt_txt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                dataRt_txtActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextField1);
-        jTextField1.setBounds(290, 420, 90, 30);
+        jPanel1.add(dataRt_txt);
+        dataRt_txt.setBounds(290, 420, 90, 30);
 
-        jButton2.setText("Reservar Óculos");
-        jPanel1.add(jButton2);
-        jButton2.setBounds(260, 470, 120, 40);
+        reserveDevice_btn.setText("Reservar Dispositivo");
+        reserveDevice_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reserveDevice_btnActionPerformed(evt);
+            }
+        });
+        jPanel1.add(reserveDevice_btn);
+        reserveDevice_btn.setBounds(220, 470, 160, 40);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/RealHeroesBG4.png"))); // NOI18N
         jLabel1.setText("jLabel1");
@@ -238,9 +243,9 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_brand_txtActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void dataRt_txtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dataRt_txtActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_dataRt_txtActionPerformed
 
     private void searchDevices_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchDevices_btnActionPerformed
         Model.DeviceFuncs_DAO.getAvaiableDevices();
@@ -251,6 +256,44 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
         Integer selectedID = (Integer) idDevice_cb.getSelectedItem();
         Model.DeviceFuncs_DAO.showSelectedDeviceInfo(String.valueOf(selectedID));
     }//GEN-LAST:event_idDevice_cbActionPerformed
+
+    private void reserveDevice_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reserveDevice_btnActionPerformed
+        // Verifique se a JComboBox foi inicializada
+    if (idDevice_cb == null) {
+        System.out.println("JComboBox idDevice_cb não foi inicializada.");
+        return;
+    }
+
+    // Verifique se há um item selecionado
+    Integer selectedID = (Integer) idDevice_cb.getSelectedItem();
+    if (selectedID == null) {
+        System.out.println("Nenhum dispositivo foi selecionado.");
+        return;
+    }
+
+    // Verifique o campo de texto da data
+    if (dataRt_txt == null) {
+        System.out.println("Campo de texto dataRt_txt não foi inicializado.");
+        return;
+    }
+
+    String selectedDataRt = dataRt_txt.getText();
+    if (selectedDataRt.isEmpty()) {
+        System.out.println("A data de reserva não foi inserida.");
+        return;
+    }
+
+    // Verifique se o usuário logado está definido
+    if (Controller.LoggedUser_Controller.getLoggedUser() == null) {
+        System.out.println("Usuário não está logado.");
+        return;
+    }
+
+    String selectedCPF = Controller.LoggedUser_Controller.getLoggedUser().getCpf();
+
+    // Agora podemos chamar a função para reservar o dispositivo
+    Model.DeviceFuncs_DAO.reserveDevice(selectedID, selectedCPF, selectedDataRt);
+    }//GEN-LAST:event_reserveDevice_btnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -291,6 +334,7 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
     private javax.swing.JLabel brand_lbl;
     private javax.swing.JLabel brand_lbl1;
     public static javax.swing.JTextField brand_txt;
+    public static javax.swing.JTextField dataRt_txt;
     public static javax.swing.JTextArea deviceDescription_txt;
     public static javax.swing.JTable deviceInfo;
     private java.util.List<View.Device> deviceList;
@@ -305,7 +349,6 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
     private javax.persistence.EntityManager entityManager0;
     public static javax.swing.JComboBox idDevice_cb;
     private javax.swing.JLabel idDispositivo_lbl;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
@@ -314,8 +357,8 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel playerScore_lbl;
+    private javax.swing.JButton reserveDevice_btn;
     private javax.swing.JButton searchDevices_btn;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
