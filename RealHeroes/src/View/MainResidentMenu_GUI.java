@@ -129,7 +129,7 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
         jScrollPane1.setViewportView(deviceInfo);
 
         jPanel1.add(jScrollPane1);
-        jScrollPane1.setBounds(0, 80, 390, 160);
+        jScrollPane1.setBounds(0, 160, 390, 160);
 
         searchDevices_btn.setText("Buscar dispositivos disponíveis");
         searchDevices_btn.addActionListener(new java.awt.event.ActionListener() {
@@ -138,7 +138,7 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
             }
         });
         jPanel1.add(searchDevices_btn);
-        searchDevices_btn.setBounds(10, 260, 370, 23);
+        searchDevices_btn.setBounds(10, 120, 370, 25);
 
         idDevice_cb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE O DISPOSITIVO DESEJADO" }));
         idDevice_cb.addActionListener(new java.awt.event.ActionListener() {
@@ -147,25 +147,25 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
             }
         });
         jPanel1.add(idDevice_cb);
-        idDevice_cb.setBounds(150, 300, 230, 30);
+        idDevice_cb.setBounds(150, 330, 230, 30);
 
         idDispositivo_lbl.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         idDispositivo_lbl.setForeground(new java.awt.Color(255, 255, 255));
         idDispositivo_lbl.setText("ID Dispositivo:");
         jPanel1.add(idDispositivo_lbl);
-        idDispositivo_lbl.setBounds(10, 300, 150, 30);
+        idDispositivo_lbl.setBounds(10, 330, 150, 30);
 
         playerScore_lbl.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         playerScore_lbl.setForeground(new java.awt.Color(255, 255, 255));
         playerScore_lbl.setText("Descrição:");
         jPanel1.add(playerScore_lbl);
-        playerScore_lbl.setBounds(10, 340, 110, 30);
+        playerScore_lbl.setBounds(10, 400, 110, 30);
 
         brand_lbl.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         brand_lbl.setForeground(new java.awt.Color(255, 255, 255));
         brand_lbl.setText("MARCA:");
         jPanel1.add(brand_lbl);
-        brand_lbl.setBounds(10, 440, 130, 30);
+        brand_lbl.setBounds(0, 480, 130, 30);
 
         brand_txt.setText("MARCA DO DISPOSITIVO");
         brand_txt.setDisabledTextColor(new java.awt.Color(255, 0, 0));
@@ -176,7 +176,7 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
             }
         });
         jPanel1.add(brand_txt);
-        brand_txt.setBounds(150, 440, 230, 30);
+        brand_txt.setBounds(150, 480, 230, 30);
 
         deviceDescription_txt.setEditable(false);
         deviceDescription_txt.setColumns(20);
@@ -186,13 +186,13 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
         jScrollPane2.setViewportView(deviceDescription_txt);
 
         jPanel1.add(jScrollPane2);
-        jScrollPane2.setBounds(150, 340, 230, 80);
+        jScrollPane2.setBounds(150, 380, 230, 80);
 
         brand_lbl1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         brand_lbl1.setForeground(new java.awt.Color(255, 255, 255));
         brand_lbl1.setText("DATA PARA RETIRAR:");
         jPanel1.add(brand_lbl1);
-        brand_lbl1.setBounds(10, 490, 200, 30);
+        brand_lbl1.setBounds(10, 80, 200, 30);
 
         dataRt_txt.setText("AAAA-MM-DD");
         dataRt_txt.addActionListener(new java.awt.event.ActionListener() {
@@ -201,7 +201,7 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
             }
         });
         jPanel1.add(dataRt_txt);
-        dataRt_txt.setBounds(290, 490, 90, 30);
+        dataRt_txt.setBounds(290, 80, 90, 30);
 
         reserveDevice_btn.setText("Reservar Dispositivo");
         reserveDevice_btn.addActionListener(new java.awt.event.ActionListener() {
@@ -407,8 +407,12 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_dataRt_txtActionPerformed
 
     private void searchDevices_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchDevices_btnActionPerformed
-        Model.DeviceFuncs_DAO.getAvaiableDevices();
-        Model.DeviceFuncs_DAO.setDeviceIds();
+        String selectedDataRt = dataRt_txt.getText();  // Pegando a data que o usuário digitou
+    if (selectedDataRt.isEmpty()) {
+        System.out.println("A data de reserva não foi inserida.");
+        return;
+    }
+    Model.DeviceFuncs_DAO.getAvaiableDevices(selectedDataRt);  // Passando a data para a função
     }//GEN-LAST:event_searchDevices_btnActionPerformed
 
     private void idDevice_cbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idDevice_cbActionPerformed
