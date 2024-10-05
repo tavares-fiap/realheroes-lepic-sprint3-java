@@ -154,12 +154,19 @@ public class Funcs_DAO {
         View.MainTutorMenu_GUI.residentAddress_txt.setText("");
     }
 
-    public static void resetFeedbackFields() {
+    public static void resetTutorFeedbackFields() {
         View.MainTutorMenu_GUI.playerScore_txt.setText("");
         View.MainTutorMenu_GUI.completionDate_txt.setText("");
         View.MainTutorMenu_GUI.completionTime_txt.setText("");
         View.MainTutorMenu_GUI.feedback_txt.setText("");
         //View.MainTutorMenu_GUI.phaseFeedback_cb.setSelectedIndex(0);
 
+    }
+    
+    public static void resetResidentFeedbackFields() {
+        View.MainResidentMenu_GUI.playerScore_txt.setText("");
+        View.MainResidentMenu_GUI.completionDate_txt.setText("");
+        View.MainResidentMenu_GUI.completionTime_txt.setText("");
+        View.MainResidentMenu_GUI.feedback_txt.setText("");
     }
 }
