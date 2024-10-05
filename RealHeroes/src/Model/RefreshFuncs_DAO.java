@@ -20,6 +20,41 @@ public class RefreshFuncs_DAO {
     private static String dbUsername = Controller.DataBaseConfig_DB.getUsername();
     private static String dbPassword = Controller.DataBaseConfig_DB.getPassword();
     
+    public static void refreshAttemptsTable(String selectedPhase, String cpf){
+        int selectedPhaseInt;
+        try {
+            selectedPhaseInt = Integer.parseInt(selectedPhase);
+        } catch (NumberFormatException e) {
+            System.out.println("Erro ao converter para int em refreshAttemptsTable" + e); // Lidar com erro se o valor não puder ser convertido
+            View.MainResidentMenu_GUI.attemptTable.setModel(View.MainTutorMenu_GUI.clearAttemptInfoFunc());
+            return; // Retorna se houver erro
+        }
+        
+        Controller.Connect_DB.loadDriver();
+        String sql = "SELECT T.IDATTEMPT, T.SCORE, PT.DATE_OF_COMPLETION, PT.COMPLETION_TIME "
+                + "FROM TRAIN T "
+                + "INNER JOIN PHASE_TRAIN PT "
+                + "ON T.IDATTEMPT = PT.IDATTEMPT "
+                + "WHERE T.cpf_residente = ? AND PT.IDSELECTEDPHASE = ?";
+        try (Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, cpf);
+            stmt.setInt(2, selectedPhaseInt);
+
+            ResultSet rs = stmt.executeQuery();
+            
+            if (rs.isBeforeFirst()){ 
+                View.MainResidentMenu_GUI.attemptTable.setModel(View.MainTutorMenu_GUI.attemptInfoFunc(rs));
+            } else {
+                View.MainResidentMenu_GUI.attemptTable.setModel(View.MainTutorMenu_GUI.clearAttemptInfoFunc());
+            }
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+    
     public static void refreshFeedbackTable(String selectedPhase, String selectedCpf) {
         int selectedPhaseInt;
         try {
@@ -119,7 +154,7 @@ public class RefreshFuncs_DAO {
         }
     }
 
-    public static void refreshPhaseOptions(String selectedCpf) {
+    public static void refreshTutorPhaseOptions(String selectedCpf) {
         phaseFeedback_cb.removeAllItems();
         
         String query = "SELECT GP.IDSelectedPhase "
@@ -156,14 +191,51 @@ public class RefreshFuncs_DAO {
             e.printStackTrace();
         }
     }
+    
+    public static void refreshResidentPhaseOptions(String selectedCpf) {
+        View.MainResidentMenu_GUI.phaseFeedback_cb.removeAllItems();
+        
+        String query = "SELECT GP.IDSelectedPhase "
+                + "FROM PHASE_TRAIN PT "
+                + "JOIN TRAIN T ON PT.IDattempt = T.IDattempt "
+                + "JOIN GAME_PHASE GP ON PT.IDSelectedPhase = GP.IDSelectedPhase "
+                + "WHERE T.cpf_residente = ?";
+        try (Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword); PreparedStatement stmt = conn.prepareStatement(query)) {
 
-    public static void refreshAttemptOptions(String selectedPhase, String selectedCpf) {
+            stmt.setString(1, selectedCpf); // Definindo o CPF do tutor logado na consulta
+            ResultSet rs = stmt.executeQuery();
+            
+            View.MainResidentMenu_GUI.phaseFeedback_cb.addItem("SELECIONE UMA FASE");
+            // Verificando e adicionando os CPFs à JComboBox, se ainda não estiverem presentes
+            while (rs.next()) {
+                String phase = rs.getString("IDSelectedPhase");
+                boolean alreadyExists = false;
+
+                // Verifica se o CPF já está na combobox
+                for (int i = 0; i < View.MainResidentMenu_GUI.phaseFeedback_cb.getItemCount(); i++) {
+                    if (View.MainResidentMenu_GUI.phaseFeedback_cb.getItemAt(i).equals(phase)) {
+                        alreadyExists = true;
+                        break;
+                    }
+                }
+
+                // Adiciona o CPF apenas se ele ainda não estiver na combobox
+                if (!alreadyExists) {
+                    View.MainResidentMenu_GUI.phaseFeedback_cb.addItem(phase);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void refreshTutorAttemptOptions(String selectedPhase, String selectedCpf) {
         // Verifica se o item selecionado é um valor válido e não a opção padrão "SELECIONE A FASE"
         //if (selectedPhase.equals("SELECIONE A FASE")) {
         //    JOptionPane.showMessageDialog(null, "Por favor, selecione uma fase válida.");
         //    return false;  // Cancela a operação se a fase não for válida
         //}
-        
         attemptFeedback_cb.removeAllItems();
         
         int selectedPhaseInt;
@@ -232,6 +304,69 @@ public class RefreshFuncs_DAO {
                 // Adiciona a tentativa apenas se ela ainda não estiver na combobox
                 if (!alreadyExists) {
                     attemptFeedback_cb.addItem(attempt);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
+    }
+    
+    
+    public static void refreshResidentAttemptOptions(String selectedPhase, String cpf) {
+        View.MainResidentMenu_GUI.attemptFeedback_cb.removeAllItems();
+        int selectedPhaseInt;
+        try {
+            selectedPhaseInt = Integer.parseInt(selectedPhase);
+        } catch (NumberFormatException e) {
+            System.out.println("Erro ao converter para int em updateAttemptCombobox" + e); // Lidar com erro se o valor não puder ser convertido
+            return; // Retorna se houver erro
+        }
+
+        // Consulta para obter o phaseName e dificulty da tabela GAME_PHASE
+        String queryPhaseInfo = "SELECT phaseName, Dificulty FROM GAME_PHASE WHERE IDSelectedPhase = ?";
+
+        try (Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword); PreparedStatement stmtPhase = conn.prepareStatement(queryPhaseInfo)) {
+            stmtPhase.setInt(1, selectedPhaseInt); // Definindo o ID da fase selecionada na consulta
+            ResultSet rsPhase = stmtPhase.executeQuery();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
+        // Consulta para obter as tentativas
+        String query = "SELECT T.IDattempt "
+                + "FROM PHASE_TRAIN PT "
+                + "JOIN TRAIN T ON PT.IDattempt = T.IDattempt "
+                + "WHERE T.cpf_residente = ? AND PT.IDSelectedPhase = ?";
+
+        try (Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword); 
+                PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, cpf); // Definindo o CPF do residente selecionado na consulta
+            stmt.setInt(2, selectedPhaseInt); // Definindo o ID da fase selecionada na consulta
+
+            ResultSet rs = stmt.executeQuery();
+            
+            View.MainResidentMenu_GUI.attemptFeedback_cb.addItem("SELECIONE UMA TENTATIVA");
+            
+            // Verificando e adicionando os tentativas à JComboBox, se ainda não estiverem presentes
+            while (rs.next()) {
+                String attempt = rs.getString("IDattempt"); // A coluna é chamada IDattempt
+                boolean alreadyExists = false;
+
+                // Verifica se a tentativa já está na combobox
+                for (int i = 0; i < View.MainResidentMenu_GUI.attemptFeedback_cb.getItemCount(); i++) {
+                    if (View.MainResidentMenu_GUI.attemptFeedback_cb.getItemAt(i).equals(attempt)) {
+                        alreadyExists = true;
+                        break;
+                    }
+                }
+
+                // Adiciona a tentativa apenas se ela ainda não estiver na combobox
+                if (!alreadyExists) {
+                    View.MainResidentMenu_GUI.attemptFeedback_cb.addItem(attempt);
                 }
             }
 

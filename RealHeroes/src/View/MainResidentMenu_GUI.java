@@ -51,6 +51,34 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
             return null;
         }
     }
+    
+    //-- Inicio Jtable 
+    public static DefaultTableModel attemptTableFunc(ResultSet rs) {
+        try {
+            ResultSetMetaData metaData = rs.getMetaData();
+            int numberOfColumns = metaData.getColumnCount();
+            Vector columnNames = new Vector();
+
+            columnNames.addElement("ID");
+            columnNames.addElement("SCORE");
+            columnNames.addElement("DATA");
+            columnNames.addElement("HR_CONCLUSÃO");
+
+            Vector rows = new Vector();
+            while (rs.next()) {
+                Vector newRow = new Vector();
+                for (int i = 1; i <= numberOfColumns; i++) {
+                    newRow.addElement(rs.getObject(i));
+                }
+                rows.addElement(newRow);
+            }
+            return new DefaultTableModel(rows, columnNames);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    // ---Fim Jtable
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -90,6 +118,24 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
         exit_btn2 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
+        phaseFeedback_cb = new javax.swing.JComboBox();
+        cpfSingUp_lbl3 = new javax.swing.JLabel();
+        cpfSingUp_lbl5 = new javax.swing.JLabel();
+        attemptFeedback_cb = new javax.swing.JComboBox();
+        playerScore_lbl1 = new javax.swing.JLabel();
+        playerScore_txt = new javax.swing.JTextField();
+        playerScore_lbl2 = new javax.swing.JLabel();
+        completionDate_txt = new javax.swing.JTextField();
+        playerScore_lbl3 = new javax.swing.JLabel();
+        completionTime_txt = new javax.swing.JTextField();
+        cpfSingUp_lbl4 = new javax.swing.JLabel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        attemptTable = new javax.swing.JTable();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        feedback_txt = new javax.swing.JTextArea();
+        logOut_btn4 = new javax.swing.JButton();
+        exit_btn4 = new javax.swing.JButton();
+        feedbackBG_lbl = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         myTutor_btn = new javax.swing.JButton();
         refreshFields_btn = new javax.swing.JButton();
@@ -111,6 +157,12 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
+
+        jTabbedPane1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jTabbedPane1StateChanged(evt);
+            }
+        });
 
         jPanel1.setLayout(null);
 
@@ -239,23 +291,149 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Reservar Óculos", jPanel1);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 391, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 676, Short.MAX_VALUE)
-        );
+        jPanel2.setLayout(null);
+
+        phaseFeedback_cb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE A FASE" }));
+        phaseFeedback_cb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                phaseFeedback_cbActionPerformed(evt);
+            }
+        });
+        jPanel2.add(phaseFeedback_cb);
+        phaseFeedback_cb.setBounds(120, 80, 260, 30);
+
+        cpfSingUp_lbl3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        cpfSingUp_lbl3.setForeground(new java.awt.Color(255, 255, 255));
+        cpfSingUp_lbl3.setText("FASE:");
+        jPanel2.add(cpfSingUp_lbl3);
+        cpfSingUp_lbl3.setBounds(20, 80, 70, 30);
+
+        cpfSingUp_lbl5.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        cpfSingUp_lbl5.setForeground(new java.awt.Color(255, 255, 255));
+        cpfSingUp_lbl5.setText("TENTATIVA:");
+        jPanel2.add(cpfSingUp_lbl5);
+        cpfSingUp_lbl5.setBounds(20, 240, 110, 30);
+
+        attemptFeedback_cb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE A TENTATIVA" }));
+        attemptFeedback_cb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                attemptFeedback_cbActionPerformed(evt);
+            }
+        });
+        jPanel2.add(attemptFeedback_cb);
+        attemptFeedback_cb.setBounds(140, 240, 240, 30);
+
+        playerScore_lbl1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        playerScore_lbl1.setForeground(new java.awt.Color(255, 255, 255));
+        playerScore_lbl1.setText("SCORE:");
+        jPanel2.add(playerScore_lbl1);
+        playerScore_lbl1.setBounds(20, 280, 110, 30);
+
+        playerScore_txt.setText("SCORE DA TENTATIVA");
+        playerScore_txt.setDisabledTextColor(new java.awt.Color(255, 0, 0));
+        playerScore_txt.setEnabled(false);
+        playerScore_txt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                playerScore_txtActionPerformed(evt);
+            }
+        });
+        jPanel2.add(playerScore_txt);
+        playerScore_txt.setBounds(140, 280, 240, 30);
+
+        playerScore_lbl2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        playerScore_lbl2.setForeground(new java.awt.Color(255, 255, 255));
+        playerScore_lbl2.setText("CONCLUSÃO:");
+        jPanel2.add(playerScore_lbl2);
+        playerScore_lbl2.setBounds(20, 320, 130, 30);
+
+        completionDate_txt.setText("DATA CONCLUSÃO");
+        completionDate_txt.setDisabledTextColor(new java.awt.Color(255, 0, 0));
+        completionDate_txt.setEnabled(false);
+        completionDate_txt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                completionDate_txtActionPerformed(evt);
+            }
+        });
+        jPanel2.add(completionDate_txt);
+        completionDate_txt.setBounds(140, 320, 240, 30);
+
+        playerScore_lbl3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        playerScore_lbl3.setForeground(new java.awt.Color(255, 255, 255));
+        playerScore_lbl3.setText("HORÁRIO:");
+        jPanel2.add(playerScore_lbl3);
+        playerScore_lbl3.setBounds(20, 360, 130, 30);
+
+        completionTime_txt.setText("HORARIO DE CONCLUSAO");
+        completionTime_txt.setDisabledTextColor(new java.awt.Color(255, 0, 0));
+        completionTime_txt.setEnabled(false);
+        completionTime_txt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                completionTime_txtActionPerformed(evt);
+            }
+        });
+        jPanel2.add(completionTime_txt);
+        completionTime_txt.setBounds(140, 360, 240, 30);
+
+        cpfSingUp_lbl4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        cpfSingUp_lbl4.setForeground(new java.awt.Color(255, 255, 255));
+        cpfSingUp_lbl4.setText("FEEDBACK:");
+        jPanel2.add(cpfSingUp_lbl4);
+        cpfSingUp_lbl4.setBounds(20, 400, 110, 30);
+
+        attemptTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane5.setViewportView(attemptTable);
+
+        jPanel2.add(jScrollPane5);
+        jScrollPane5.setBounds(10, 120, 370, 110);
+
+        feedback_txt.setColumns(20);
+        feedback_txt.setRows(5);
+        feedback_txt.setText("ESCREVA SEU FEEDBACK AQUI");
+        jScrollPane3.setViewportView(feedback_txt);
+
+        jPanel2.add(jScrollPane3);
+        jScrollPane3.setBounds(140, 400, 240, 80);
+
+        logOut_btn4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        logOut_btn4.setText("LOGOUT");
+        logOut_btn4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logOut_btn4ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(logOut_btn4);
+        logOut_btn4.setBounds(270, 590, 110, 30);
+
+        exit_btn4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        exit_btn4.setText("SAIR");
+        exit_btn4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exit_btn4ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(exit_btn4);
+        exit_btn4.setBounds(270, 630, 110, 30);
+
+        feedbackBG_lbl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/RealHeroesBG7.png"))); // NOI18N
+        jPanel2.add(feedbackBG_lbl);
+        feedbackBG_lbl.setBounds(0, -10, 400, 710);
 
         jTabbedPane1.addTab("Visualizar Feedbacks", jPanel2);
 
         jPanel3.setLayout(null);
 
         myTutor_btn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        myTutor_btn.setText("MEU TUTOR");
+        myTutor_btn.setText("ALTERAR");
         myTutor_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 myTutor_btnActionPerformed(evt);
@@ -514,6 +692,50 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, "-=-=-=-=-=-SEU TUTOR-=-=-=-=-=-\n" + logedResident.getTutor().toString());
     }//GEN-LAST:event_myTutor_btnActionPerformed
 
+    private void phaseFeedback_cbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phaseFeedback_cbActionPerformed
+        String selectedPhase = String.valueOf(phaseFeedback_cb.getSelectedItem());
+        String cpf = Controller.LoggedUser_Controller.getLoggedUser().getCpf();
+        Model.RefreshFuncs_DAO.refreshResidentAttemptOptions(selectedPhase, cpf);
+        Model.RefreshFuncs_DAO.refreshAttemptsTable(selectedPhase, cpf); 
+        Model.Funcs_DAO.resetResidentFeedbackFields();
+
+    }//GEN-LAST:event_phaseFeedback_cbActionPerformed
+
+    private void attemptFeedback_cbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_attemptFeedback_cbActionPerformed
+        String selectedPhase = (String) phaseFeedback_cb.getSelectedItem();
+        String selectedAttempt = (String) attemptFeedback_cb.getSelectedItem();
+        Model.AttemptFuncs_DAO.showSelectedAttemptInfoForResident(selectedPhase, selectedAttempt);
+    }//GEN-LAST:event_attemptFeedback_cbActionPerformed
+
+    private void playerScore_txtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playerScore_txtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_playerScore_txtActionPerformed
+
+    private void completionDate_txtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_completionDate_txtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_completionDate_txtActionPerformed
+
+    private void completionTime_txtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_completionTime_txtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_completionTime_txtActionPerformed
+
+    private void logOut_btn4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOut_btn4ActionPerformed
+        Controller.LoggedUser_Controller.logout();
+        JOptionPane.showMessageDialog(null, "Logout realizado com sucesso! Ate mais!");
+        Model.Funcs_DAO.changeScreen(this, new SetUp_GUI());
+    }//GEN-LAST:event_logOut_btn4ActionPerformed
+
+    private void exit_btn4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exit_btn4ActionPerformed
+        Model.Funcs_DAO.exit();
+    }//GEN-LAST:event_exit_btn4ActionPerformed
+
+    private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPane1StateChanged
+        int selectedIndex = jTabbedPane1.getSelectedIndex(); // Obtém o índice da aba selecionada
+        if (selectedIndex == 1) {
+            Model.RefreshFuncs_DAO.refreshResidentPhaseOptions(Controller.LoggedUser_Controller.getLoggedUser().getCpf());
+        }
+    }//GEN-LAST:event_jTabbedPane1StateChanged
+
     /**
      * @param args the command line arguments
      */
@@ -552,11 +774,18 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JTextField addressProfile_txt;
     private javax.swing.JLabel addressSingUp_lbl;
+    public static javax.swing.JComboBox attemptFeedback_cb;
+    public static javax.swing.JTable attemptTable;
     private javax.swing.JLabel brand_lbl;
     private javax.swing.JLabel brand_lbl1;
     public static javax.swing.JTextField brand_txt;
+    public static javax.swing.JTextField completionDate_txt;
+    public static javax.swing.JTextField completionTime_txt;
     private javax.swing.JLabel cpfProfile_lbl;
     public static javax.swing.JTextField cpfProfile_txt;
+    private javax.swing.JLabel cpfSingUp_lbl3;
+    private javax.swing.JLabel cpfSingUp_lbl4;
+    private javax.swing.JLabel cpfSingUp_lbl5;
     public static javax.swing.JTextField dataRt_txt;
     public static javax.swing.JTextArea deviceDescription_txt;
     public static javax.swing.JTable deviceInfo;
@@ -574,6 +803,9 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
     private javax.persistence.EntityManager entityManager0;
     public static javax.swing.JButton exit_btn2;
     public static javax.swing.JButton exit_btn3;
+    public static javax.swing.JButton exit_btn4;
+    private javax.swing.JLabel feedbackBG_lbl;
+    public static javax.swing.JTextArea feedback_txt;
     public static javax.swing.JComboBox idDevice_cb;
     private javax.swing.JLabel idDispositivo_lbl;
     private javax.swing.JLabel jLabel1;
@@ -583,15 +815,23 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
     public static javax.swing.JButton logOut_btn2;
     public static javax.swing.JButton logOut_btn3;
+    public static javax.swing.JButton logOut_btn4;
     public static javax.swing.JButton myTutor_btn;
     public static javax.swing.JTextField nameProfile_txt;
     private javax.swing.JLabel nameSingUp_lbl;
     public static javax.swing.JPasswordField passwordProfile_txt;
     private javax.swing.JLabel passwordSingUp_lbl;
+    public static javax.swing.JComboBox phaseFeedback_cb;
     private javax.swing.JLabel playerScore_lbl;
+    private javax.swing.JLabel playerScore_lbl1;
+    private javax.swing.JLabel playerScore_lbl2;
+    private javax.swing.JLabel playerScore_lbl3;
+    public static javax.swing.JTextField playerScore_txt;
     public static javax.swing.JButton refreshFields_btn;
     private javax.swing.JButton reserveDevice_btn;
     private javax.swing.JButton searchDevices_btn;

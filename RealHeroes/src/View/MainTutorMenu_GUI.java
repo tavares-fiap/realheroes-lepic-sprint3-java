@@ -865,19 +865,19 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
     private void attemptFeedback_cbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_attemptFeedback_cbActionPerformed
         String selectedPhase = (String) phaseFeedback_cb.getSelectedItem();
         String selectedAttempt = (String) attemptFeedback_cb.getSelectedItem();
-        Model.AttemptFuncs_DAO.showSelectedAttemptInfo(selectedPhase, selectedAttempt);
+        Model.AttemptFuncs_DAO.showSelectedAttemptInfoForTutor(selectedPhase, selectedAttempt);
     }//GEN-LAST:event_attemptFeedback_cbActionPerformed
 
     private void phaseFeedback_cbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phaseFeedback_cbActionPerformed
-        //if (Model.RefreshFuncs_DAO.refreshAttemptOptions()) {
+        //if (Model.RefreshFuncs_DAO.refreshTutorAttemptOptions()) {
         //    Model.RefreshFuncs_DAO.refreshFeedbackTable();
         //}
 
         String selectedPhase = String.valueOf(phaseFeedback_cb.getSelectedItem());
         String selectedCpf = String.valueOf(cpfResidentFeedback_cb.getSelectedItem());
-        Model.RefreshFuncs_DAO.refreshAttemptOptions(selectedPhase, selectedCpf);
-        Model.RefreshFuncs_DAO.refreshFeedbackTable(selectedPhase, selectedCpf); //ESSA FUNÇÃO TEM QUE VERIFICAR SE O RETORNO DA QUERY É VAZIO, SE FOR VAZIO, PREENCHE A TABLE A COM NADA. SE NAO, PREENCHE NORMAL
-        Model.Funcs_DAO.resetFeedbackFields();
+        Model.RefreshFuncs_DAO.refreshTutorAttemptOptions(selectedPhase, selectedCpf);
+        Model.RefreshFuncs_DAO.refreshFeedbackTable(selectedPhase, selectedCpf);
+        Model.Funcs_DAO.resetTutorFeedbackFields();
         
     }//GEN-LAST:event_phaseFeedback_cbActionPerformed
 
@@ -887,14 +887,12 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_addAlterFeedback_btnActionPerformed
 
     private void cpfResidentFeedback_cbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cpfResidentFeedback_cbActionPerformed
-        //Model.RefreshFuncs_DAO.refreshPhaseOptions();
+        //Model.RefreshFuncs_DAO.refreshTutorPhaseOptions();
         //Model.Funcs_DAO.cleanFeedbackFields();
         //Model.RefreshFuncs_DAO.refreshFeedbackTable();
-        
-        
         String selectedCpf = (String) cpfResidentFeedback_cb.getSelectedItem();
-        Model.RefreshFuncs_DAO.refreshPhaseOptions(selectedCpf);
-        Model.Funcs_DAO.resetFeedbackFields();
+        Model.RefreshFuncs_DAO.refreshTutorPhaseOptions(selectedCpf);
+        Model.Funcs_DAO.resetTutorFeedbackFields();
     }//GEN-LAST:event_cpfResidentFeedback_cbActionPerformed
 
     private void cpfResidentFeedback_cbMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cpfResidentFeedback_cbMouseClicked
