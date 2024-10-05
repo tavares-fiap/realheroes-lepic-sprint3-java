@@ -134,11 +134,11 @@ public class Funcs_DAO {
     }
 
     public static void profileRefresh() {
-        View.MainTutorMenu_GUI.cpfProfile_txt.setText(Controller.LoggedUser_Controller.getLoggedUser().getCpf());
-        View.MainTutorMenu_GUI.nameProfile_txt.setText(Controller.LoggedUser_Controller.getLoggedUser().getName());
-        View.MainTutorMenu_GUI.emailProfile_txt.setText(Controller.LoggedUser_Controller.getLoggedUser().getEmail());
-        View.MainTutorMenu_GUI.addressProfile_txt.setText(Controller.LoggedUser_Controller.getLoggedUser().getAddress());
-        View.MainTutorMenu_GUI.passwordProfile_txt.setText(Controller.LoggedUser_Controller.getLoggedUser().getPassword());
+        View.MainResidentMenu_GUI.cpfProfile_txt.setText(Controller.LoggedUser_Controller.getLoggedUser().getCpf());
+        View.MainResidentMenu_GUI.nameProfile_txt.setText(Controller.LoggedUser_Controller.getLoggedUser().getName());
+        View.MainResidentMenu_GUI.emailProfile_txt.setText(Controller.LoggedUser_Controller.getLoggedUser().getEmail());
+        View.MainResidentMenu_GUI.addressProfile_txt.setText(Controller.LoggedUser_Controller.getLoggedUser().getAddress());
+        View.MainResidentMenu_GUI.passwordProfile_txt.setText(Controller.LoggedUser_Controller.getLoggedUser().getPassword());
     }
 
     public static void cleanAddResidentFields() {
@@ -154,12 +154,19 @@ public class Funcs_DAO {
         View.MainTutorMenu_GUI.residentAddress_txt.setText("");
     }
 
-    public static void resetFeedbackFields() {
+    public static void resetTutorFeedbackFields() {
         View.MainTutorMenu_GUI.playerScore_txt.setText("");
         View.MainTutorMenu_GUI.completionDate_txt.setText("");
         View.MainTutorMenu_GUI.completionTime_txt.setText("");
         View.MainTutorMenu_GUI.feedback_txt.setText("");
         //View.MainTutorMenu_GUI.phaseFeedback_cb.setSelectedIndex(0);
 
+    }
+    
+    public static void resetResidentFeedbackFields() {
+        View.MainResidentMenu_GUI.playerScore_txt.setText("");
+        View.MainResidentMenu_GUI.completionDate_txt.setText("");
+        View.MainResidentMenu_GUI.completionTime_txt.setText("");
+        View.MainResidentMenu_GUI.feedback_txt.setText("");
     }
 }

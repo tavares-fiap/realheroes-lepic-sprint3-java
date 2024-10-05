@@ -22,8 +22,7 @@ public class AttemptFuncs_DAO {
     private static String dbPassword = Controller.DataBaseConfig_DB.getPassword();
     private static Map<String, String> resultMap = new HashMap<>();
     
-    public static void showSelectedAttemptInfo(String selectedPhase, String selectedAttempt) {
-       
+    public static void showSelectedAttemptInfoForTutor(String selectedPhase, String selectedAttempt) {
         int selectedPhaseInt;
         int selectedAttemptInt;
 
@@ -50,6 +49,36 @@ public class AttemptFuncs_DAO {
         View.MainTutorMenu_GUI.completionDate_txt.setText(dateOfCompletion);
         View.MainTutorMenu_GUI.completionTime_txt.setText(completionTime);
         View.MainTutorMenu_GUI.feedback_txt.setText(feedback);
+        return;
+    }
+    
+    public static void showSelectedAttemptInfoForResident(String selectedPhase, String selectedAttempt) {
+        int selectedPhaseInt;
+        int selectedAttemptInt;
+
+        try {
+            selectedPhaseInt = Integer.parseInt(selectedPhase);
+            selectedAttemptInt = Integer.parseInt(selectedAttempt);
+        } catch (NumberFormatException e) {
+            System.out.println("Fase ou tentativa nao sao numeros! showSelectedAttemptInfo:" + e);
+            return; // Retorna se houver erro
+        }
+
+        Map<String, String> attemptInfo = getAttemptDetails(selectedPhaseInt, selectedAttemptInt);
+
+        if (attemptInfo == null) {
+            return;
+        }
+        
+        String feedback = attemptInfo.get("feedback");
+        String score = attemptInfo.get("score");
+        String dateOfCompletion = attemptInfo.get("dateOfCompletion");
+        String completionTime = attemptInfo.get("completionTime");
+
+        View.MainResidentMenu_GUI.playerScore_txt.setText(score);
+        View.MainResidentMenu_GUI.completionDate_txt.setText(dateOfCompletion);
+        View.MainResidentMenu_GUI.completionTime_txt.setText(completionTime);
+        View.MainResidentMenu_GUI.feedback_txt.setText(feedback);
         return;
     }
 

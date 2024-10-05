@@ -59,7 +59,7 @@ CREATE TABLE DEVICE
 (
    IDdevice INT(3),
    Description VARCHAR(70) NOT NULL,
-   Brand VARCHAR (10),
+   Marca VARCHAR (10),
    PRIMARY KEY (IDdevice)
 );
 
@@ -84,13 +84,13 @@ INSERT INTO TUTOR (cpf, name, email, address, password)
 VALUES ('11223344556', 'João Silva', 'joao_silva@gmail.com', 'Rua Flores 123', 'joao2024');
 
 INSERT INTO TUTOR (cpf, name, email, address, password)
-VALUES ('22334455667', 'Maria Oliveira', 'maria_oliveira@gmail.com', 'Rua Santos 400', 'maria5678');
+VALUES ('22334455668', 'Maria Oliveira', 'maria_oliveira@gmail.com', 'Rua Santos 400', 'maria5678');
 
 INSERT INTO TUTOR (cpf, name, email, address, password)
-VALUES ('33445566778', 'Carlos Pereira', 'carlos_pereira@gmail.com', 'Rua das Palmeiras 250', 'carlinhos321');
+VALUES ('33445566779', 'Carlos Pereira', 'carlos_pereira@gmail.com', 'Rua das Palmeiras 250', 'carlinhos321');
 
 INSERT INTO TUTOR (cpf, name, email, address, password)
-VALUES ('44556677889', 'Beatriz Souza', 'bia_souza@gmail.com', 'Av. Central 888', 'bia2024');
+VALUES ('44556677880', 'Beatriz Souza', 'bia_souza@gmail.com', 'Av. Central 888', 'bia2024');
 
 
 
@@ -104,13 +104,13 @@ INSERT INTO RESIDENT (cpf, name, email, address, password, cpf_tutor)
 VALUES ('33445566778', 'Marcos Tavares', 'marcos_tavares@gmail.com', 'Rua dos Pardais 500', 'marcos2024', '11223344556');
 
 INSERT INTO RESIDENT (cpf, name, email, address, password, cpf_tutor)
-VALUES ('44556677889', 'Luiza Rocha', 'luiza_rocha@gmail.com', 'Av. Verde 600', 'luiza2024', '22334455667');
+VALUES ('44556677889', 'Luiza Rocha', 'luiza_rocha@gmail.com', 'Av. Verde 600', 'luiza2024', '22334455668');
 
 INSERT INTO RESIDENT (cpf, name, email, address, password, cpf_tutor)
-VALUES ('55667788990', 'Rodrigo Nunes', 'rodrigo_nunes@gmail.com', 'Rua do Sol 150', 'rodrigo2024', '33445566778');
+VALUES ('55667788990', 'Rodrigo Nunes', 'rodrigo_nunes@gmail.com', 'Rua do Sol 150', 'rodrigo2024', '334455667796');
 
 INSERT INTO RESIDENT (cpf, name, email, address, password, cpf_tutor)
-VALUES ('66778899001', 'Amanda Borges', 'amanda_borges@gmail.com', 'Rua das Estrelas 200', 'amanda2024', '44556677889');
+VALUES ('66778899001', 'Amanda Borges', 'amanda_borges@gmail.com', 'Rua das Estrelas 200', 'amanda2024', '44556677880');
 
 
 

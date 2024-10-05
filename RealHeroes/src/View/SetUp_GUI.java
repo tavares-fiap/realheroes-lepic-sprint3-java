@@ -270,8 +270,14 @@ public class SetUp_GUI extends javax.swing.JFrame {
     private void sendLogin_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendLogin_btnActionPerformed
         String cpf = cpfLogin_txt.getText();
         String password = passwordLogin_txt.getText();
-        if (Model.Login_DAO.login(cpf, password)) {
+        int loginResult = Model.Login_DAO.login(cpf, password);
+        if (loginResult == 0) {
             Model.Funcs_DAO.changeScreen(this, new MainTutorMenu_GUI());
+        } else if (loginResult == 1) {
+            Model.Funcs_DAO.changeScreen(this, new MainResidentMenu_GUI());
+            if (Controller.LoggedUser_Controller.getLoggedUser().getPassword().equals("12345678")) {
+                JOptionPane.showMessageDialog(null, "Ola " + Controller.LoggedUser_Controller.getLoggedUser().getName().split(" ")[0] + "!\nVejo que voce ainda esta com a senha padrao, por questoes de seguranca,\nvoce DEVE alterar sua senha na aba de 'Perfil'. Assim, voce nao recebera mais essa mensagem!");
+            }
         }
     }//GEN-LAST:event_sendLogin_btnActionPerformed
 

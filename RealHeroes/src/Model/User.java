@@ -55,5 +55,10 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+    
+    @Override
+    public String toString(){
+        return "Cpf: " + this.cpf + "\nNome: " + this.name + "\nEmail: " + this.email + "\nEndereco: " + this.address;
+    }
 
 }

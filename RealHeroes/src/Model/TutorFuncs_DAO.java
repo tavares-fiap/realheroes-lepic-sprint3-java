@@ -3,6 +3,7 @@ package Model;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -124,5 +125,24 @@ public class TutorFuncs_DAO {
             return false;
         }
     }
+
+    public static Tutor getTutorByCpf(String cpf) throws SQLException {
+        try (Connection con = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+                PreparedStatement pstmt = con.prepareStatement("SELECT * FROM TUTOR WHERE cpf = ?")) {
+            pstmt.setString(1, cpf);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    String name = rs.getString("name");
+                    String email = rs.getString("email");
+                    String address = rs.getString("address");
+                    String password = rs.getString("password");
+                    return new Tutor(cpf, name, email, address, password);
+                }
+            }
+        }
+        return null; // Retorna null se o tutor não for encontrado
+    }
+    
+    
 
 }

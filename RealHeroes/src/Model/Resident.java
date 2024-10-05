@@ -9,5 +9,13 @@ public class Resident extends User{
         super(cpf, name, email, address, password);
         this.tutor = tutor;
     }
+
+    public Tutor getTutor() {
+        return tutor;
+    }
     
+    @Override
+    public String toString() {
+        return super.toString() + "\nTipo: Residente\nTutor: " + this.tutor.getCpf() + " || " + this.tutor.getName();
+    }
 }
