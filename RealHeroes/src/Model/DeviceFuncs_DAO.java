@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JOptionPane;
@@ -22,7 +23,10 @@ public class DeviceFuncs_DAO {
     private static String dbPassword = Controller.DataBaseConfig_DB.getPassword();
     private static Map<String, String> residentResultMap = new HashMap<>();
     
-    public static void getAvaiableDevices(String dataRT) {
+    public static void getAvaiableDevices(java.util.Date dataRT) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate = sdf.format(dataRT);
+        
     String query = "SELECT D.IDdevice, D.Description, D.Marca " +
                    "FROM DEVICE D " +
                    "LEFT JOIN ( " +
@@ -37,7 +41,7 @@ public class DeviceFuncs_DAO {
          PreparedStatement stmt = conn.prepareStatement(query)) {
 
         // Convertendo a String para java.sql.Date
-        Date dataRTDate = Date.valueOf(dataRT);  // dataRT deve estar no formato "yyyy-MM-dd"
+        Date dataRTDate = Date.valueOf(formattedDate);  // dataRT deve estar no formato "yyyy-MM-dd"
         stmt.setDate(1, dataRTDate);
 
         ResultSet rs = stmt.executeQuery();
