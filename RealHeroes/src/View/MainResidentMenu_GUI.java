@@ -574,10 +574,6 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_brand_txtActionPerformed
 
     private void searchDevices_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchDevices_btnActionPerformed
-    if (dataRetirada_txt.getDate() == null) {
-        System.out.println("A data de reserva não foi inserida.");
-        return;
-    }
     java.util.Date selectedDate = dataRetirada_txt.getDate();
     Model.DeviceFuncs_DAO.getAvaiableDevices(selectedDate);  // Passando a data para a função
     }//GEN-LAST:event_searchDevices_btnActionPerformed

@@ -24,6 +24,13 @@ public class DeviceFuncs_DAO {
     private static Map<String, String> residentResultMap = new HashMap<>();
     
     public static void getAvaiableDevices(java.util.Date dataRT) {
+        if (dataRT == null) {
+        System.out.println("A data de reserva não foi inserida.");
+        JOptionPane.showMessageDialog(null, "Por favor, insira uma data válida! ex: '10/10/2024', "
+                + "\nou clique no botão no lado direito do campo de data para selecionar a data no calendário");
+        return;
+    }
+        
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate = sdf.format(dataRT);
         
