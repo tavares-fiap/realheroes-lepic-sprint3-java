@@ -30,6 +30,8 @@ public class DeviceFuncs_DAO {
         System.out.println("A data de reserva não foi inserida.");
         JOptionPane.showMessageDialog(null, "Por favor, insira uma data válida! ex: '10/10/2024', "
                 + "\nou clique no botão no lado direito do campo de data para selecionar a data no calendário");
+        View.MainResidentMenu_GUI.deviceInfo.setModel(View.MainResidentMenu_GUI.clearDeviceInfoFunc());
+        Model.Funcs_DAO.clearDeviceFields();
         return;
         }
 
@@ -41,6 +43,15 @@ public class DeviceFuncs_DAO {
         
         if(!dateComparison(formattedDate, sqlDate)){
             JOptionPane.showMessageDialog(null, "Erro! Digite uma data posterior à data de hoje.");
+            View.MainResidentMenu_GUI.deviceInfo.setModel(View.MainResidentMenu_GUI.clearDeviceInfoFunc());
+            Model.Funcs_DAO.clearDeviceFields();
+            return;
+        }
+        
+        if(dateComparison(formattedDate, Date.valueOf("2024-12-31"))){
+            JOptionPane.showMessageDialog(null, "Erro! Digite uma data no ano atual.");
+            View.MainResidentMenu_GUI.deviceInfo.setModel(View.MainResidentMenu_GUI.clearDeviceInfoFunc());
+            Model.Funcs_DAO.clearDeviceFields();
             return;
         }
         
@@ -63,11 +74,19 @@ public class DeviceFuncs_DAO {
         stmt.setDate(1, dataRTDate);
 
         ResultSet rs = stmt.executeQuery();
-        View.MainResidentMenu_GUI.deviceInfo.setModel(View.MainResidentMenu_GUI.deviceInfoFunc(rs));
+        //View.MainResidentMenu_GUI.deviceInfo.setModel(View.MainResidentMenu_GUI.deviceInfoFunc(rs));
+        if (rs.isBeforeFirst()){ 
+                View.MainResidentMenu_GUI.deviceInfo.setModel(View.MainResidentMenu_GUI.deviceInfoFunc(rs));
+            } else {
+                View.MainResidentMenu_GUI.deviceInfo.setModel(View.MainResidentMenu_GUI.clearDeviceInfoFunc());
+                Model.Funcs_DAO.clearDeviceFields();
+            }
 
     } catch (SQLException e) {
         e.printStackTrace();
         JOptionPane.showMessageDialog(null, "Erro ao buscar dispositivos disponíveis.", "Erro", JOptionPane.ERROR_MESSAGE);
+        View.MainResidentMenu_GUI.deviceInfo.setModel(View.MainResidentMenu_GUI.clearDeviceInfoFunc());
+        Model.Funcs_DAO.clearDeviceFields();
     }
 }
     
@@ -105,6 +124,10 @@ public class DeviceFuncs_DAO {
             return;
         }
         
+        if(dateComparison(formattedDate, Date.valueOf("2024-12-31"))){
+            return;
+        }
+        
         
     String query = "SELECT D.IDdevice, D.Description, D.Marca " +
                    "FROM DEVICE D " +
@@ -137,11 +160,15 @@ public class DeviceFuncs_DAO {
             JOptionPane.showMessageDialog(null, "Dispositivos disponíveis carregados com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(null, "Nenhum dispositivo disponível para essa data.", "Informação", JOptionPane.INFORMATION_MESSAGE);
+            View.MainResidentMenu_GUI.deviceInfo.setModel(View.MainResidentMenu_GUI.clearDeviceInfoFunc());
+            Model.Funcs_DAO.clearDeviceFields();
         }
 
     } catch (SQLException e) {
         e.printStackTrace();
         JOptionPane.showMessageDialog(null, "Erro ao buscar dispositivos disponíveis.", "Erro", JOptionPane.ERROR_MESSAGE);
+        View.MainResidentMenu_GUI.deviceInfo.setModel(View.MainResidentMenu_GUI.clearDeviceInfoFunc());
+        Model.Funcs_DAO.clearDeviceFields();
     }
 }
 

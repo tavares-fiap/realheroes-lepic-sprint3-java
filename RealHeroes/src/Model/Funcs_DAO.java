@@ -169,4 +169,12 @@ public class Funcs_DAO {
         View.MainResidentMenu_GUI.completionTime_txt.setText("");
         View.MainResidentMenu_GUI.feedback_txt.setText("");
     }
+    
+    public static void clearDeviceFields() {
+        View.MainResidentMenu_GUI.idDevice_cb.removeAllItems();
+        View.MainResidentMenu_GUI.idDevice_cb.addItem("SELECIONE O DISPOSITIVO DESEJADO");
+        View.MainResidentMenu_GUI.deviceDescription_txt.setText("");
+        View.MainResidentMenu_GUI.brand_txt.setText("");
+        View.MainResidentMenu_GUI.dataRetirada_txt.setDate(null);
+}
 }
