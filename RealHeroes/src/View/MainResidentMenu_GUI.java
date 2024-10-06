@@ -27,6 +27,7 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
      */
     public MainResidentMenu_GUI() {
         initComponents();
+        View.MainResidentMenu_GUI.deviceInfo.setModel(View.MainResidentMenu_GUI.clearDeviceInfoFunc());
     }
     public static DefaultTableModel deviceInfoFunc(ResultSet rs) {
         try {
@@ -79,6 +80,20 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
     }
     // ---Fim Jtable
     
+    public static DefaultTableModel clearDeviceInfoFunc() {
+        try {
+            DefaultTableModel model = new DefaultTableModel();
+
+            model.addColumn("ID dispositivo");
+            model.addColumn("Descrição");
+            model.addColumn("Marca");
+            model.setRowCount(0);
+            return model;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -112,10 +127,10 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         deviceDescription_txt = new javax.swing.JTextArea();
         brand_lbl1 = new javax.swing.JLabel();
-        dataRt_txt = new javax.swing.JTextField();
         reserveDevice_btn = new javax.swing.JButton();
         logOut_btn2 = new javax.swing.JButton();
         exit_btn2 = new javax.swing.JButton();
+        dataRetirada_txt = new com.toedter.calendar.JDateChooser();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         phaseFeedback_cb = new javax.swing.JComboBox();
@@ -246,15 +261,6 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
         jPanel1.add(brand_lbl1);
         brand_lbl1.setBounds(10, 80, 200, 30);
 
-        dataRt_txt.setText("AAAA-MM-DD");
-        dataRt_txt.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                dataRt_txtActionPerformed(evt);
-            }
-        });
-        jPanel1.add(dataRt_txt);
-        dataRt_txt.setBounds(290, 80, 90, 30);
-
         reserveDevice_btn.setText("Reservar Dispositivo");
         reserveDevice_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -283,6 +289,8 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
         });
         jPanel1.add(exit_btn2);
         exit_btn2.setBounds(270, 630, 110, 30);
+        jPanel1.add(dataRetirada_txt);
+        dataRetirada_txt.setBounds(230, 80, 150, 30);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/RealHeroesBG4.png"))); // NOI18N
         jLabel1.setText("jLabel1");
@@ -580,22 +588,23 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_brand_txtActionPerformed
 
-    private void dataRt_txtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dataRt_txtActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_dataRt_txtActionPerformed
-
     private void searchDevices_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchDevices_btnActionPerformed
-        String selectedDataRt = dataRt_txt.getText();  // Pegando a data que o usuário digitou
-    if (selectedDataRt.isEmpty()) {
-        System.out.println("A data de reserva não foi inserida.");
-        return;
-    }
-    Model.DeviceFuncs_DAO.getAvaiableDevices(selectedDataRt);  // Passando a data para a função
+    java.util.Date selectedDate = dataRetirada_txt.getDate();
+    Model.DeviceFuncs_DAO.getAvaiableDevices(selectedDate);  // Passando a data para a função
+    Model.DeviceFuncs_DAO.setDeviceIds(selectedDate);
     }//GEN-LAST:event_searchDevices_btnActionPerformed
 
     private void idDevice_cbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idDevice_cbActionPerformed
-        Integer selectedID = (Integer) idDevice_cb.getSelectedItem();
+        try{
+        Integer selectedID = Integer.parseInt(String.valueOf(idDevice_cb.getSelectedItem()) );
         Model.DeviceFuncs_DAO.showSelectedDeviceInfo(String.valueOf(selectedID));
+            System.out.println("Exibindo informações do dispositivo selecionado");
+        
+        }catch(Exception e){
+            System.out.println("Não foi possível ler o valor da combobox");
+            return;
+        }
+        
     }//GEN-LAST:event_idDevice_cbActionPerformed
 
     private void reserveDevice_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reserveDevice_btnActionPerformed
@@ -613,13 +622,13 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
     }
 
     // Verifique o campo de texto da data
-    if (dataRt_txt == null) {
+    if (dataRetirada_txt.getDate() == null) {
         System.out.println("Campo de texto dataRt_txt não foi inicializado.");
         return;
     }
-
-    String selectedDataRt = dataRt_txt.getText();
-    if (selectedDataRt.isEmpty()) {
+    
+    java.util.Date selectedDate = dataRetirada_txt.getDate();
+    if (selectedDate == null) {
         System.out.println("A data de reserva não foi inserida.");
         return;
     }
@@ -633,7 +642,7 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
     String selectedCPF = Controller.LoggedUser_Controller.getLoggedUser().getCpf();
 
     // Agora podemos chamar a função para reservar o dispositivo
-    Model.DeviceFuncs_DAO.reserveDevice(selectedID, selectedCPF, selectedDataRt);
+    Model.DeviceFuncs_DAO.reserveDevice(selectedID, selectedCPF, selectedDate);
     }//GEN-LAST:event_reserveDevice_btnActionPerformed
 
     private void logOut_btn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOut_btn2ActionPerformed
@@ -786,7 +795,7 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
     private javax.swing.JLabel cpfSingUp_lbl3;
     private javax.swing.JLabel cpfSingUp_lbl4;
     private javax.swing.JLabel cpfSingUp_lbl5;
-    public static javax.swing.JTextField dataRt_txt;
+    public static com.toedter.calendar.JDateChooser dataRetirada_txt;
     public static javax.swing.JTextArea deviceDescription_txt;
     public static javax.swing.JTable deviceInfo;
     private java.util.List<View.Device> deviceList;
