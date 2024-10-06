@@ -62,20 +62,7 @@ public class DeviceFuncs_DAO {
         stmt.setDate(1, dataRTDate);
 
         ResultSet rs = stmt.executeQuery();
-
-        // Preenchendo a JComboBox com os IDs dos dispositivos disponíveis
-        View.MainResidentMenu_GUI.idDevice_cb.removeAllItems();
-        while (rs.next()) {
-            int idDevice = rs.getInt("IDdevice");
-            System.out.println("Dispositivo disponível: " + idDevice);
-            View.MainResidentMenu_GUI.idDevice_cb.addItem(idDevice);
-        }
-
-        if (View.MainResidentMenu_GUI.idDevice_cb.getItemCount() > 0) {
-            JOptionPane.showMessageDialog(null, "Dispositivos disponíveis carregados com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(null, "Nenhum dispositivo disponível para essa data.", "Informação", JOptionPane.INFORMATION_MESSAGE);
-        }
+        View.MainResidentMenu_GUI.deviceInfo.setModel(View.MainResidentMenu_GUI.deviceInfoFunc(rs));
 
     } catch (SQLException e) {
         e.printStackTrace();
@@ -103,36 +90,57 @@ public class DeviceFuncs_DAO {
     }
 
 
-    public static void setDeviceIds() {
-    String query = "SELECT D.IDdevice " +
-                       "FROM DEVICE D " +
-                       "LEFT JOIN STOCK S ON D.IDdevice = S.IDdevice AND S.DataDev IS NULL " +
-                       "WHERE S.IDdevice IS NULL";
+    public static void setDeviceIds(java.util.Date dataRT) {
+    if (dataRT == null) {
+        return;
+        }
+
+        java.util.Date sqlDate = new Date(System.currentTimeMillis());
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate = sdf.format(dataRT);
+        
+        if(!dateComparison(formattedDate, sqlDate)){
+            return;
+        }
+        
+        
+    String query = "SELECT D.IDdevice, D.Description, D.Marca " +
+                   "FROM DEVICE D " +
+                   "LEFT JOIN ( " +
+                   "   SELECT IDdevice, MAX(DataDev) AS UltimaDataDev " +
+                   "   FROM STOCK " +
+                   "   GROUP BY IDdevice " +
+                   ") S ON D.IDdevice = S.IDdevice " +
+                   "WHERE S.IDdevice IS NULL " +  // Dispositivo nunca foi reservado
+                   "OR datediff(S.UltimaDataDev, ?) < 0";  // Considera apenas o registro mais recente e verifica se foi devolvido antes da data solicitada
 
     try (Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
-         PreparedStatement stmt = conn.prepareStatement(query);
-         ResultSet rs = stmt.executeQuery()) {
+         PreparedStatement stmt = conn.prepareStatement(query)) {
 
-        // Limpa a JComboBox antes de adicionar novos itens
+        // Convertendo a String para java.sql.Date
+        Date dataRTDate = Date.valueOf(formattedDate);  // dataRT deve estar no formato "yyyy-MM-dd"
+        stmt.setDate(1, dataRTDate);
+
+        ResultSet rs = stmt.executeQuery();
+
+        // Preenchendo a JComboBox com os IDs dos dispositivos disponíveis
         View.MainResidentMenu_GUI.idDevice_cb.removeAllItems();
-
-        // Itera sobre o ResultSet e adiciona cada ID à JComboBox
         while (rs.next()) {
             int idDevice = rs.getInt("IDdevice");
-            // Adiciona o ID à JComboBox
+            System.out.println("Dispositivo disponível: " + idDevice);
             View.MainResidentMenu_GUI.idDevice_cb.addItem(idDevice);
         }
 
-        // Mensagem de sucesso ou nenhuma disponível
         if (View.MainResidentMenu_GUI.idDevice_cb.getItemCount() > 0) {
-            JOptionPane.showMessageDialog(null, "Dispositivos carregados com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Dispositivos disponíveis carregados com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(null, "Nenhum dispositivo encontrado.", "Informação", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Nenhum dispositivo disponível para essa data.", "Informação", JOptionPane.INFORMATION_MESSAGE);
         }
 
     } catch (SQLException e) {
         e.printStackTrace();
-        JOptionPane.showMessageDialog(null, "Erro ao buscar dispositivos.", "Erro", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Erro ao buscar dispositivos disponíveis.", "Erro", JOptionPane.ERROR_MESSAGE);
     }
 }
 

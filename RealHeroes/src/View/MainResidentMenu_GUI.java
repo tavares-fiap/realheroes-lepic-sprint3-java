@@ -576,6 +576,7 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
     private void searchDevices_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchDevices_btnActionPerformed
     java.util.Date selectedDate = dataRetirada_txt.getDate();
     Model.DeviceFuncs_DAO.getAvaiableDevices(selectedDate);  // Passando a data para a função
+    Model.DeviceFuncs_DAO.setDeviceIds(selectedDate);
     }//GEN-LAST:event_searchDevices_btnActionPerformed
 
     private void idDevice_cbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idDevice_cbActionPerformed
