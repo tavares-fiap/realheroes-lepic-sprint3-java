@@ -173,7 +173,6 @@ public class DeviceFuncs_DAO {
 }
 
     public static void showSelectedDeviceInfo(String selectedID) {
-       
         int selectedIDInt;
 
         try {
