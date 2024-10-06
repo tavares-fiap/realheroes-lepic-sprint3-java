@@ -27,6 +27,7 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
      */
     public MainResidentMenu_GUI() {
         initComponents();
+        View.MainResidentMenu_GUI.deviceInfo.setModel(View.MainResidentMenu_GUI.clearDeviceInfoFunc());
     }
     public static DefaultTableModel deviceInfoFunc(ResultSet rs) {
         try {
@@ -78,6 +79,20 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
         }
     }
     // ---Fim Jtable
+    
+    public static DefaultTableModel clearDeviceInfoFunc() {
+        try {
+            DefaultTableModel model = new DefaultTableModel();
+
+            model.addColumn("ID dispositivo");
+            model.addColumn("Descrição");
+            model.addColumn("Marca");
+            model.setRowCount(0);
+            return model;
+        } catch (Exception e) {
+            return null;
+        }
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -580,8 +595,16 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_searchDevices_btnActionPerformed
 
     private void idDevice_cbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idDevice_cbActionPerformed
-        Integer selectedID = (Integer) idDevice_cb.getSelectedItem();
+        try{
+        Integer selectedID = Integer.parseInt(String.valueOf(idDevice_cb.getSelectedItem()) );
         Model.DeviceFuncs_DAO.showSelectedDeviceInfo(String.valueOf(selectedID));
+            System.out.println("Exibindo informações do dispositivo selecionado");
+        
+        }catch(Exception e){
+            System.out.println("Não foi possível ler o valor da combobox");
+            return;
+        }
+        
     }//GEN-LAST:event_idDevice_cbActionPerformed
 
     private void reserveDevice_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reserveDevice_btnActionPerformed
@@ -772,7 +795,7 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
     private javax.swing.JLabel cpfSingUp_lbl3;
     private javax.swing.JLabel cpfSingUp_lbl4;
     private javax.swing.JLabel cpfSingUp_lbl5;
-    private com.toedter.calendar.JDateChooser dataRetirada_txt;
+    public static com.toedter.calendar.JDateChooser dataRetirada_txt;
     public static javax.swing.JTextArea deviceDescription_txt;
     public static javax.swing.JTable deviceInfo;
     private java.util.List<View.Device> deviceList;
