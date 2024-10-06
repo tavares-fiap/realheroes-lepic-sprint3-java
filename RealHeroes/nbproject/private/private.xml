@@ -3,25 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Faculdade/Java/sprint3/realheroes-lepic-sprint3-java/RealHeroes/src/Model/Tutor.java</file>
-            <file>file:/D:/Faculdade/Java/sprint3/realheroes-lepic-sprint3-java/RealHeroes/src/Model/AttemptFuncs_DAO.java</file>
-            <file>file:/D:/Faculdade/Java/sprint3/realheroes-lepic-sprint3-java/RealHeroes/src/Model/DeviceFuncs_DAO.java</file>
-            <file>file:/D:/Faculdade/Java/sprint3/realheroes-lepic-sprint3-java/RealHeroes/src/Model/RefreshFuncs_DAO.java</file>
-            <file>file:/D:/Faculdade/Java/sprint3/realheroes-lepic-sprint3-java/RealHeroes/src/Model/Login_DAO.java</file>
-            <file>file:/D:/Faculdade/Java/sprint3/realheroes-lepic-sprint3-java/RealHeroes/src/View/MainTutorMenu_GUI.java</file>
-            <file>file:/D:/Faculdade/Java/sprint3/realheroes-lepic-sprint3-java/RealHeroes/src/Controller/DataBaseConfig_DB.java</file>
-            <file>file:/D:/Faculdade/Java/sprint3/realheroes-lepic-sprint3-java/RealHeroes/src/View/MainResidentMenu_GUI.java</file>
-            <file>file:/D:/Faculdade/Java/sprint3/realheroes-lepic-sprint3-java/RealHeroes/src/View/SetUp_GUI.java</file>
-            <file>file:/D:/Faculdade/Java/sprint3/realheroes-lepic-sprint3-java/RealHeroes/src/Model/TutorFuncs_DAO.java</file>
-            <file>file:/D:/Faculdade/Java/sprint3/realheroes-lepic-sprint3-java/RealHeroes/src/Model/ResidentFuncs_DAO.java</file>
-            <file>file:/D:/Faculdade/Java/sprint3/realheroes-lepic-sprint3-java/RealHeroes/src/Controller/Connect_DB.java</file>
-            <file>file:/D:/Faculdade/Java/sprint3/realheroes-lepic-sprint3-java/RealHeroes/src/View/Device.java</file>
-            <file>file:/D:/Faculdade/Java/sprint3/realheroes-lepic-sprint3-java/RealHeroes/src/View/Resident.java</file>
-            <file>file:/D:/Faculdade/Java/sprint3/realheroes-lepic-sprint3-java/RealHeroes/src/Model/User.java</file>
-            <file>file:/D:/Faculdade/Java/sprint3/realheroes-lepic-sprint3-java/RealHeroes/src/META-INF/persistence.xml</file>
-            <file>file:/D:/Faculdade/Java/sprint3/realheroes-lepic-sprint3-java/RealHeroes/src/Controller/LoggedUser_Controller.java</file>
-            <file>file:/D:/Faculdade/Java/sprint3/realheroes-lepic-sprint3-java/RealHeroes/src/Model/Funcs_DAO.java</file>
-            <file>file:/D:/Faculdade/Java/sprint3/realheroes-lepic-sprint3-java/RealHeroes/src/Model/Resident.java</file>
+            <file>file:/C:/Users/nikol/Documents/FIAP/2º%20ano/Java/sprints/sprint%203%20real%20heroes/realheroes-lepic-sprint3-java/RealHeroes/src/Controller/DataBaseConfig_DB.java</file>
+            <file>file:/C:/Users/nikol/Documents/FIAP/2º%20ano/Java/sprints/sprint%203%20real%20heroes/realheroes-lepic-sprint3-java/RealHeroes/src/Model/DeviceFuncs_DAO.java</file>
+            <file>file:/C:/Users/nikol/Documents/FIAP/2º%20ano/Java/sprints/sprint%203%20real%20heroes/realheroes-lepic-sprint3-java/RealHeroes/src/View/MainResidentMenu_GUI.java</file>
+            <file>file:/C:/Users/nikol/Documents/FIAP/2º%20ano/Java/sprints/sprint%203%20real%20heroes/realheroes-lepic-sprint3-java/RealHeroes/src/META-INF/persistence.xml</file>
         </group>
     </open-files>
 </project-private>
