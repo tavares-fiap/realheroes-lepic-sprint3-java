@@ -694,6 +694,7 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         nameSingUp_lbl2.setBounds(10, 250, 70, 30);
 
         residentName_txt.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        residentName_txt.setDisabledTextColor(new java.awt.Color(51, 51, 51));
         residentName_txt.setEnabled(false);
         jPanel4.add(residentName_txt);
         residentName_txt.setBounds(110, 250, 270, 30);
@@ -705,6 +706,7 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         emailSingUp_lbl2.setBounds(10, 300, 70, 30);
 
         residentEmail_txt.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        residentEmail_txt.setDisabledTextColor(new java.awt.Color(51, 51, 51));
         residentEmail_txt.setEnabled(false);
         jPanel4.add(residentEmail_txt);
         residentEmail_txt.setBounds(110, 300, 270, 30);
@@ -716,6 +718,7 @@ public class MainTutorMenu_GUI extends javax.swing.JFrame {
         addressSingUp_lbl2.setBounds(10, 350, 110, 30);
 
         residentAddress_txt.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        residentAddress_txt.setDisabledTextColor(new java.awt.Color(51, 51, 51));
         residentAddress_txt.setEnabled(false);
         jPanel4.add(residentAddress_txt);
         residentAddress_txt.setBounds(110, 350, 270, 30);
