@@ -603,9 +603,9 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
         System.out.println("Campo de texto dataRt_txt não foi inicializado.");
         return;
     }
-
-    String selectedDataRt = String.valueOf(dataRetirada_txt.getDate());
-    if (selectedDataRt.isEmpty()) {
+    
+    java.util.Date selectedDate = dataRetirada_txt.getDate();
+    if (selectedDate == null) {
         System.out.println("A data de reserva não foi inserida.");
         return;
     }
@@ -619,7 +619,7 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
     String selectedCPF = Controller.LoggedUser_Controller.getLoggedUser().getCpf();
 
     // Agora podemos chamar a função para reservar o dispositivo
-    Model.DeviceFuncs_DAO.reserveDevice(selectedID, selectedCPF, selectedDataRt);
+    Model.DeviceFuncs_DAO.reserveDevice(selectedID, selectedCPF, selectedDate);
     }//GEN-LAST:event_reserveDevice_btnActionPerformed
 
     private void logOut_btn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOut_btn2ActionPerformed

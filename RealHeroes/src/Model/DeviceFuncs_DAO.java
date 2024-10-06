@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JOptionPane;
@@ -196,28 +197,36 @@ public class DeviceFuncs_DAO {
         }
     }
     
-    public static void reserveDevice (int idDevice, String cpfResidente, String dataRT){
-        String query = "INSERT INTO STOCK VALUES (?, ?, ?, ?)";
+    public static void reserveDevice (int idDevice, String cpfResidente, java.util.Date dataRT) {
+    String query = "INSERT INTO STOCK VALUES (?, ?, ?, ?)";
 
-        try (Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
-             PreparedStatement stmt = conn.prepareStatement(query)) {
+    try (Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+         PreparedStatement stmt = conn.prepareStatement(query)) {
 
-            // Convertendo a String para java.sql.Date
-            Date dataRTDate = Date.valueOf(dataRT);  // dataRT deve estar no formato "yyyy-MM-dd"
+        // Convertendo a String para java.sql.Date
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate = sdf.format(dataRT);
+        Date dataRetirada = Date.valueOf(formattedDate);  // Data de retirada no formato correto
 
-            stmt.setInt(1, idDevice);
-            stmt.setString(2, cpfResidente);
-            stmt.setDate(3, dataRTDate);  // Inserindo a data no formato correto
-            stmt.setDate(4, null);
-            
-            int rowsAffected = stmt.executeUpdate();
-            if (rowsAffected > 0) {
-                System.out.println("Registro inserido com sucesso!");
-                JOptionPane.showMessageDialog(null, "Dispositivo reservado com Sucesso!");
-            }
+        // Acrescentando 15 dias à data de retirada
+        LocalDate retiradaLocalDate = dataRetirada.toLocalDate();
+        LocalDate dataDevolucao = retiradaLocalDate.plusDays(15);
+        Date devolucaoSqlDate = Date.valueOf(dataDevolucao);  // Convertendo de volta para java.sql.Date
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        stmt.setInt(1, idDevice);
+        stmt.setString(2, cpfResidente);
+        stmt.setDate(3, dataRetirada);  // Inserindo a data de retirada no formato correto
+        stmt.setDate(4, devolucaoSqlDate);  // Inserindo a nova data de devolução
+
+        int rowsAffected = stmt.executeUpdate();
+        if (rowsAffected > 0) {
+            System.out.println("Registro inserido com sucesso!");
+            JOptionPane.showMessageDialog(null, "Dispositivo reservado com Sucesso!");
         }
+
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+}
+
 }
