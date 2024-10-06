@@ -29,6 +29,7 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
         initComponents();
         View.MainResidentMenu_GUI.deviceInfo.setModel(View.MainResidentMenu_GUI.clearDeviceInfoFunc());
     }
+
     public static DefaultTableModel deviceInfoFunc(ResultSet rs) {
         try {
             ResultSetMetaData metaData = rs.getMetaData();
@@ -52,7 +53,7 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
             return null;
         }
     }
-    
+
     //-- Inicio Jtable 
     public static DefaultTableModel attemptTableFunc(ResultSet rs) {
         try {
@@ -79,7 +80,7 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
         }
     }
     // ---Fim Jtable
-    
+
     public static DefaultTableModel clearDeviceInfoFunc() {
         try {
             DefaultTableModel model = new DefaultTableModel();
@@ -93,7 +94,7 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
             return null;
         }
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -205,7 +206,7 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
             }
         });
         jPanel1.add(searchDevices_btn);
-        searchDevices_btn.setBounds(10, 120, 370, 25);
+        searchDevices_btn.setBounds(10, 120, 370, 23);
 
         idDevice_cb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE O DISPOSITIVO DESEJADO" }));
         idDevice_cb.addActionListener(new java.awt.event.ActionListener() {
@@ -289,6 +290,17 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
         });
         jPanel1.add(exit_btn2);
         exit_btn2.setBounds(270, 630, 110, 30);
+
+        dataRetirada_txt.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                dataRetirada_txtMouseClicked(evt);
+            }
+        });
+        dataRetirada_txt.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                dataRetirada_txtPropertyChange(evt);
+            }
+        });
         jPanel1.add(dataRetirada_txt);
         dataRetirada_txt.setBounds(230, 80, 150, 30);
 
@@ -589,60 +601,52 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_brand_txtActionPerformed
 
     private void searchDevices_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchDevices_btnActionPerformed
-    java.util.Date selectedDate = dataRetirada_txt.getDate();
-    Model.DeviceFuncs_DAO.getAvaiableDevices(selectedDate);  // Passando a data para a função
-    Model.DeviceFuncs_DAO.setDeviceIds(selectedDate);
+        java.util.Date selectedDate = dataRetirada_txt.getDate();
+        Model.DeviceFuncs_DAO.getAvaiableDevices(selectedDate);  // Passando a data para a função
+        Model.DeviceFuncs_DAO.setDeviceIds(selectedDate);
     }//GEN-LAST:event_searchDevices_btnActionPerformed
 
     private void idDevice_cbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idDevice_cbActionPerformed
-        try{
-        Integer selectedID = Integer.parseInt(String.valueOf(idDevice_cb.getSelectedItem()) );
-        Model.DeviceFuncs_DAO.showSelectedDeviceInfo(String.valueOf(selectedID));
+        try {
+            String selectedID = String.valueOf(idDevice_cb.getSelectedItem());
+            Model.DeviceFuncs_DAO.showSelectedDeviceInfo(selectedID);
             System.out.println("Exibindo informações do dispositivo selecionado");
-        
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println("Não foi possível ler o valor da combobox");
             return;
         }
-        
+
     }//GEN-LAST:event_idDevice_cbActionPerformed
 
     private void reserveDevice_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reserveDevice_btnActionPerformed
         // Verifique se a JComboBox foi inicializada
-    if (idDevice_cb == null) {
-        System.out.println("JComboBox idDevice_cb não foi inicializada.");
-        return;
-    }
+        if (idDevice_cb == null) {
+            System.out.println("JComboBox idDevice_cb não foi inicializada.");
+            return;
+        }
+        if (dataRetirada_txt.getDate() == null) {
+            System.out.println("Campo de texto dataRt_txt não foi inicializado.");
+            return;
+        }
 
-    // Verifique se há um item selecionado
-    Integer selectedID = (Integer) idDevice_cb.getSelectedItem();
-    if (selectedID == null) {
-        System.out.println("Nenhum dispositivo foi selecionado.");
-        return;
-    }
+        // Verifique se há um item selecionado
+        try {
+            java.util.Date selectedDate = dataRetirada_txt.getDate();
+            Integer selectedID = Integer.parseInt(String.valueOf(idDevice_cb.getSelectedItem()));
+            if (selectedID == null || selectedDate == null) {
+                System.out.println("Campo de data ou ID sao nulos!");
+                return;
+            }
+            String selectedCPF = Controller.LoggedUser_Controller.getLoggedUser().getCpf();
+            Model.DeviceFuncs_DAO.reserveDevice(selectedID, selectedCPF, selectedDate);
+            Model.DeviceFuncs_DAO.getAvaiableDevices(selectedDate); //Atualiza tabela
+            Model.DeviceFuncs_DAO.setDeviceIds(selectedDate);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Algum campo nao foi preenchido corretamente!");
+            return;
+        }
 
-    // Verifique o campo de texto da data
-    if (dataRetirada_txt.getDate() == null) {
-        System.out.println("Campo de texto dataRt_txt não foi inicializado.");
-        return;
-    }
-    
-    java.util.Date selectedDate = dataRetirada_txt.getDate();
-    if (selectedDate == null) {
-        System.out.println("A data de reserva não foi inserida.");
-        return;
-    }
 
-    // Verifique se o usuário logado está definido
-    if (Controller.LoggedUser_Controller.getLoggedUser() == null) {
-        System.out.println("Usuário não está logado.");
-        return;
-    }
-
-    String selectedCPF = Controller.LoggedUser_Controller.getLoggedUser().getCpf();
-
-    // Agora podemos chamar a função para reservar o dispositivo
-    Model.DeviceFuncs_DAO.reserveDevice(selectedID, selectedCPF, selectedDate);
     }//GEN-LAST:event_reserveDevice_btnActionPerformed
 
     private void logOut_btn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOut_btn2ActionPerformed
@@ -705,7 +709,7 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
         String selectedPhase = String.valueOf(phaseFeedback_cb.getSelectedItem());
         String cpf = Controller.LoggedUser_Controller.getLoggedUser().getCpf();
         Model.RefreshFuncs_DAO.refreshResidentAttemptOptions(selectedPhase, cpf);
-        Model.RefreshFuncs_DAO.refreshAttemptsTable(selectedPhase, cpf); 
+        Model.RefreshFuncs_DAO.refreshAttemptsTable(selectedPhase, cpf);
         Model.Funcs_DAO.resetResidentFeedbackFields();
 
     }//GEN-LAST:event_phaseFeedback_cbActionPerformed
@@ -744,6 +748,14 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
             Model.RefreshFuncs_DAO.refreshResidentPhaseOptions(Controller.LoggedUser_Controller.getLoggedUser().getCpf());
         }
     }//GEN-LAST:event_jTabbedPane1StateChanged
+
+    private void dataRetirada_txtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dataRetirada_txtMouseClicked
+
+    }//GEN-LAST:event_dataRetirada_txtMouseClicked
+
+    private void dataRetirada_txtPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dataRetirada_txtPropertyChange
+
+    }//GEN-LAST:event_dataRetirada_txtPropertyChange
 
     /**
      * @param args the command line arguments
