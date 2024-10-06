@@ -110,7 +110,7 @@ public class DeviceFuncs_DAO {
     }
 
 
-    public static void setDeviceIds(java.util.Date dataRT) {
+    public static void setDeviceIds(java.util.Date dataRT, boolean exibirMensagensUsuario) {
     if (dataRT == null) {
         return;
         }
@@ -155,18 +155,17 @@ public class DeviceFuncs_DAO {
             System.out.println("Dispositivo disponível: " + idDevice);
             View.MainResidentMenu_GUI.idDevice_cb.addItem(idDevice);
         }
-
         if (View.MainResidentMenu_GUI.idDevice_cb.getItemCount() > 0) {
-            JOptionPane.showMessageDialog(null, "Dispositivos disponíveis carregados com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            if (exibirMensagensUsuario){JOptionPane.showMessageDialog(null, "Dispositivos disponíveis carregados com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);}
         } else {
-            JOptionPane.showMessageDialog(null, "Nenhum dispositivo disponível para essa data.", "Informação", JOptionPane.INFORMATION_MESSAGE);
+            if (exibirMensagensUsuario){JOptionPane.showMessageDialog(null, "Nenhum dispositivo disponível para essa data.", "Informação", JOptionPane.INFORMATION_MESSAGE);}
             View.MainResidentMenu_GUI.deviceInfo.setModel(View.MainResidentMenu_GUI.clearDeviceInfoFunc());
             Model.Funcs_DAO.clearDeviceFields();
         }
 
     } catch (SQLException e) {
         e.printStackTrace();
-        JOptionPane.showMessageDialog(null, "Erro ao buscar dispositivos disponíveis.", "Erro", JOptionPane.ERROR_MESSAGE);
+        if (exibirMensagensUsuario){JOptionPane.showMessageDialog(null, "Erro ao buscar dispositivos disponíveis.", "Erro", JOptionPane.ERROR_MESSAGE);}
         View.MainResidentMenu_GUI.deviceInfo.setModel(View.MainResidentMenu_GUI.clearDeviceInfoFunc());
         Model.Funcs_DAO.clearDeviceFields();
     }
@@ -247,7 +246,13 @@ public class DeviceFuncs_DAO {
         int rowsAffected = stmt.executeUpdate();
         if (rowsAffected > 0) {
             System.out.println("Registro inserido com sucesso!");
-            JOptionPane.showMessageDialog(null, "Dispositivo reservado com Sucesso!");
+            
+            String[] partes = String.valueOf(dataDevolucao).split("-");  // Divide a data em [dd, mm, yyyy]
+
+            // Reorganizando as partes para o formato yyyy-mm-dd
+            String dataDevConvertida = partes[2] + "/" + partes[1] + "/" + partes[0];
+            JOptionPane.showMessageDialog(null, "Dispositivo reservado com Sucesso!"
+                    + "\n Você tem até "+dataDevConvertida+" para devolver o dispositivo.");
         }
 
     } catch (Exception e) {

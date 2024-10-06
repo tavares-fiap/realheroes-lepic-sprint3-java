@@ -603,7 +603,7 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
     private void searchDevices_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchDevices_btnActionPerformed
         java.util.Date selectedDate = dataRetirada_txt.getDate();
         Model.DeviceFuncs_DAO.getAvaiableDevices(selectedDate);  // Passando a data para a função
-        Model.DeviceFuncs_DAO.setDeviceIds(selectedDate);
+        Model.DeviceFuncs_DAO.setDeviceIds(selectedDate, true);
     }//GEN-LAST:event_searchDevices_btnActionPerformed
 
     private void idDevice_cbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idDevice_cbActionPerformed
@@ -640,7 +640,7 @@ public class MainResidentMenu_GUI extends javax.swing.JFrame {
             String selectedCPF = Controller.LoggedUser_Controller.getLoggedUser().getCpf();
             Model.DeviceFuncs_DAO.reserveDevice(selectedID, selectedCPF, selectedDate);
             Model.DeviceFuncs_DAO.getAvaiableDevices(selectedDate); //Atualiza tabela
-            Model.DeviceFuncs_DAO.setDeviceIds(selectedDate);
+            Model.DeviceFuncs_DAO.setDeviceIds(selectedDate, false);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Algum campo nao foi preenchido corretamente!");
             return;
