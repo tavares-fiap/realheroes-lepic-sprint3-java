@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,10 +30,19 @@ public class DeviceFuncs_DAO {
         JOptionPane.showMessageDialog(null, "Por favor, insira uma data válida! ex: '10/10/2024', "
                 + "\nou clique no botão no lado direito do campo de data para selecionar a data no calendário");
         return;
-    }
+        }
+
+        java.util.Date sqlDate = new Date(System.currentTimeMillis());
+        System.out.println("Data de hoje (sql.Date): " + sqlDate);
         
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate = sdf.format(dataRT);
+        
+        if(!dateComparison(formattedDate, sqlDate)){
+            JOptionPane.showMessageDialog(null, "Erro! Digite uma data posterior à data de hoje.");
+            return;
+        }
+        
         
     String query = "SELECT D.IDdevice, D.Description, D.Marca " +
                    "FROM DEVICE D " +
@@ -72,7 +82,25 @@ public class DeviceFuncs_DAO {
         JOptionPane.showMessageDialog(null, "Erro ao buscar dispositivos disponíveis.", "Erro", JOptionPane.ERROR_MESSAGE);
     }
 }
+    
+    public static boolean dateComparison(String date1, java.util.Date date2){
+         try {
+            // Converter formattedDate (String) para java.sql.Date
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            java.util.Date parsedDate = sdf.parse(String.valueOf(date1));
+            Date formattedSqlDate = new Date(parsedDate.getTime());
 
+            if (formattedSqlDate.after(date2)) {
+                System.out.println("formattedDate é posterior à data de hoje.");
+                return true;
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        System.out.println("formattedDate é anterior ou igual à data de hoje.");
+        return false;
+    }
 
 
     public static void setDeviceIds() {
